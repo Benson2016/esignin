@@ -1,3 +1,9 @@
+<%@ page import="com.benson.esignin.web.domain.entity.UserInfo" %>
+<%
+    UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+    String userName = "";
+    if (null != userInfo) userName = userInfo.getUserName();
+%>
 <!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglibs.jsp" %>
@@ -11,7 +17,7 @@
     <head>
         <base href="${root}">
         <meta charset="utf-8" />
-        <title>ISignIn</title>
+        <title>E签到--Easy to sign in</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <meta content="" name="description" />
@@ -60,7 +66,7 @@
                     <li class="dropdown user">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <img alt="" src="${root}/resources/img/avatar1_small.jpg"/>
-                            <span class="username"> ${userInfo.username } </span>
+                            <span class="username"> ${userName} </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
@@ -75,7 +81,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${root}/user/logout">
+                                <a href="${root}/user/logout.bs">
                                     <i class="fa fa-key"></i> 退出
                                 </a>
                             </li>
@@ -103,7 +109,7 @@
                         </li>
 
                         <li class="start active">
-                            <a href="${root}/page/dashboard" id="btn-dashboard">
+                            <a href="${root}/page/dashboard.bs" id="btn-dashboard">
                                 <i class="fa fa-home"></i><span class="title"> 首页 </span><span
                                 class="selected"> </span>
                             </a>

@@ -22,10 +22,8 @@ public class PageController {
      * 登录页
      */
     @RequestMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("operType", "1");
-        model.addAttribute("rspMsg", "");
-        return "app/login";
+    public String login() {
+        return "login";
     }
 
     /**

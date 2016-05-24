@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -93,12 +94,12 @@ public class UserController {
         if (null == userInfo) {
             model.addAttribute("rspMsg", "参数错误！");
             model.addAttribute("rspCode", "101");
-            return "app/login";
+            return "login";
         }
         if (result.hasErrors()) {
             model.addAttribute("rspMsg", "参数错误！");
             model.addAttribute("rspCode", "101");
-            return "app/login";
+            return "login";
         }
 
         try {
@@ -108,7 +109,7 @@ public class UserController {
             if (CommonUtil.isNotNull(target)) {
                 model.addAttribute("rspMsg", "该用户名已存在！请更换一个后重试。");
                 model.addAttribute("rspCode", "102");
-                return "app/login";
+                return "login";
             }
 
             // 注册用户
@@ -136,7 +137,7 @@ public class UserController {
         }
 
         // 注册成功跳转至登录页面
-        return "app/login";
+        return "login";
     }
 
     /**
@@ -160,7 +161,7 @@ public class UserController {
                 model.addAttribute("rspMsg", "参数错误！");
                 model.addAttribute("rspCode", "101");
                 model.addAttribute("operType", "1");
-                return "app/login";
+                return "login";
             }
             // 身份验证
             subject.login(new UsernamePasswordToken(user.getUserName(), user.getPassword()));
@@ -173,14 +174,14 @@ public class UserController {
             if (CommonUtil.isNull(user.getUserName(), user.getPassword())) {
                 model.addAttribute("rspMsg", "用户名或密码不能为空！");
                 model.addAttribute("rspCode", "101");
-                return "app/login";
+                return "login";
             }
             logger.info(String.format("*** 验证用户：%s ***", JsonUtil.bean2Json(user)));
             final UserInfo authUserInfo = userInfoService.authentication(user);
             if (CommonUtil.isNull(authUserInfo)) {
                 model.addAttribute("rspMsg", "用户名或密码错误！");
                 model.addAttribute("rspCode", "101");
-                return "app/login";
+                return "login";
             }
             logger.info(String.format("***用户【%s】验证通过！***", authUserInfo.getUserName()));
             // 验证成功在Session中保存用户信息
@@ -188,15 +189,33 @@ public class UserController {
         } catch (AuthenticationException e) {
             // 身份验证失败
             model.addAttribute("rspMsg", "用户名或密码错误 ！");
-            return "app/login";
+            return "login";
         } catch (IOException ex) {
             model.addAttribute("rspMsg", "系统错误 ！");
-            return "app/login";
+            return "login";
         }
 
         // 登录成功跳转至首页
         return "app/index";
     }
 
+    /**
+     * 用户登出
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        UserInfo authUserInfo = (UserInfo) session.getAttribute("userInfo");
+        if (null != authUserInfo)
+            logger.info(String.format("*** user [%s] logout ***", authUserInfo.getUserName()));
+
+        session.removeAttribute("userInfo");
+        // 登出操作
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "login";
+    }
 
 }

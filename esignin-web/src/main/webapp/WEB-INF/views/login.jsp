@@ -17,7 +17,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <head>
     <base href="${root}/">
     <meta charset="utf-8"/>
-    <title>E签到系统--登录</title>
+    <title>E签到--Easy to sign in</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
@@ -232,7 +232,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         App.init();
         Login.init();
         // CHECK OPERATION
-        var operType = ${operType};
+        var operType = '${operType}';
+        if(''==operType) return;
         if(operType==2) {
             $("#register-btn").click();
             // ERROR TIPS
