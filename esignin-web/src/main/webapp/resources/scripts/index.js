@@ -609,7 +609,7 @@ var Index = function () {
                 var time_str = time.toString('MMM dd, yyyy hh:mm');
                 var tpl = '';
                 tpl += '<li class="out">';
-                tpl += '<img class="avatar" alt="" src="assets/img/avatar1.jpg"/>';
+                tpl += '<img class="avatar" alt="" src="../img/avatar1.jpg"/>';
                 tpl += '<div class="message">';
                 tpl += '<span class="arrow"></span>';
                 tpl += '<a href="#" class="name">Bob Nilson</a>&nbsp;';
@@ -714,7 +714,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'Metronic is a brand new Responsive Admin Dashboard Template you have always been looking for!',
                     // (string | optional) the image to display on the left
-                    image: './assets/img/avatar1.jpg',
+                    image: '../img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -739,7 +739,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'Metronic comes with a huge collection of reusable and easy customizable UI components and plugins. Buy Metronic today!',
                     // (string | optional) the image to display on the left
-                    image: './assets/img/avatar1.jpg',
+                    image: '../img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -853,7 +853,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'You have 2 new messages in your inbox.',
                     // (string | optional) the image to display on the left
-                    image1: './assets/img/avatar1.jpg',
+                    image1: '../img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
