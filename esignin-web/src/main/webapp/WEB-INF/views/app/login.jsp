@@ -17,7 +17,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <head>
     <base href="${root}/">
     <meta charset="utf-8"/>
-    <title>登录爱签到系统</title>
+    <title>E签到系统--登录</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
@@ -73,7 +73,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             <label class="control-label visible-ie8 visible-ie9">密码</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
-                <input name="password" id="password" size="25" value="123456" class="form-control placeholder-no-fix"
+                <input name="password" id="password" size="25" value="" class="form-control placeholder-no-fix"
                        type="password" autocomplete="off" placeholder="密码"/>
             </div>
         </div>
@@ -97,7 +97,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
     </form>
     <!-- END LOGIN FORM -->
     <!-- BEGIN FORGOT PASSWORD FORM -->
-    <form class="forget-form" action="${root}/user/login" method="post">
+    <form class="forget-form" action="/forget.html" method="post">
         <h3>忘记密码 ?</h3>
         <p>
             请输入您的电子邮箱地址来重置您的密码.
@@ -198,7 +198,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-    2016 &copy; Benson - iSignIn
+    2016 &copy; Benson - eSignIn
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
@@ -231,6 +231,16 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
     jQuery(document).ready(function () {
         App.init();
         Login.init();
+        // CHECK OPERATION
+        var operType = ${operType};
+        if(operType==2) {
+            $("#register-btn").click();
+            // ERROR TIPS
+            var error = '${error}';
+            if (null != error && ''!==error) {
+                $("#register_tnc_error").html(error);
+            }
+        }
     });
 </script>
 <!-- END JAVASCRIPTS -->

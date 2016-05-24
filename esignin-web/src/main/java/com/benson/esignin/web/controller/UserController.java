@@ -105,8 +105,9 @@ public class UserController {
             UserInfo target = userInfoService.findByUserName(userInfo.getUserName());
             logger.info("target:" + target);
             if (CommonUtil.isNotNull(target)) {
-                model.addAttribute("error", "用户名已被占用！请更换一个");
+                model.addAttribute("error", "该用户名已被占用！请更换一个");
                 model.addAttribute("errorCode", "102");
+                model.addAttribute("operType", "2"); //操作类型：1登录，2注册
                 return "app/login";
             }
 
@@ -124,7 +125,7 @@ public class UserController {
 
             int rs = userInfoService.add(userInfo);
             logger.info(rs>1?"执行成功！" :"执行失败！");
-            model.addAttribute("error", rs>0?"注册成功！":"网络异常，稍后重试！");
+            model.addAttribute("error", rs>0?"注册成功！":"信息重复，请更改后重试！");
             model.addAttribute("errorCode", "100");
         } catch (Exception e) {
             logger.error("用户注册发生异常:{}!", e);

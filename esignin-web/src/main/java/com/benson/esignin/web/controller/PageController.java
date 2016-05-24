@@ -3,6 +3,7 @@ package com.benson.esignin.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -21,7 +22,9 @@ public class PageController {
      * 登录页
      */
     @RequestMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("operType", "1");
+        model.addAttribute("error", "");
         return "app/login";
     }
 
