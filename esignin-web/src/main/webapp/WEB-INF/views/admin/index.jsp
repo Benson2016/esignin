@@ -1756,6 +1756,7 @@
                 <!-- END DASHBOARD STATS -->
 
                 <div class="clearfix"></div>
+                <%--
 
                 <div class="row-fluid">
 
@@ -2048,6 +2049,7 @@
                 </div>
 
                 <div class="clearfix"></div>
+
 
                 <div class="row-fluid">
 
@@ -3982,6 +3984,7 @@
                         <!-- END PORTLET-->
 
                     </div>
+                --%>
 
                 </div>
 
@@ -4056,7 +4059,7 @@
 <!-- END CORE PLUGINS -->
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
-
+<%--
 <script src="${root}/skin/media/js/jquery.vmap.js" type="text/javascript"></script>
 
 <script src="${root}/skin/media/js/jquery.vmap.russia.js" type="text/javascript"></script>
@@ -4070,6 +4073,7 @@
 <script src="${root}/skin/media/js/jquery.vmap.usa.js" type="text/javascript"></script>
 
 <script src="${root}/skin/media/js/jquery.vmap.sampledata.js" type="text/javascript"></script>
+--%>
 
 <script src="${root}/skin/media/js/jquery.flot.js" type="text/javascript"></script>
 
@@ -4107,7 +4111,7 @@
 
         Index.init();
 
-        Index.initJQVMAP(); // init index page's custom scripts
+        /*Index.initJQVMAP(); // init index page's custom scripts
 
         Index.initCalendar(); // init index page's custom scripts
 
@@ -4115,7 +4119,7 @@
 
         Index.initChat();
 
-        Index.initMiniCharts();
+        Index.initMiniCharts();*/
 
         Index.initDashboardDaterange();
 
