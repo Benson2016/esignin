@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -88,26 +89,25 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@Valid UserInfo userInfo, BindingResult result, Model model, HttpServletRequest request) {
         logger.info("*** 进入 register method ***");
+        model.addAttribute("operType", "2"); //操作类型：1登录，2注册
         if (null == userInfo) {
-            model.addAttribute("error", "参数错误！");
-            model.addAttribute("errorCode", "101");
+            model.addAttribute("rspMsg", "参数错误！");
+            model.addAttribute("rspCode", "101");
             return "app/login";
         }
         if (result.hasErrors()) {
-            model.addAttribute("error", "参数错误！");
-            model.addAttribute("errorCode", "101");
+            model.addAttribute("rspMsg", "参数错误！");
+            model.addAttribute("rspCode", "101");
             return "app/login";
         }
 
         try {
-
             // 首先查询用户名是否已被占用
             UserInfo target = userInfoService.findByUserName(userInfo.getUserName());
             logger.info("target:" + target);
             if (CommonUtil.isNotNull(target)) {
-                model.addAttribute("error", "该用户名已被占用！请更换一个");
-                model.addAttribute("errorCode", "102");
-                model.addAttribute("operType", "2"); //操作类型：1登录，2注册
+                model.addAttribute("rspMsg", "该用户名已存在！请更换一个后重试。");
+                model.addAttribute("rspCode", "102");
                 return "app/login";
             }
 
@@ -120,14 +120,16 @@ public class UserController {
             Timestamp currTime = TimestampUtil.getCurrentTimestampWithFormat();
             userInfo.setCreateTime(currTime); //设置创建时间
             userInfo.setUpdateTime(currTime);
-            if (CommonUtil.isNotNull(userInfo.getPassword()))
-                userInfo.setPassword(MD5Util.md5(userInfo.getPassword()));
 
             int rs = userInfoService.add(userInfo);
             logger.info(rs>1?"执行成功！" :"执行失败！");
-            model.addAttribute("error", rs>0?"注册成功！":"信息重复，请更改后重试！");
-            model.addAttribute("errorCode", "100");
+            model.addAttribute("rspMsg", "注册成功！");
+            model.addAttribute("rspCode", "100");
+            model.addAttribute("operType", "1");
         } catch (Exception e) {
+            model.addAttribute("rspMsg", "网络异常，请稍后重试！");
+            model.addAttribute("rspCode", "103");
+            model.addAttribute("operType", "2");
             logger.error("用户注册发生异常:{}!", e);
         } finally {
             logger.info("*** 退出 register method ***");
@@ -147,15 +149,17 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@Valid UserInfo user, BindingResult result, Model model, HttpServletRequest request) {
         try {
-            Subject subject = SecurityUtils.getSubject();
+            /*Subject subject = SecurityUtils.getSubject();
             // 已登陆则 跳到首页
             if (subject.isAuthenticated()) {
                 logger.info(String.format("用户【%s】已登录，即将转到后台首页。", user.getUserName()));
-                return "redirect:/";
+                return "app/index";
             }
             if (result.hasErrors()) {
                 logger.info("登录参数错误！");
-                model.addAttribute("error", "参数错误！");
+                model.addAttribute("rspMsg", "参数错误！");
+                model.addAttribute("rspCode", "101");
+                model.addAttribute("operType", "1");
                 return "app/login";
             }
             // 身份验证
@@ -163,13 +167,35 @@ public class UserController {
             // 验证成功在Session中保存用户信息
             final UserInfo authUserInfo = userInfoService.findByUserName(user.getUserName());
             request.getSession().setAttribute("userInfo", authUserInfo);
+            */
+            model.addAttribute("operType", "1");
+            // 验证用户信息
+            if (CommonUtil.isNull(user.getUserName(), user.getPassword())) {
+                model.addAttribute("rspMsg", "用户名或密码不能为空！");
+                model.addAttribute("rspCode", "101");
+                return "app/login";
+            }
+            logger.info(String.format("*** 验证用户：%s ***", JsonUtil.bean2Json(user)));
+            final UserInfo authUserInfo = userInfoService.authentication(user);
+            if (CommonUtil.isNull(authUserInfo)) {
+                model.addAttribute("rspMsg", "用户名或密码错误！");
+                model.addAttribute("rspCode", "101");
+                return "app/login";
+            }
+            logger.info(String.format("***用户【%s】验证通过！***", authUserInfo.getUserName()));
+            // 验证成功在Session中保存用户信息
+            request.getSession().setAttribute("userInfo", authUserInfo);
         } catch (AuthenticationException e) {
             // 身份验证失败
-            model.addAttribute("error", "用户名或密码错误 ！");
+            model.addAttribute("rspMsg", "用户名或密码错误 ！");
+            return "app/login";
+        } catch (IOException ex) {
+            model.addAttribute("rspMsg", "系统错误 ！");
             return "app/login";
         }
+
         // 登录成功跳转至首页
-        return "redirect:/";
+        return "app/index";
     }
 
 

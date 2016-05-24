@@ -52,13 +52,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN LOGIN -->
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login-form" action="${root}/user/login" method="post">
+    <form class="login-form" action="${root}/user/login.bs" method="post">
         <h3 class="form-title">用户登录</h3>
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>
-			<span>
-				 输入您的用户名和密码
-			</span>
+			<span class="login_error"></span>
         </div>
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
@@ -83,6 +81,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
             <button id="loginBut" type="submit" class="btn blue pull-right">
                 登录 <i class="m-icon-swapright m-icon-white"></i>
             </button>
+        </div>
+        <div class="alert alert-tips display-hide">
         </div>
         <div class="forget-password">
             <h4>忘记密码 ?</h4>
@@ -236,9 +236,15 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
         if(operType==2) {
             $("#register-btn").click();
             // ERROR TIPS
-            var error = '${error}';
+            var error = '${rspMsg}';
             if (null != error && ''!==error) {
-                $("#register_tnc_error").html(error);
+                $("#register_tnc_error").html(error).css({fontSize:"12px",color:"red"});
+            }
+        } else {
+            var error = '${rspMsg}';
+            if (null != error && ''!==error) {
+                $('.login_error').html(error);
+                $('.alert-danger', $('.login-form')).show();
             }
         }
     });

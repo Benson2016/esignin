@@ -15,29 +15,29 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
-<base href="${root}">
-<meta charset="utf-8"/>
-<title>500 Server Error</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="" name="description"/>
-<meta content="" name="author"/>
-<meta name="MobileOptimized" content="320">
-<!-- BEGIN GLOBAL MANDATORY STYLES -->
-<link href="${root}/resources/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
-<!-- END GLOBAL MANDATORY STYLES -->
-<!-- BEGIN THEME STYLES -->
-<link href="${root}/resources/css/style-metronic.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/css/style.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/css/style-responsive.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/css/plugins.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
-<link href="${root}/resources/css/pages/error.css" rel="stylesheet" type="text/css"/>
-<link href="${root}/resources/css/custom.css" rel="stylesheet" type="text/css"/>
-<!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+	<base href="${root}">
+	<meta charset="utf-8"/>
+	<title>500 Server Error</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+	<meta content="" name="description"/>
+	<meta content="" name="author"/>
+	<meta name="MobileOptimized" content="320">
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="${root}/resources/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	<!-- END GLOBAL MANDATORY STYLES -->
+	<!-- BEGIN THEME STYLES -->
+	<link href="${root}/resources/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/css/plugins.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="${root}/resources/css/pages/error.css" rel="stylesheet" type="text/css"/>
+	<link href="${root}/resources/css/custom.css" rel="stylesheet" type="text/css"/>
+	<!-- END THEME STYLES -->
+	<link rel="shortcut icon" href="${root}/commons/img/favicon.ico"/>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

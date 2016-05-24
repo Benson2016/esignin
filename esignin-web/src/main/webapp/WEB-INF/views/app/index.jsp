@@ -42,7 +42,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         <link href="${root}/resources/css/custom.css" rel="stylesheet" type="text/css" />
         <!-- END THEME STYLES -->
 
-        <link rel="shortcut icon" href="app/img/favicon.ico" />
+        <link rel="shortcut icon" href="${root}/commons/img/favicon.ico" />
     </head>
     <!-- END HEAD -->
 

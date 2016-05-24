@@ -28,7 +28,7 @@ var Login = function() {
 
             invalidHandler : function(event, validator) { // display error
                 // alert on form
-                // submit
+                $('.login_error').html('输入您的用户名和密码');
                 $('.alert-danger', $('.login-form')).show();
             },
 
@@ -212,7 +212,7 @@ var Login = function() {
 
             messages : { // custom messages for radio buttons and checkboxes
                 tnc : {
-                    required : "Please accept TNC first."
+                    required : "请选择同意服务条款和隐私政策."
                 }
             },
 
@@ -250,6 +250,9 @@ var Login = function() {
             },
 
             submitHandler : function(form) {
+                // encode password
+                var passwordInput = $('[name="password"]');
+                passwordInput.val(sha256_digest(passwordInput.val()));
                 form.submit();
             }
         });

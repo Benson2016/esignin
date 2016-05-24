@@ -24,7 +24,7 @@ public class PageController {
     @RequestMapping("/login")
     public String login(Model model) {
         model.addAttribute("operType", "1");
-        model.addAttribute("error", "");
+        model.addAttribute("rspMsg", "");
         return "app/login";
     }
 
