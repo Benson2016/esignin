@@ -22,7 +22,6 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
     @Delete("DELETE FROM t_sys_user where id = #{id}")
     int delete(@Param("id") String id);
 
-    //@Update("")
     @UpdateProvider(type=UserSqlProvider.class, method = "update")
     int update(UserInfo entity);
 
@@ -31,5 +30,11 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user")
     List<UserInfo> findAll();
+
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE user_name = #{userName} and password=#{password}")
+    public UserInfo authentication(UserInfo userInfo);
+
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE user_name = #{userName}")
+    public UserInfo findByUserName(@Param("userName") String userName);
 
 }

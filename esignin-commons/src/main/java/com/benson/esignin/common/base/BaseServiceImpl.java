@@ -29,7 +29,15 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements IBa
         return getDao().delete(id);
     }
 
-    public abstract int delete(List<PK> idList) throws Exception;
+    public int delete(List<PK> idList) throws Exception {
+        int result = 0;
+        // 批量删除，暂未实现
+        // 暂定循环遍历删除
+        for (PK id : idList) {
+            result += delete(id);
+        }
+        return result;
+    }
 
     public int update(T entity) throws Exception {
         return getDao().update(entity);

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * 用户信息Service接口实现类
@@ -29,27 +28,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
         return userInfoDao;
     }
 
-    @Override
-    public int delete(List<String> idList) throws Exception {
-        // 暂未实现
-        return 0;
-    }
-
-    public UserInfo findOne(String id) {
-        System.out.print("进入 findOne");
-
-        UserInfo userInfo = userInfoDao.findOne(id);
-
-        System.out.print("查询完毕!");
-
-        return userInfo;
-    }
-
-    public List<UserInfo> findAll() {
-        return userInfoDao.findAll();
-
-    }
-
     /**
      * 用户验证
      * @param userInfo 需验证的用户
@@ -57,7 +35,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      */
     public UserInfo authentication(UserInfo userInfo) {
 
-        return null;
+        return userInfoDao.authentication(userInfo);
     }
 
     /**
@@ -65,9 +43,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param userName 用户名
      * @return
      */
-    public UserInfo selectByUserName(String userName) {
+    public UserInfo findByUserName(String userName) {
 
-        return null;
+        return userInfoDao.findByUserName(userName);
     }
 
 }

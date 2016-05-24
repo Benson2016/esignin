@@ -4,6 +4,10 @@ import com.benson.esignin.common.utils.*;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.service.IUserInfoService;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,25 +89,25 @@ public class UserController {
     public String register(@Valid UserInfo userInfo, BindingResult result, Model model, HttpServletRequest request) {
         logger.info("*** 进入 register method ***");
         if (null == userInfo) {
-            model.addAttribute("msg", "参数错误！");
-            model.addAttribute("code", "101");
-            return "login";
+            model.addAttribute("error", "参数错误！");
+            model.addAttribute("errorCode", "101");
+            return "app/login";
         }
         if (result.hasErrors()) {
-            model.addAttribute("msg", "参数错误！");
-            model.addAttribute("code", "101");
-            return "login";
+            model.addAttribute("error", "参数错误！");
+            model.addAttribute("errorCode", "101");
+            return "app/login";
         }
 
         try {
 
             // 首先查询用户名是否已被占用
-            UserInfo target = userInfoService.selectByUserName(userInfo.getUserName());
+            UserInfo target = userInfoService.findByUserName(userInfo.getUserName());
             logger.info("target:" + target);
             if (CommonUtil.isNotNull(target)) {
-                model.addAttribute("msg", "用户名已被占用！请更换一个");
-                model.addAttribute("code", "102");
-                return null;
+                model.addAttribute("error", "用户名已被占用！请更换一个");
+                model.addAttribute("errorCode", "102");
+                return "app/login";
             }
 
             // 注册用户
@@ -119,7 +123,9 @@ public class UserController {
                 userInfo.setPassword(MD5Util.md5(userInfo.getPassword()));
 
             int rs = userInfoService.add(userInfo);
-            logger.info(rs==1?"执行成功！" :"执行失败！");
+            logger.info(rs>1?"执行成功！" :"执行失败！");
+            model.addAttribute("error", rs>0?"注册成功！":"网络异常，稍后重试！");
+            model.addAttribute("errorCode", "100");
         } catch (Exception e) {
             logger.error("用户注册发生异常:{}!", e);
         } finally {
@@ -129,5 +135,41 @@ public class UserController {
         // 注册成功跳转至登录页面
         return "app/login";
     }
+
+    /**
+     * 用户登录
+     *
+     * @param user
+     * @param result
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@Valid UserInfo user, BindingResult result, Model model, HttpServletRequest request) {
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            // 已登陆则 跳到首页
+            if (subject.isAuthenticated()) {
+                logger.info(String.format("用户【%s】已登录，即将转到后台首页。", user.getUserName()));
+                return "redirect:/";
+            }
+            if (result.hasErrors()) {
+                logger.info("登录参数错误！");
+                model.addAttribute("error", "参数错误！");
+                return "app/login";
+            }
+            // 身份验证
+            subject.login(new UsernamePasswordToken(user.getUserName(), user.getPassword()));
+            // 验证成功在Session中保存用户信息
+            final UserInfo authUserInfo = userInfoService.findByUserName(user.getUserName());
+            request.getSession().setAttribute("userInfo", authUserInfo);
+        } catch (AuthenticationException e) {
+            // 身份验证失败
+            model.addAttribute("error", "用户名或密码错误 ！");
+            return "app/login";
+        }
+        // 登录成功跳转至首页
+        return "redirect:/";
+    }
+
 
 }

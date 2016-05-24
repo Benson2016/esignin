@@ -26,6 +26,6 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
      * @param userName
      * @return
      */
-    UserInfo selectByUserName(String userName);
+    UserInfo findByUserName(String userName);
 
 }
