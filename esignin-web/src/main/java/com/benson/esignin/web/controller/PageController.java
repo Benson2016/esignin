@@ -1,10 +1,14 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.domain.entity.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 页面控制类
@@ -28,13 +32,15 @@ public class PageController {
 
     /**
      * 后台首页
-     * @param model
      * @return
      */
     @RequestMapping("/index")
-    public String index(Model model) {
-
-        return "app/index";
+    public String index(HttpSession session) {
+        UserInfo authUserInfo = (UserInfo) session.getAttribute("userInfo");
+        if (CommonUtil.isNull(authUserInfo))
+            return "login";
+        else
+            return "app/index";
     }
 
     /**

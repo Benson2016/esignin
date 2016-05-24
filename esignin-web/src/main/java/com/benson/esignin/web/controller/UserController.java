@@ -213,8 +213,8 @@ public class UserController {
 
         session.removeAttribute("userInfo");
         // 登出操作
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        /*Subject subject = SecurityUtils.getSubject();
+        subject.logout();*/
         return "login";
     }
 

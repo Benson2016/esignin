@@ -66,7 +66,7 @@
                     <li class="dropdown user">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <img alt="" src="${root}/resources/img/avatar1_small.jpg"/>
-                            <span class="username"> ${userName} </span>
+                            <span class="username"> <%=userName%> </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
