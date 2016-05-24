@@ -7,6 +7,21 @@
     <groupId>com.benson</groupId>
     <artifactId>esignin</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>esignin-commons</module>
+        <module>esignin-web</module>
+    </modules>
 
+
+    <repositories>
+        <repository>
+            <id>offical</id>
+            <name>Maven Official Repository</name>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>

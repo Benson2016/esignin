@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/esignin.iml" filepath="$PROJECT_DIR$/esignin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/esignin-commons/esignin-commons.iml" filepath="$PROJECT_DIR$/esignin-commons/esignin-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/esignin-web/esignin-web.iml" filepath="$PROJECT_DIR$/esignin-web/esignin-web.iml" />
     </modules>
   </component>
 </project>
