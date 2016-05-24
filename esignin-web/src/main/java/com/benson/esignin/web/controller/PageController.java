@@ -29,6 +29,17 @@ public class PageController {
     }
 
     /**
+     * 后台首页
+     * @param model
+     * @return
+     */
+    @RequestMapping("/index")
+    public String index(Model model) {
+
+        return "app/index";
+    }
+
+    /**
      * dashboard页
      */
     @RequestMapping("/dashboard")

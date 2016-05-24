@@ -1,11 +1,3 @@
-<%--
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-String path = request.getContextPath();
-String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
---%>
-
 <!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglibs.jsp" %>
@@ -157,26 +149,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                         密码修改
                                     </a>
                                 </li>
-                                
-                                <!-- 测试权限控制 -->
-                                <shiro:hasAnyRoles name="super_admin">
-                                    <li>
-                                        <a href="javascript:;">super_admin 拥有此角色</a>
-                                    </li>
-                                </shiro:hasAnyRoles>
-                                
-                                <shiro:hasPermission name="user:create">
-                                    <li>
-                                        <a href="javascript:;">user:create 拥有此权限</a>
-                                    </li>
-                                </shiro:hasPermission>
-                                
-                                <shiro:hasPermission name="user:update">
-                                    <li>
-                                        <a href="javascript:;">user:update 拥有此权限</a>
-                                    </li>
-                                </shiro:hasPermission>
-     
                             </ul>
                         </li>
 
