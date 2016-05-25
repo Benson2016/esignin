@@ -13,8 +13,8 @@ import java.util.List;
 @Repository("userInfoDao")
 public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
 
-    final String BASE_COLUMN_LIST = "id, user_name as userName, full_name as fullName, password, sex, mobile, email, age, create_time as createTime, update_time as updateTime, flag, is_valid as isValid";
-    final String INSERT_SQL = "INSERT into t_sys_user(id, user_name, full_name, password, sex, mobile, email, age, create_time, update_time, flag, is_valid) VALUES(#{id},#{userName},#{fullName},#{password},#{sex},#{mobile},#{email},#{age},#{createTime},#{updateTime},#{flag},#{isValid})";
+    final String BASE_COLUMN_LIST = "id, user_name as userName, full_name as fullName, password, sex, mobile, email, age, create_time as createTime, update_time as updateTime, flag, is_valid as isValid, user_serial as userSerial";
+    final String INSERT_SQL = "INSERT into t_sys_user(id, user_name, full_name, password, sex, mobile, email, age, create_time, update_time, flag, is_valid, user_serial) VALUES(#{id},#{userName},#{fullName},#{password},#{sex},#{mobile},#{email},#{age},#{createTime},#{updateTime},#{flag},#{isValid}),#{userSerial}";
 
     @Insert(INSERT_SQL)
     int add(UserInfo entity);

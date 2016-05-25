@@ -15,9 +15,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.naming.Context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.nimbus.State;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -57,6 +59,7 @@ public class UserController {
         }
         return "login";
     }
+
 
 
     @RequestMapping(value = "/findAll")

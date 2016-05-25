@@ -4,6 +4,8 @@ import com.benson.esignin.common.utils.EncryptionUtil;
 import com.benson.esignin.common.utils.MD5Util;
 import com.benson.esignin.web.utils.QRCodeUtil;
 
+import java.util.Scanner;
+
 /**
  * { enter your description }
  *
@@ -20,12 +22,33 @@ public class Test {
         System.out.println("MD5: " +EncryptionUtil.md5Encode(msg));
         System.out.println("SHA-256: " + EncryptionUtil.sha256Encode(msg));*/
 
-        String loginUrl = "http://xubstest.ematong.com/esignin/user/loginByQR.bs";
-        String imgPath = "D://temp/loginByQR.png";
+        //String loginUrl = "http://xubstest.ematong.com/esignin/user/loginByQR.bs";
+        String loginUrl = "http://192.168.31.135:8080/esignin/index.jsp";
+        String imgPath = "/Users/benson/Documents/workspace/temp/loginByQR.png";
 
         QRCodeUtil.encode(loginUrl, 300, 300, imgPath);
 
         System.out.println("执行完毕！");
+
+        //getMacAddr();
+    }
+
+
+    private static void getMacAddr() {
+
+        try {
+
+            Process process = Runtime.getRuntime().exec(new String[] { "wmic", "cpu", "get", "ProcessorId" });
+            process.getOutputStream().close();
+            Scanner sc = new Scanner(process.getInputStream());
+            String property = sc.next();
+            String serial = sc.next();
+            System.out.println(property + ": " + serial);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -30,6 +30,8 @@ public class UserInfo extends IdEntity {
 
     private Integer isValid;
 
+    private String userSerial;
+
     private static final long serialVersionUID = 1L;
 
 
@@ -136,4 +138,11 @@ public class UserInfo extends IdEntity {
         this.isValid = isValid;
     }
 
+    public String getUserSerial() {
+        return userSerial;
+    }
+
+    public void setUserSerial(String userSerial) {
+        this.userSerial = userSerial;
+    }
 }
