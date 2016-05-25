@@ -2,6 +2,7 @@ package com.benson.esigin.test;
 
 import com.benson.esignin.common.utils.EncryptionUtil;
 import com.benson.esignin.common.utils.MD5Util;
+import com.benson.esignin.web.utils.QRCodeUtil;
 
 /**
  * { enter your description }
@@ -14,10 +15,17 @@ import com.benson.esignin.common.utils.MD5Util;
 public class Test {
 
     public static void main(String[] args) {
-        String msg = "123";
+        /*String msg = "123";
         System.out.println("MD5: " +MD5Util.md5(msg));
         System.out.println("MD5: " +EncryptionUtil.md5Encode(msg));
-        System.out.println("SHA-256: " + EncryptionUtil.sha256Encode(msg));
+        System.out.println("SHA-256: " + EncryptionUtil.sha256Encode(msg));*/
+
+        String loginUrl = "http://xubstest.ematong.com/esignin/user/loginByQR.bs";
+        String imgPath = "D://temp/loginByQR.png";
+
+        QRCodeUtil.encode(loginUrl, 300, 300, imgPath);
+
+        System.out.println("执行完毕！");
     }
 
 }

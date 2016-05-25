@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户信息控制层业务类
@@ -38,27 +39,23 @@ public class UserController {
     @Autowired
     private IUserInfoService userInfoService;
 
-    @RequestMapping(value = "/testService")
-    public String testService() {
-
-        logger.info("Welcome to my testService method.");
-
+    @RequestMapping(value = "/loginByQR")
+    public String loginByQR(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("Enter loginByQR method.");
         try {
-            String id = "123";
-            UserInfo userInfo = userInfoService.findOne(id);
-            if (CommonUtil.isNull(userInfo)) {
-                logger.info("当前搜索的用户不存在!");
-            } else {
-                System.out.println(JsonUtil.bean2Json(userInfo));
-                logger.info(String.format("查到数据,用户名为%s", userInfo.getUserName()));
+            //logger.info(JsonUtil.bean2Json(request));
+
+            Map<String, String[]> paramsMap = request.getParameterMap();
+            if (CommonUtil.isNotNull(paramsMap)) {
+
+                logger.info(JsonUtil.bean2Json(paramsMap));
             }
-
         } catch (Exception e) {
-            logger.error("查询数据出错!{}", e);
+            logger.error("QR登录异常：{}", e);
+        } finally {
+            logger.info("Leave loginByQR method.");
         }
-
-        logger.info("exit testService method.");
-        return "redirect:/";
+        return "login";
     }
 
 
