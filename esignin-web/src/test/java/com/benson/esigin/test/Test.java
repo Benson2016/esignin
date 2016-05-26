@@ -23,10 +23,16 @@ public class Test {
         System.out.println("SHA-256: " + EncryptionUtil.sha256Encode(msg));*/
 
         //String loginUrl = "http://xubstest.ematong.com/esignin/user/loginByQR.bs";
-        String loginUrl = "http://192.168.31.135:8080/esignin/index.jsp";
+        /*String loginUrl = "http://192.168.31.135:8080/esignin/index.jsp";
         String imgPath = "/Users/benson/Documents/workspace/temp/loginByQR.png";
 
-        QRCodeUtil.encode(loginUrl, 300, 300, imgPath);
+        QRCodeUtil.encode(loginUrl, 300, 300, imgPath);*/
+
+        String loginUrl = "http://xubstest.ematong.com/esignin/index.jsp";
+
+        String savePath = "D:/temp/loginByQR.png";
+
+        QRCodeUtil.encode(loginUrl, 300, 300, savePath);
 
         System.out.println("执行完毕！");
 

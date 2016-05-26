@@ -1,8 +1,10 @@
 package com.benson.esignin.web.controller;
 
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.common.utils.DataUtil;
 import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.web.utils.QRCodeUtil;
+import com.google.gson.JsonObject;
 import org.apache.ibatis.annotations.Param;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 二维码控制类
@@ -73,6 +78,16 @@ public class QrCodeController {
             logger.info("Leave loginByQR method.");
         }*/
         //return "login";
+
+        try {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("resCode", "100");
+            map.put("resMsg", "登录成功！");
+            DataUtil.writeToJson(response, map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
