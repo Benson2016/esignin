@@ -6,31 +6,31 @@ import java.util.Date;
 
 public class UserInfo extends IdEntity {
 
-    private String id;
+    private String id;  //用户ID
 
-    private String userName;
+    private String userName;    //用户名
 
-    private String fullName;
+    private String fullName;    //姓名
 
-    private String password;
+    private String password;    //密码
 
-    private Integer sex;
+    private Integer sex;        //性别
 
-    private String mobile;
+    private String mobile;      //手机号码
 
-    private String email;
+    private String email;       //邮箱
 
-    private Integer age;
+    private Integer age;        //年龄
 
-    private Date createTime;
+    private Date createTime;    //创建时间
 
-    private Date updateTime;
+    private Date updateTime;    //更新时间
 
-    private Integer flag;
+    private Integer flag;       //用户标识：1.普通用户，2.普通管理员，3.超级管理员
 
-    private Integer isValid;
+    private Integer isValid;    //是否有效：0无效，1有效（默认）
 
-    private String userSerial;
+    private String userSerial;  //用户序列
 
     private static final long serialVersionUID = 1L;
 

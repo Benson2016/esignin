@@ -41,26 +41,6 @@ public class UserController {
     @Autowired
     private IUserInfoService userInfoService;
 
-    @RequestMapping(value = "/loginByQR")
-    public String loginByQR(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("Enter loginByQR method.");
-        try {
-            //logger.info(JsonUtil.bean2Json(request));
-
-            Map<String, String[]> paramsMap = request.getParameterMap();
-            if (CommonUtil.isNotNull(paramsMap)) {
-
-                logger.info(JsonUtil.bean2Json(paramsMap));
-            }
-        } catch (Exception e) {
-            logger.error("QR登录异常：{}", e);
-        } finally {
-            logger.info("Leave loginByQR method.");
-        }
-        return "login";
-    }
-
-
 
     @RequestMapping(value = "/findAll")
     public String findAll(Model model, HttpServletRequest request, HttpServletResponse response) {
