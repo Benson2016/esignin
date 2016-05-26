@@ -37,4 +37,7 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE user_name = #{userName}")
     public UserInfo findByUserName(@Param("userName") String userName);
 
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE user_serial = #{userSerial}")
+    public UserInfo findByUserSerial(@Param("userSerial") String userSerial);
+
 }

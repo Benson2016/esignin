@@ -48,4 +48,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
         return userInfoDao.findByUserName(userName);
     }
 
+    /**
+     * 根据用户序列号查询用户信息
+     * @param userSerial
+     * @return
+     */
+    public UserInfo findByUserSerial(String userSerial) {
+        return userInfoDao.findByUserSerial(userSerial);
+    }
 }

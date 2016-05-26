@@ -51,5 +51,13 @@ public class PageController {
         return "app/dashboard";
     }
 
+    /**
+     * success页
+     */
+    @RequestMapping("/success")
+    public String success() {
+        return "success";
+    }
+
 
 }

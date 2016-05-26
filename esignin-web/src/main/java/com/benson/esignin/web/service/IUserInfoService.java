@@ -28,4 +28,11 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
      */
     UserInfo findByUserName(String userName);
 
+    /**
+     * 根据用户序列号查询用户信息
+     * @param userSerial
+     * @return
+     */
+    UserInfo findByUserSerial(String userSerial);
+
 }

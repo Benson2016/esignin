@@ -2,15 +2,17 @@ package com.benson.esignin.web.controller;
 
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DataUtil;
-import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.service.IUserInfoService;
 import com.benson.esignin.web.utils.QRCodeUtil;
-import com.google.gson.JsonObject;
-import org.apache.ibatis.annotations.Param;
+import com.google.gson.JsonArray;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +34,13 @@ public class QrCodeController {
 
     private final static Logger logger = Logger.getLogger(QrCodeController.class);
 
+    @Autowired
+    private IUserInfoService userInfoService;
+
 
     /**
      * 获取二维码
+     *
      * @param model
      * @param request
      * @param response
@@ -42,7 +48,6 @@ public class QrCodeController {
      */
     @RequestMapping(value = "/getQrCode")
     public String getQrCode(Model model, HttpServletRequest request, HttpServletResponse response) {
-
 
 
         String loginUrl = "http://xubstest.ematong.com/esignin/index.jsp";
@@ -65,29 +70,44 @@ public class QrCodeController {
     }
 
     @RequestMapping(value = "/loginByQR")
-    public void loginByQR(@RequestParam String appVersion, HttpServletRequest request, HttpServletResponse response) {
+    @ResponseBody
+    public Object loginByQR(@RequestParam String av, @RequestParam String un, @RequestParam String up,
+                            HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> data = new HashMap<String, String>();
 
-        logger.info(appVersion + "\n");
-
-        /*logger.info("Enter loginByQR method.");
         try {
+            logger.info("Enter loginByQR method.");
+            logger.info(String.format("本次登陆校验记录:av[%s],un[%s],up[%s]", av, un, up));
 
+            //验证用户信息
+            UserInfo loginUser = userInfoService.authentication(new UserInfo(un, up));
+            if (CommonUtil.isNull(loginUser)) {
+                // 根据用户序列去查询
+                loginUser = userInfoService.findByUserSerial(av);
+            }
+
+            if (CommonUtil.isNull(loginUser)) {
+                // 用户不存在
+                data.put("rspCode", "101");
+                data.put("rspMsg", "用户尚未注册！");
+                return data;
+            }
+
+            // 验证成功在Session中保存用户信息
+            request.getSession().setAttribute("userInfo", loginUser);
+            data.put("rspCode", "100");
+            data.put("rspMsg", "登录成功！");
+            data.put("un", loginUser.getUserName());
+            data.put("up", loginUser.getPassword());
         } catch (Exception e) {
+            data.put("rspCode", "999");
+            data.put("rspMsg", "QR登录异常！");
             logger.error("QR登录异常：{}", e);
         } finally {
             logger.info("Leave loginByQR method.");
-        }*/
-        //return "login";
-
-        try {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("resCode", "100");
-            map.put("resMsg", "登录成功！");
-            DataUtil.writeToJson(response, map);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
+        return data;
     }
 
 }
