@@ -55,15 +55,24 @@
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
     <form class="login-form" action="${root}/user/verify.bs" method="post">
+        <input type="hidden" id="cid" name="cid">
         <h3 class="form-title">手机验证</h3>
         <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">输入手机号</label>
             <div class="input-icon">
                 <i class="fa fa-mobile"></i>
-                <input class="form-control placeholder-no-fix" type="text" placeholder="Mobile" name="mobile"/>
+                <input class="form-control placeholder-no-fix" type="text" placeholder="输入手机号" id="mobile" name="mobile"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-icon">
+                <i class="fa fa-mobile"></i>
+                <input class="form-control placeholder-no-fix" type="text" placeholder="输入验证码" id="verifyCode" name="verifyCode"/>
             </div>
         </div>
         <div class="form-actions">
+            <button id="getCodeBtn" type="button" class="btn">
+                点击获取验证码
+            </button>
             <button id="okBtn" type="button" class="btn blue pull-right">
                 确定 <i class="m-icon-swapright m-icon-white"></i>
             </button>
@@ -87,7 +96,26 @@
 
             alert("功能开发中...");
         });
+        // 获取验证码
+        $("#getCodeBtn").click(function(){
+            if(checkPhone()){
+                getCode();
+            }
+        });
     });
+
+    function checkPhone(){
+        var phone = $("#mobile").val();
+        if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){
+            alert("请输入正确的手机号！");
+            return false;
+        }
+        return true;
+    }
+
+    function getCode() {
+        alert("获取验证码功能开发中...");
+    }
 </script>
 <!-- END JAVASCRIPTS -->
 </body>

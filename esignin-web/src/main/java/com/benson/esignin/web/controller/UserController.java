@@ -3,6 +3,7 @@ package com.benson.esignin.web.controller;
 import com.benson.esignin.common.utils.*;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.service.IUserInfoService;
+import com.sun.javafx.collections.MappingChange;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.naming.Context;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +26,7 @@ import javax.swing.plaf.nimbus.State;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +45,15 @@ public class UserController {
     @Autowired
     private IUserInfoService userInfoService;
 
+    @RequestMapping(value = "/getVerifyCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getVerifyCode(@RequestParam String mobile) {
+        logger.info("Enter getVerifyCode Method.");
+        Map<String, String> map = new HashMap<String, String>();
+
+        logger.info("Leave getVerifyCode Method.");
+        return map;
+    }
 
     @RequestMapping(value = "/findAll")
     public String findAll(Model model, HttpServletRequest request, HttpServletResponse response) {
