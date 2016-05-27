@@ -20,7 +20,7 @@
             var av = navigator.appVersion;
             var $_story = window.localStorage;
             if ($_story){
-                if ($_story.getItem("sun")) {
+                //if ($_story.getItem("sun")) {
                     // read u
                     var un = $_story.getItem("sun");
                     var up = $_story.getItem("sup");
@@ -36,28 +36,23 @@
                                 $_story.clear();
                                 $_story.setItem("sun", data.un);
                                 $_story.setItem("sup", data.up);
-
                                 // 重新跳转页面
                                 window.location.href = "${root}/page/success.bs";
                             } else {
-                                register();
+                                window.location.href = "${root}/page/register.bs";
                             }
                         },
                         error: function(e) {
                             alert("系统错误！");
                         }
                     });
-                }
+                //}
 
             }
 
             /*$(function(){
 
              });*/
-
-            function register() {
-                // unmake
-            }
         </script>
     </body>
 </html>

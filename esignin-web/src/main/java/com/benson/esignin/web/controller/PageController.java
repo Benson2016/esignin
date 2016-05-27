@@ -52,6 +52,22 @@ public class PageController {
     }
 
     /**
+     * 扫码注册页
+     */
+    @RequestMapping("/register")
+    public String register() {
+        return "app/register";
+    }
+
+    /**
+     * 扫码注册页
+     */
+    @RequestMapping("/mobileVerify")
+    public String mobileVerify() {
+        return "app/mobile_verify";
+    }
+
+    /**
      * success页
      */
     @RequestMapping("/success")
