@@ -70,11 +70,9 @@
             <ref bean="dataSource"/>
         </property>
     </bean>
-    <!-- 创建数据映射器,映射器必须是接口 -->
-    <!-- 指定映射器接口，以及sqlSessionFactory -->
-    <bean id="esigninMapper"  class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface"  value="com.benson.esignin.web.dao.IUserInfoDao"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    <!-- 自动扫描Mapper -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.benson.esignin.web.dao" />
     </bean>
 
     <!-- 配置事务 -->

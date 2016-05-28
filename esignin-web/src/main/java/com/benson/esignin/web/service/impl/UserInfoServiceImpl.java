@@ -49,11 +49,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
     }
 
     /**
-     * 根据用户序列号查询用户信息
-     * @param userSerial
+     * 根据手机号码查询用户信息
+     * @param mobile
      * @return
      */
-    public UserInfo findByUserSerial(String userSerial) {
-        return userInfoDao.findByUserSerial(userSerial);
+    public UserInfo findByMobile(String mobile) {
+        return userInfoDao.findByMobile(mobile);
     }
 }

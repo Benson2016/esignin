@@ -262,6 +262,24 @@ public class DateUtil {
 		
 		return Math.abs(monthEnd + 12 * differenceYear - monthBegin);
 	}
+
+	/**
+	 * 获取两个日期时间相差的秒数
+	 * @param startTime 开始时间
+	 * @param endTime 结束时间
+     * @return
+     */
+	public static int getDifferenceSeconds(Date startTime, Date endTime) {
+		// 如果其中一个为空,则返回-1
+		if (null == startTime || null==endTime)
+			return -1;
+
+		long diffTime = (endTime.getTime() - startTime.getTime())/1000; //单位为秒
+
+		int seconds = diffTime > 0 ? (int)diffTime : (int)Math.abs(diffTime);
+
+		return seconds;
+	}
 	
 	/**
 	 * 获取指定日期指定延后天数的日期
@@ -820,11 +838,24 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getTimeByAfterMinute(Date date, int minute) {
+
+		return new SimpleDateFormat(CommonCons.D_FMT_NORMAL).format(addMinuteToDate(date, minute));
+	}
+
+	/**
+	 * 获取给定时间的几分钟后的时间
+	 * 如果date不指定，则默认当前时间
+	 * @param date 指定时间
+	 * @param minute 前几分钟
+	 * @return
+	 */
+	public static Date addMinuteToDate(Date date, int minute) {
+
 		Calendar calendar = Calendar.getInstance();
 		if(null != date) calendar.setTime(date);
 		calendar.add(Calendar.MINUTE, minute);
 
-		return new SimpleDateFormat(CommonCons.D_FMT_NORMAL).format(calendar.getTime());
+		return calendar.getTime();
 	}
 
 }

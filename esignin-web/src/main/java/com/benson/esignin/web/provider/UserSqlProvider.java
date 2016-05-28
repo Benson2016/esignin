@@ -24,8 +24,8 @@ public class UserSqlProvider {
         if (CommonUtil.isNotNull(entity.getIsValid())) {
             sql.append(", is_valid=#{isValid}");
         }
-        if (CommonUtil.isNotNull(entity.getUserSerial())) {
-            sql.append(", user_serial=#{userSerial}");
+        if (CommonUtil.isNotNull(entity.getMobile())) {
+            sql.append(", mobile=#{mobile}");
         }
         sql.append("where id = #{id}");
         return sql.toString();

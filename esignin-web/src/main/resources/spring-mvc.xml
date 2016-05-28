@@ -7,7 +7,22 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
-		
+
+	<!-- 修改StringHttpMessageConverter的默认字符配置,处理@ResponseBody返回中文乱码问题 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+		<property name="messageConverters">
+			<list>
+				<bean class = "org.springframework.http.converter.StringHttpMessageConverter">
+					<property name = "supportedMediaTypes">
+						<list>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<!-- 启用SpringMVC注解 -->
 	<context:annotation-config />
 	

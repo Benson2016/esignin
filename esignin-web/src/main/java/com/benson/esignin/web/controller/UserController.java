@@ -1,14 +1,13 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.cons.SysCons;
+import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.*;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IUserInfoService;
-import com.sun.javafx.collections.MappingChange;
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,17 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.naming.Context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.swing.plaf.nimbus.State;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户信息控制层业务类
@@ -40,20 +34,12 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
-    private final static Logger logger = Logger.getLogger(UserController.class);
+    private final Logger logger = Logger.getLogger(UserController.class);
+
 
     @Autowired
     private IUserInfoService userInfoService;
 
-    @RequestMapping(value = "/getVerifyCode", method = RequestMethod.POST)
-    @ResponseBody
-    public Object getVerifyCode(@RequestParam String mobile) {
-        logger.info("Enter getVerifyCode Method.");
-        Map<String, String> map = new HashMap<String, String>();
-
-        logger.info("Leave getVerifyCode Method.");
-        return map;
-    }
 
     @RequestMapping(value = "/findAll")
     public String findAll(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -177,8 +163,10 @@ public class UserController {
                 return "login";
             }
             logger.info(String.format("***用户【%s】验证通过！***", authUserInfo.getUserName()));
+
             // 验证成功在Session中保存用户信息
-            request.getSession().setAttribute("userInfo", authUserInfo);
+            storyUserToSession(request, authUserInfo, SysCons.LOGIN_USER);
+
         } catch (AuthenticationException e) {
             // 身份验证失败
             model.addAttribute("rspMsg", "用户名或密码错误 ！");
@@ -195,20 +183,98 @@ public class UserController {
     /**
      * 用户登出
      *
-     * @param session
+     * @param request
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) {
-        UserInfo authUserInfo = (UserInfo) session.getAttribute("userInfo");
+    public String logout(HttpServletRequest request) {
+        UserInfo authUserInfo = (UserInfo) request.getSession().getAttribute("userInfo");
         if (null != authUserInfo)
             logger.info(String.format("*** user [%s] logout ***", authUserInfo.getUserName()));
 
-        session.removeAttribute("userInfo");
+        // 移除用户信息
+        removeUserFromSession(request, SysCons.LOGIN_USER);
         // 登出操作
         /*Subject subject = SecurityUtils.getSubject();
         subject.logout();*/
         return "login";
+    }
+
+
+    /**
+     * 手机用户注册
+     * @param mobile
+     * @param fullName
+     * @return
+     */
+    @RequestMapping(value = "/regByMobile", method = RequestMethod.POST)
+    @ResponseBody
+    public Object regByMobile(@RequestParam String mobile, @RequestParam String fullName, HttpServletRequest request) {
+        logger.info("regByMobile Begin......");
+        UserInfoResponse response = null;
+
+        if (CommonUtil.isNull(mobile, fullName)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+
+            return JsonUtil.toJson(response);
+        }
+
+
+        // 手机用户注册
+        try {
+            UserInfo newUser = new UserInfo();
+            newUser.setFullName(fullName);
+            newUser.setMobile(mobile);
+            //默认手机号为用户名
+            newUser.setUserName(mobile);
+
+            // 设置默认属性
+            newUser.setAge(0);
+            newUser.setSex(3);
+            newUser.setFlag(1);
+            newUser.setCreateTime(DateUtil.getCurrentDateTime());
+            newUser.setUpdateTime(newUser.getCreateTime());
+            newUser.generateUUId();
+            // 密码默认666666
+            newUser.setPassword(EncryptionUtil.sha256Encode(SysCons.DEFAULT_PASSWORD));
+
+            int result = userInfoService.add(newUser);
+
+            // 此处,添加日志 DB
+            // console log
+            logger.info(String.format("手机用户注册%s,手机[%s]姓名[%s]", result==1?"成功":"失败", mobile, fullName));
+
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            // 保存用户信息
+            storyUserToSession(request, newUser, SysCons.LOGIN_USER);
+
+        } catch (Exception e) {
+            logger.error("手机用户注册发生异常:{}", e);
+        } finally {
+            logger.info("The End Of regByMobile.");
+        }
+
+        return JsonUtil.toJson(response);
+    }
+
+
+    /**
+     * Session中保存用户信息
+     * @param request
+     * @param userInfo
+     * @param name
+     */
+    private void storyUserToSession(HttpServletRequest request, UserInfo userInfo, String name) {
+        request.getSession().setAttribute(name, userInfo);
+    }
+
+    /**
+     * 从Session中移除用户信息
+     * @param request
+     * @param name
+     */
+    private void removeUserFromSession(HttpServletRequest request, String name) {
+        request.getSession().removeAttribute(name);
     }
 
 }
