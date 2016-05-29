@@ -12,6 +12,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,12 +38,12 @@ public class QRCodeUtil {
     /**
      * 生成二维码
      *
-     * @param contents
-     * @param width
-     * @param height
-     * @param imgPath
+     * @param contents 内容
+     * @param width 宽度
+     * @param height 高度
+     * @param imgPath 绝对路径
      */
-    public static void encode(String contents, int width, int height, String imgPath) {
+    public static void generate(String contents, int width, int height, String imgPath) {
 
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
         // 指定纠错等级
@@ -54,7 +55,30 @@ public class QRCodeUtil {
             MatrixToImageWriter.writeToStream(bitMatrix, "png", new FileOutputStream(imgPath));
         } catch (Exception e) {
             logger.error("生成二维码时异常：{}", e);
-            //e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 生成二维码到输出流中
+     *
+     * @param contents 内容
+     * @param width 图片宽度
+     * @param height 图片高度
+     * @param response Servlet输出流
+     */
+    public static void generate(String contents, int width, int height, HttpServletResponse response) {
+
+        Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+        // 指定纠错等级
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+        // 指定编码格式
+        hints.put(EncodeHintType.CHARACTER_SET, CommonCons.CHARSET_UTF8);
+        try {
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(contents, BarcodeFormat.QR_CODE, width, height, hints);
+            MatrixToImageWriter.writeToStream(bitMatrix, "png", response.getOutputStream());
+        } catch (Exception e) {
+            logger.error("生成二维码时异常：{}", e);
         }
 
     }
@@ -63,9 +87,9 @@ public class QRCodeUtil {
     /**
      * 解析二维码
      *
-     * @param imgPath
+     * @param imgPath 二维码路径
      */
-    public static String decode(String imgPath) {
+    public static String analysis(String imgPath) {
         if (StringUtil.isNullString(imgPath)) {
             logger.error("解析二维码时参数错误：参数imgPath不能为空！");
             return null;

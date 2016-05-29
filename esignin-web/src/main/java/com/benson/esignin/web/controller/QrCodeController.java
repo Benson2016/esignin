@@ -1,8 +1,15 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.cons.SysCons;
+import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DataUtil;
+import com.benson.esignin.common.utils.DateUtil;
+import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.QrCodeResponse;
+import com.benson.esignin.web.service.IQrCodeService;
 import com.benson.esignin.web.service.IUserInfoService;
 import com.benson.esignin.web.utils.QRCodeUtil;
 import com.google.gson.JsonArray;
@@ -16,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,78 +45,175 @@ public class QrCodeController {
 
     @Autowired
     private IUserInfoService userInfoService;
+    @Autowired
+    private IQrCodeService qrCodeService;
 
 
     /**
-     * 获取二维码
-     *
+     * 显示二维码页面
      * @param model
-     * @param request
-     * @param response
+     * @param businessId
      * @return
      */
-    @RequestMapping(value = "/getQrCode")
-    public String getQrCode(Model model, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/showCode")
+    public String showCode(Model model, @RequestParam String businessId) {
 
+        if (CommonUtil.isNull(businessId)) {
+            logger.error("业务Id为空,无法正常显示二维码!");
+        }
 
-        String loginUrl = "http://xubstest.ematong.com/esignin/index.jsp";
+        model.addAttribute(SysCons.BUSINESS_ID, businessId);
 
-        String realPath = request.getSession().getServletContext().getRealPath("");
-
-        /*logger.info("当前realPath：" + realPath);
-
-        String rootPath = request.getContextPath();//获取webapp目录
-
-        String imgPath = rootPath + "/upload/images/loginByQR.png";*/
-
-        String savePath = "D:/temp/images/loginByQR.png";
-
-        QRCodeUtil.encode(loginUrl, 300, 300, savePath);
-
-        model.addAttribute("qrImg", savePath);
-
-        return "qrcode";
+        return "scan";
     }
 
+    /**
+     * 获取二维码
+     * @param businessId 业务ID
+     * @param response
+     */
+    @RequestMapping(value = "/getQrCode")
+    public void getQrCode(@RequestParam String businessId, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("getQrCode Start......");
+        try {
+            if (CommonUtil.isNull(businessId)) {
+                logger.error("业务Id为空,无法正常获取二维码!");
+                return;
+            }
+
+            // 查询业务二维码
+            QrCode qrCode = qrCodeService.findOne(businessId);
+
+            if (CommonUtil.isNotNull(qrCode)) {
+                QRCodeUtil.generate(qrCode.getImage(), 300, 300, response);
+            } else {
+                logger.info(String.format("没有查找到业务ID为[%s]的二维码!", businessId));
+                outputNotFileImg(request, response);
+            }
+
+        } catch (Exception e) {
+            logger.error("获取二维码时发生异常: ", e);
+        } finally {
+            logger.info("The End Of getQrCode.");
+        }
+    }
+
+    /**
+     * 打印输出404图片
+     * @param response
+     * @throws IOException
+     */
+    private void outputNotFileImg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 获取工程访问对应的绝对路径
+        String realPath = request.getServletContext().getRealPath("/");
+
+        // 输出404图片
+        String notFoundImg = realPath + "commons/img/404.jpg";
+        logger.info("获取404图片路径为:" + notFoundImg);
+
+        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("image/jpeg");
+
+        FileInputStream fis = new FileInputStream(notFoundImg);
+        OutputStream os = response.getOutputStream();
+
+        try {
+            // 读取图片并输出
+            byte[] buffer = new byte[fis.available()];
+            int len = 0;
+            while ((len=fis.read(buffer))!=-1) {
+                os.write(buffer, 0, len);
+                os.flush();
+            }
+        } catch (IOException ioe) {
+            logger.error("读取404图片异常:", ioe);
+        } finally {
+            if (null != os) os.close();
+            if (null != fis) fis.close();
+        }
+    }
+
+
+    /**
+     * 构建二维码记录
+     * @param response
+     */
+    @RequestMapping(value = "/createCode")
+    public void createCode(HttpServletResponse response) {
+        logger.info("createCode Start......");
+        try {
+            QrCode qrCode = new QrCode();
+            qrCode.generateUUId();
+            qrCode.setCreateUser("88888888");
+            qrCode.setTitle("一起嗨皮");
+            qrCode.setDescription("一起嗨皮,一起玩耍!");
+            // 设置5分钟有效时间
+            qrCode.setEffectiveTimeStart(DateUtil.getCurrentDateTime());
+            qrCode.setEffectiveTimeEnd(DateUtil.addMinuteToDate(qrCode.getEffectiveTimeStart(), 5));
+            // 设置图片内容
+            String content = "http://192.168.31.135:8080/esignin/page/handler.bs?" + SysCons.BUSINESS_ID + "=" + qrCode.getId();
+            qrCode.setImage(content);
+            // 保存QR记录
+            qrCodeService.add(qrCode);
+
+            // 打印提示信息
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().print("业务二维码构建成功! 业务ID为" + qrCode.getId());
+
+        } catch (Exception e) {
+            logger.error("获取二维码时发生异常: ", e);
+        } finally {
+            logger.info("The End Of createCode.");
+        }
+    }
+
+    /**
+     * 扫二维码登录
+     * @param un
+     * @param up
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/loginByQR")
     @ResponseBody
-    public Object loginByQR(@RequestParam String av, @RequestParam String un, @RequestParam String up,
-                            HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> data = new HashMap<String, String>();
+    public Object loginByQR(@RequestParam String un, @RequestParam String up, HttpServletRequest request) {
+        QrCodeResponse response = null;
 
         try {
             logger.info("Enter loginByQR method.");
-            logger.info(String.format("本次登陆校验记录:av[%s],un[%s],up[%s]", av, un, up));
+            logger.info(String.format("QR登录--校验记录:un[%s],up[%s]", un, up));
+
+            // 参数校验
+            if (CommonUtil.isNull(un, up)) {
+                response = new QrCodeResponse(StateResponse.ERROR_PARAM);
+                return JsonUtil.toJson(response);
+            }
 
             //验证用户信息
             UserInfo loginUser = userInfoService.authentication(new UserInfo(un, up));
-            if (CommonUtil.isNull(loginUser)) {
-                // 根据用户序列去查询
-                loginUser = userInfoService.findByUserSerial(av);
-            }
 
+            // 用户不存在
             if (CommonUtil.isNull(loginUser)) {
-                // 用户不存在
-                data.put("rspCode", "101");
-                data.put("rspMsg", "用户尚未注册！");
-                return data;
+                response = new QrCodeResponse(StateResponse.INVALID);
+                response.setRspMsg("用户尚未注册！");
+                return JsonUtil.toJson(response);
             }
 
             // 验证成功在Session中保存用户信息
-            request.getSession().setAttribute("userInfo", loginUser);
-            data.put("rspCode", "100");
-            data.put("rspMsg", "登录成功！");
-            data.put("un", loginUser.getUserName());
-            data.put("up", loginUser.getPassword());
+            request.getSession().setAttribute(SysCons.LOGIN_USER, loginUser);
+            // 返回消息提示
+            response = new QrCodeResponse(StateResponse.SUCCESS);
+            response.setUn(loginUser.getUserName());
+            response.setUp(loginUser.getPassword());
+
         } catch (Exception e) {
-            data.put("rspCode", "999");
-            data.put("rspMsg", "QR登录异常！");
+            response = new QrCodeResponse(StateResponse.ERROR_SYS);
             logger.error("QR登录异常：{}", e);
         } finally {
             logger.info("Leave loginByQR method.");
         }
 
-        return data;
+        return JsonUtil.toJson(response);
     }
 
 }

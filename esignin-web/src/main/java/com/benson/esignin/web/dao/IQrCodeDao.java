@@ -18,9 +18,9 @@ public interface IQrCodeDao extends IBaseDao<QrCode, String> {
 
     final String TABLE_NAME = "t_qr_code";
 
-    final String BASE_COLUMN_LIST = "id, sign_in_type as signInType, create_user as createUser, image, effective_time_start as effectiveTimeStart, effective_time_end as effectiveTimeEnd, is_valid as isValid ";
+    final String BASE_COLUMN_LIST = "id, title, sign_in_type as signInType, create_user as createUser, image, effective_time_start as effectiveTimeStart, effective_time_end as effectiveTimeEnd, is_valid as isValid, description";
 
-    final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, sign_in_type, create_user, image, effective_time_start, effective_time_end, is_valid) VALUES(#{id},#{signInType},#{createUser},#{image},#{effectiveTimeStart},#{effectiveTimeEnd},#{isValid})";
+    final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, title, sign_in_type, create_user, image, effective_time_start, effective_time_end, is_valid, description) VALUES(#{id},#{title},#{signInType},#{createUser},#{image},#{effectiveTimeStart},#{effectiveTimeEnd},#{isValid},#{description})";
 
 
     @Insert(INSERT_SQL)
@@ -29,7 +29,7 @@ public interface IQrCodeDao extends IBaseDao<QrCode, String> {
     @Delete("DELETE FROM "+TABLE_NAME+" where id = #{id}")
     int delete(String id);
 
-    @Update("UPDATE " + TABLE_NAME + " set is_valid=#{isValid} WHERE id = #{id}")
+    @Update("UPDATE " + TABLE_NAME + " set is_valid=#{isValid},title=#{title},description=#{description} WHERE id = #{id}")
     int update(QrCode entity);
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" WHERE id = #{id}")

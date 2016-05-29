@@ -21,12 +21,14 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `t_qr_code`;
 CREATE TABLE `t_qr_code` (
   `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT '二维码ID',
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '业务主题',
   `sign_in_type` int(11) DEFAULT NULL COMMENT '签到类型',
   `create_user` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '二维码创建者',
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '二维码图片地址',
   `effective_time_start` timestamp NULL DEFAULT NULL COMMENT '二维码生效时间',
   `effective_time_end` timestamp NULL DEFAULT NULL COMMENT '二维码失效时间',
   `is_valid` tinyint(1) DEFAULT NULL COMMENT '是否有效',
+  `description` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '业务描述',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -28,3 +28,7 @@ CREATE TABLE `t_sign_in_type` (
 -- ----------------------------
 -- Records of t_sign_in_type
 -- ----------------------------
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('1', '会议签到');
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('2', '活动签到');
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('3', '考试签到');
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('4', '一起嗨皮');

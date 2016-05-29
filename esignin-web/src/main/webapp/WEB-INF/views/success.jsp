@@ -11,6 +11,9 @@
 <html>
 <head>
     <title>Success for login</title>
+
+    <link rel="shortcut icon" href="${root}/commons/img/favicon.ico"/>
+
 </head>
 <body>
     <h3>恭喜您<%=userName%>,登录成功!</h3>

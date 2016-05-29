@@ -32,7 +32,7 @@ public class Test {
 
         String savePath = "D:/temp/loginByQR.png";
 
-        QRCodeUtil.encode(loginUrl, 300, 300, savePath);
+        QRCodeUtil.generate(loginUrl, 300, 300, savePath);
 
         System.out.println("执行完毕！");
 

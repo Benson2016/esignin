@@ -9,7 +9,7 @@ package com.benson.esignin.common.enums;
 public enum StateResponse {
 
     SUCCESS(100, "请求成功!"),
-    INVALID(101, "信息失效!"),
+    INVALID(101, "信息无效!"),
     ERROR_PARAM(102, "参数错误!"),
 
     // more...

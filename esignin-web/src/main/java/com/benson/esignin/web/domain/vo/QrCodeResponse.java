@@ -3,27 +3,29 @@ package com.benson.esignin.web.domain.vo;
 import com.benson.esignin.common.enums.StateResponse;
 
 /**
- * 用户信息响应类
+ * 二维码控制层响应类
  *
  * @author: Benson Xu
- * @date: 2016年05月28日 21:26
+ * @date: 2016年05月29日 11:14
  */
-public class UserInfoResponse extends BaseResponse {
+public class QrCodeResponse extends BaseResponse {
+
 
     private String un;  //用户名
 
     private String up;  //用户密码
 
+    private String um;  //用户手机号码
 
-    public UserInfoResponse() {
+    public QrCodeResponse() {
         super();
     }
 
-    public UserInfoResponse(StateResponse stateResponse) {
+    public QrCodeResponse(StateResponse stateResponse) {
         super(stateResponse);
     }
 
-    public UserInfoResponse(Integer rspCode, String rspMsg) {
+    public QrCodeResponse(Integer rspCode, String rspMsg) {
         super(rspCode, rspMsg);
     }
 
@@ -42,5 +44,13 @@ public class UserInfoResponse extends BaseResponse {
 
     public void setUp(String up) {
         this.up = up;
+    }
+
+    public String getUm() {
+        return um;
+    }
+
+    public void setUm(String um) {
+        this.um = um;
     }
 }

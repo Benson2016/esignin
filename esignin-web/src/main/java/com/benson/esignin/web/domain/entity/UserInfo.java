@@ -1,12 +1,12 @@
 package com.benson.esignin.web.domain.entity;
 
+import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.entity.IdEntity;
+import com.benson.esignin.common.utils.DateUtil;
 
 import java.util.Date;
 
 public class UserInfo extends IdEntity {
-
-    private String id;  //用户ID
 
     private String userName;    //用户名
 
@@ -30,7 +30,6 @@ public class UserInfo extends IdEntity {
 
     private Integer isValid;    //是否有效：0无效，1有效（默认）
 
-
     private static final long serialVersionUID = 1L;
 
 
@@ -41,13 +40,6 @@ public class UserInfo extends IdEntity {
         this.password = password;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
     public String getUserName() {
         return userName;

@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class QrCode extends IdEntity {
 
+    private String title;   // 业务主题
 
     private Integer signInType; // 签到类型
 
@@ -25,7 +26,16 @@ public class QrCode extends IdEntity {
 
     private Integer isValid;    // 是否有效
 
+    private String description; // 业务描述
 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Integer getSignInType() {
         return signInType;
@@ -75,4 +85,11 @@ public class QrCode extends IdEntity {
         this.isValid = isValid;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

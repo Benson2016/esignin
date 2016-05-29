@@ -50,16 +50,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
                 <p>
                     We can not find the page you're looking for.<br /> <a href="${root}">Return home</a> or try the search bar below.
                 </p>
-                <form action="#">
-                    <div class="input-group input-medium">
-                        <input type="text" class="form-control" placeholder="keyword..."> <span class="input-group-btn">
-                            <button type="submit" class="btn blue">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <!-- /input-group -->
-                </form>
             </div>
         </div>
     </div>

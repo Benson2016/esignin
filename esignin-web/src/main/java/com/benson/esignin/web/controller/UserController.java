@@ -1,5 +1,6 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.*;
@@ -212,10 +213,9 @@ public class UserController {
     public Object regByMobile(@RequestParam String mobile, @RequestParam String fullName, HttpServletRequest request) {
         logger.info("regByMobile Begin......");
         UserInfoResponse response = null;
-
+        // 参数校验
         if (CommonUtil.isNull(mobile, fullName)) {
             response = new UserInfoResponse(StateResponse.ERROR_PARAM);
-
             return JsonUtil.toJson(response);
         }
 
@@ -232,6 +232,7 @@ public class UserController {
             newUser.setAge(0);
             newUser.setSex(3);
             newUser.setFlag(1);
+            newUser.setIsValid(1);
             newUser.setCreateTime(DateUtil.getCurrentDateTime());
             newUser.setUpdateTime(newUser.getCreateTime());
             newUser.generateUUId();
@@ -252,6 +253,49 @@ public class UserController {
             logger.error("手机用户注册发生异常:{}", e);
         } finally {
             logger.info("The End Of regByMobile.");
+        }
+
+        return JsonUtil.toJson(response);
+    }
+
+
+    /**
+     * 手机用户登录
+     * @param mobile
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/loginByMobile", method = RequestMethod.POST)
+    @ResponseBody
+    public Object loginByMobile(@RequestParam String mobile, HttpServletRequest request) {
+        logger.info("loginByMobile Begin......");
+        UserInfoResponse response = null;
+
+        // 参数校验
+        if (CommonUtil.isNull(mobile)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+
+        try {
+
+            final UserInfo loginUser = userInfoService.findByMobile(mobile);
+            if (CommonUtil.isNull(loginUser)) {
+                response = new UserInfoResponse(StateResponse.INVALID);
+                return JsonUtil.toJson(response);
+            }
+
+            // 登录成功,存储信息
+            storyUserToSession(request, loginUser, SysCons.LOGIN_USER);
+            // 返回成功提示
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response.setUn(loginUser.getUserName());
+            response.setUp(loginUser.getPassword());
+
+        } catch (Exception e) {
+            logger.error("手机用户登录时发生异常:{}", e);
+        } finally {
+            logger.info("The End Of loginByMobile.");
         }
 
         return JsonUtil.toJson(response);

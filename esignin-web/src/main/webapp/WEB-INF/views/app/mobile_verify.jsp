@@ -10,7 +10,7 @@
 <head>
     <base href="${root}/">
     <meta charset="utf-8"/>
-    <title>E签到--Easy to sign in</title>
+    <title>E签到 手机验证</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
@@ -84,7 +84,7 @@
     <!-- END LOGIN FORM -->
 
     <!-- BEGIN REGISTER FORM -->
-    <form class="register-form" action="/" method="post">
+    <form class="register-form" action="/" method="post" onsubmit="return nextStep()">
         <h3 class="form-title">用户注册</h3>
         <div class="form-group">
             <div class="input-icon">
@@ -115,34 +115,41 @@
             alert("请输入验证码!");
             return;
         }
-
-        var phone = $("#mobile").val();
         var cid = $("#cid").val();
-        $.ajax({
-            url: "${root}/checkCode.bs",
-            dataType: "json",
-            type: "POST",
-            data: {mobile: phone, code: vc, cid: cid},
-            cache: false,
-            success: function(data){
-                if(data.rspCode==100) {
-                    if (data.isUser==1) { //do login
-
-                    } else { //do register
-                        $(".login-form").attr("display", none);
-                        $(".register-form").attr("display", block);
+        if(cid==null || cid==''){
+            alert("请点击获取验证码,并输入正确的验证码!");
+            return;
+        }
+        // 再次验证手机号
+        if(checkPhone()) {
+            var phone = $("#mobile").val();
+            $.ajax({
+                url: "${root}/checkCode.bs",
+                dataType: "json",
+                type: "POST",
+                data: {mobile: phone, code: vc, cid: cid},
+                cache: false,
+                success: function(data){
+                    if(data.rspCode==100) {
+                        if (1==data.isUser||'1'==data.isUser) { //do login
+                            doLogin();
+                        } else { //do register
+                            $(".login-form").hide();
+                            $(".register-form").show();
+                        }
+                    } else {
+                        alert(data.rspMsg);
                     }
-                    // 业务处理
-                } else {
-                    alert(data.rspMsg);
+                },
+                error: function(e) {
+                    alert("系统错误！");
                 }
-            },
-            error: function(e) {
-                alert("系统错误！");
-            }
-        });
+            });
+        }
+
     }
 
+    // initial events
     jQuery(document).ready(function () {
         // SUBMIT BUTTON
         $("#okBtn").click(function(){
@@ -160,7 +167,16 @@
         $("#nextBtn").click(function(){
             nextStep();
         });
+
+        disabledOkBtn(true);
     });
+
+    function disabledOkBtn(b) {
+        $("#okBtn").attr("disabled", b);
+    }
+    function disabledCodeBtn(b) {
+        $("#getCodeBtn").attr("disabled", b);
+    }
 
     function checkPhone(){
         var phone = $("#mobile").val();
@@ -184,7 +200,9 @@
                     $("#cid").val(data.vcid);
                     // 显示计时
                     showCountDown(data.countDown);
-                    $("#getCodeBtn").attr("disabled", true);
+                    disabledCodeBtn(true);
+                    //$("#getCodeBtn").attr("disabled", true);
+                    disabledOkBtn(false);
                 } else {
                     alert(data.rspMsg);
                 }
@@ -202,7 +220,8 @@
             setTimeout("showCountDown("+seconds+")", 1000);
         } else {
             $("#getCodeBtn").html("点击获取验证码");
-            $("#getCodeBtn").attr("disabled", false);
+            //$("#getCodeBtn").attr("disabled", false);
+            disabledCodeBtn(false);
         }
     }
 
@@ -222,7 +241,33 @@
             cache: false,
             success: function(data){
                 if(data.rspCode==100) {
-                    // 注册成功!
+                    <%-- 注册成功,进入签到环节 --%>
+                    window.location.href = "${root}/signIn.bs";
+                } else {
+                    alert(data.rspMsg);
+                }
+            },
+            error: function(e) {
+                alert("系统错误！");
+            }
+        });
+    }
+
+    function doLogin() {
+        var phone = $("#mobile").val();
+        $.ajax({
+            url: "${root}/user/loginByMobile.bs",
+            dataType: "json",
+            type: "POST",
+            data: {mobile: phone},
+            cache: false,
+            success: function(data){
+                if(data.rspCode==100) {
+                    var $_story = window.localStorage;
+                    $_story.setItem("sun", data.un);
+                    $_story.setItem("sup", data.up);
+                    <%-- 登录成功,进入签到环节 --%>
+                    window.location.href = "${root}/signIn.bs";
                 } else {
                     alert(data.rspMsg);
                 }

@@ -1,5 +1,6 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import org.slf4j.Logger;
@@ -7,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -60,7 +64,7 @@ public class PageController {
     }
 
     /**
-     * 扫码注册页
+     * 手机验证页面
      */
     @RequestMapping("/mobileVerify")
     public String mobileVerify() {
@@ -73,6 +77,21 @@ public class PageController {
     @RequestMapping("/success")
     public String success() {
         return "success";
+    }
+
+
+    @RequestMapping("/handler")
+    public String handler(@RequestParam String businessId, HttpServletRequest request) {
+
+        if(CommonUtil.isNull(businessId)) {
+            logger.error("扫码一进来,发现业务ID为空!!!");
+        } else {
+            // 扫码一进来先存储业务ID
+            request.getSession().setAttribute(SysCons.BUSINESS_ID, businessId);
+            logger.info(String.format("扫码一进来先存储业务ID[%s]", businessId));
+        }
+
+        return "scan_handler";
     }
 
 
