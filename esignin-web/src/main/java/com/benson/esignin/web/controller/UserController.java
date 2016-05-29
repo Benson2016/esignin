@@ -134,7 +134,7 @@ public class UserController {
             // 已登陆则 跳到首页
             if (subject.isAuthenticated()) {
                 logger.info(String.format("用户【%s】已登录，即将转到后台首页。", user.getUserName()));
-                return "app/index";
+                return "admin/index";
             }
             if (result.hasErrors()) {
                 logger.info("登录参数错误！");
@@ -178,7 +178,7 @@ public class UserController {
         }
 
         // 登录成功跳转至首页
-        return "app/index";
+        return "admin/index";
     }
 
     /**

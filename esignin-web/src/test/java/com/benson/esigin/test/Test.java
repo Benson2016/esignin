@@ -1,5 +1,6 @@
 package com.benson.esigin.test;
 
+import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.utils.EncryptionUtil;
 import com.benson.esignin.common.utils.MD5Util;
 import com.benson.esignin.web.utils.QRCodeUtil;
@@ -28,11 +29,12 @@ public class Test {
 
         QRCodeUtil.encode(loginUrl, 300, 300, imgPath);*/
 
-        String loginUrl = "http://xubstest.ematong.com/esignin/index.jsp";
+        String qrid = "123";
+        String content = "http://192.168.31.135:8080/esignin/page/handler.bs?" + SysCons.BUSINESS_ID + "=" + qrid;
 
         String savePath = "D:/temp/loginByQR.png";
 
-        QRCodeUtil.generate(loginUrl, 300, 300, savePath);
+        QRCodeUtil.generate(content, 300, 300, savePath);
 
         System.out.println("执行完毕！");
 

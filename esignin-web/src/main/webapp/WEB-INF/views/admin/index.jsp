@@ -1,3 +1,5 @@
+<%@ page import="com.benson.esignin.web.domain.entity.UserInfo" %>
+<%@ page import="com.benson.esignin.common.cons.SysCons" %>
 <%--
   Created by IntelliJ IDEA.
   User: benson
@@ -5,6 +7,11 @@
   Time: 22:40
   To change this template use File | Settings | File Templates.
 --%>
+<%
+    UserInfo userInfo = (UserInfo) session.getAttribute(SysCons.LOGIN_USER);
+    String userName = "";
+    if (null != userInfo) userName = userInfo.getUserName();
+%>
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglibs.jsp" %>
@@ -499,7 +506,7 @@
 
                         <img alt="" src="${root}/skin/media/image/avatar1_small.jpg" />
 
-                        <span class="username">Bob Nilson</span>
+                        <span class="username"><%=userName%></span>
 
                         <i class="icon-angle-down"></i>
 
