@@ -44,7 +44,7 @@ public class PageController {
         if (CommonUtil.isNull(authUserInfo))
             return "login";
         else
-            return "app/index";
+            return "admin/index";
     }
 
     /**
