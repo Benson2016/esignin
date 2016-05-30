@@ -720,7 +720,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'Metronic is a brand new Responsive Admin Dashboard Template you have always been looking for!',
                     // (string | optional) the image to display on the left
-                    image: '${root}/skin/media/image/avatar1.jpg',
+                    image: './skin/media/image/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -745,7 +745,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'Metronic comes with a huge collection of reusable and easy customizable UI components and plugins. Buy Metronic today!',
                     // (string | optional) the image to display on the left
-                    image: '${root}/skin/media/image/avatar1.jpg',
+                    image: './skin/media/image/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -859,7 +859,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'You have 2 new messages in your inbox.',
                     // (string | optional) the image to display on the left
-                    image1: '${root}/skin/media/image/avatar1.jpg',
+                    image1: './skin/media/image/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out

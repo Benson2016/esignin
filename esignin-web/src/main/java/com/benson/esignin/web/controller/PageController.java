@@ -52,7 +52,7 @@ public class PageController {
      */
     @RequestMapping("/dashboard")
     public String dashboard() {
-        return "app/dashboard";
+        return "admin/dashboard";
     }
 
     /**

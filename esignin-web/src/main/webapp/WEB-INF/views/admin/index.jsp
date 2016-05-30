@@ -64,7 +64,7 @@
     <link href="${root}/skin/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
     <!-- END PAGE LEVEL STYLES -->
 
-    <link rel="shortcut icon" href="${root}/skin/media/image/favicon.ico" />
+    <link rel="shortcut icon" href="${root}/commons/img/favicon.ico" />
 
 
 </head>
@@ -83,17 +83,13 @@
     <div class="navbar-inner">
 
         <div class="container-fluid">
-
+            <%--
             <!-- BEGIN LOGO -->
-
-            <a class="brand" href="index.html">
-
+            <a class="brand" href="${root}/admin/toAdmin.bs">
                 <img src="${root}/skin/media/image/logo.png" alt="logo"/>
-
             </a>
-
             <!-- END LOGO -->
-
+            --%>
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
 
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -513,7 +509,7 @@
                     </a>
 
                     <ul class="dropdown-menu">
-
+                        <%--
                         <li><a href="extra_profile.html"><i class="icon-user"></i> My Profile</a></li>
 
                         <li><a href="page_calendar.html"><i class="icon-calendar"></i> My Calendar</a></li>
@@ -523,10 +519,10 @@
                         <li><a href="#"><i class="icon-tasks"></i> My Tasks</a></li>
 
                         <li class="divider"></li>
-
+                        --%>
                         <li><a href="extra_lock.html"><i class="icon-lock"></i> Lock Screen</a></li>
 
-                        <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+                        <li><a href="${root}/user/logout.bs"><i class="icon-key"></i> Log Out</a></li>
 
                     </ul>
 
@@ -581,16 +577,16 @@
                 </a>
                 <ul class="sub-menu">
                     <li >
-                        <a href="layout_horizontal_sidebar_menu.html">用户管理</a>
+                        <a href="javascript:0" onclick="openMenuItem(1)">用户管理</a>
                     </li>
                     <li >
-                        <a href="layout_horizontal_menu1.html">角色管理</a>
+                        <a href="${root}/admin/mgrRole.bs">角色管理</a>
                     </li>
                     <li >
-                        <a href="layout_horizontal_menu2.html">权限管理</a>
+                        <a href="${root}/admin/mgrPermission.bs">权限管理</a>
                     </li>
                     <li >
-                        <a href="layout_promo.html">菜单管理</a>
+                        <a href="${root}/admin/mgrMenu.bs">菜单管理</a>
                     </li>
 
                 </ul>
@@ -769,80 +765,10 @@
             <!-- END PAGE HEADER-->
 
             <div id="dashboard">
-                <!-- BEGIN DASHBOARD STATS -->
 
-                <div class="row-fluid">
-                    <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
-                        <div class="dashboard-stat blue">
-                            <div class="visual">
-                                <i class="icon-comments"></i>
-                            </div>
-                            <div class="details">
-                                <div class="number">
-                                    1349
-                                </div>
-                                <div class="desc">
-                                    New Feedbacks
-                                </div>
-                            </div>
-                            <a class="more" href="#">
-                                View more <i class="m-icon-swapright m-icon-white"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
-                        <div class="dashboard-stat green">
-                            <div class="visual">
-                                <i class="icon-shopping-cart"></i>
-                            </div>
-                            <div class="details">
-                                <div class="number">549</div>
-                                <div class="desc">New Orders</div>
-                            </div>
-                            <a class="more" href="#">
-                                View more <i class="m-icon-swapright m-icon-white"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="span3 responsive" data-tablet="span6  fix-offset" data-desktop="span3">
-                        <div class="dashboard-stat purple">
-                            <div class="visual">
-                                <i class="icon-globe"></i>
-                            </div>
-                            <div class="details">
-                                <div class="number">+89%</div>
-                                <div class="desc">Brand Popularity</div>
-                            </div>
-                            <a class="more" href="#">
-                                View more <i class="m-icon-swapright m-icon-white"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
-                        <div class="dashboard-stat yellow">
-                            <div class="visual">
-                                <i class="icon-bar-chart"></i>
-                            </div>
-                            <div class="details">
-                                <div class="number">12,5M$</div>
-                                <div class="desc">Total Profit</div>
-                            </div>
-                            <a class="more" href="#">
-                                View more <i class="m-icon-swapright m-icon-white"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- END DASHBOARD STATS -->
-
-                <div class="clearfix"></div>
-
-                </div>
-
+                <iframe id="mainContent" src="#" style="width: 100%; height: 100%; margin: 0 0 0 0; border-width: 0px; scrolling:no;" >
+                    <c:import url="dashboard.jsp"></c:import>
+                </iframe>
             </div>
 
         </div>
@@ -941,6 +867,25 @@
         var d = new Date();
         var currYear = d.getFullYear();
         $("#curr_year").html(currYear);
+    }
+
+    function openMenuItem(operType) {
+        switch (operType) {
+            case 1:
+                console.log("enter 1 option");
+                $("#mainContent").attr("src", "${root}/admin/mgrUser.bs");
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+
+            default:
+                    console.log("enter openMenuItem default.");
+                break;
+        }
     }
 
 </script>

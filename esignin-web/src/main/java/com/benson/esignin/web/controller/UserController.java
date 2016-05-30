@@ -149,9 +149,9 @@ public class UserController {
             final UserInfo authUserInfo = userInfoService.findByUserName(user.getUserName());
             request.getSession().setAttribute("userInfo", authUserInfo);
             */
-            model.addAttribute("operType", "1");
             // 验证用户信息
             if (CommonUtil.isNull(user.getUserName(), user.getPassword())) {
+                model.addAttribute("operType", "1");
                 model.addAttribute("rspMsg", "用户名或密码不能为空！");
                 model.addAttribute("rspCode", "101");
                 return "login";
@@ -159,6 +159,7 @@ public class UserController {
             logger.info(String.format("*** 验证用户：%s ***", JsonUtil.bean2Json(user)));
             final UserInfo authUserInfo = userInfoService.authentication(user);
             if (CommonUtil.isNull(authUserInfo)) {
+                model.addAttribute("operType", "1");
                 model.addAttribute("rspMsg", "用户名或密码错误！");
                 model.addAttribute("rspCode", "101");
                 return "login";
@@ -178,7 +179,7 @@ public class UserController {
         }
 
         // 登录成功跳转至首页
-        return "admin/index";
+        return "redirect:/admin/toAdmin.bs";
     }
 
     /**
