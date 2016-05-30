@@ -5,13 +5,6 @@
   Time: 00:24
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>EsignIn</title>
-    <link rel="shortcut icon" href="${root}/commons/img/favicon.ico" />
-</head>
-<body>
     <!-- BEGIN DASHBOARD STATS -->
     <div class="row-fluid">
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
@@ -81,6 +74,3 @@
     </div>
     <!-- END DASHBOARD STATS -->
     <div class="clearfix"></div>
-
-</body>
-</html>

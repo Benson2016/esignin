@@ -60,6 +60,11 @@ public class AdminController {
         return "admin/mgr_permission";
     }
 
+    @RequestMapping(value = "welcome")
+    public String welcome(Model model) {
+        return "admin/welcome";
+    }
+
 
 
 

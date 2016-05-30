@@ -765,9 +765,11 @@
             <!-- END PAGE HEADER-->
 
             <div id="dashboard">
+                <div id="dashboardPanel"><c:import url="dashboard.jsp"></c:import></div>
+            </div>
+            <div id="mainPanel" style="display: none;">
+                <iframe id="mainContent" src="${root}/admin/welcome.bs" style="width: 100%; height: 100%; margin: 0 0 0 0; border-width: 0px; scrolling:no;" >
 
-                <iframe id="mainContent" src="#" style="width: 100%; height: 100%; margin: 0 0 0 0; border-width: 0px; scrolling:no;" >
-                    <c:import url="dashboard.jsp"></c:import>
                 </iframe>
             </div>
 
@@ -870,10 +872,12 @@
     }
 
     function openMenuItem(operType) {
+        $("#dashboard").hide();
         switch (operType) {
             case 1:
                 console.log("enter 1 option");
                 $("#mainContent").attr("src", "${root}/admin/mgrUser.bs");
+                $("#mainPanel").show();
                 break;
             case 2:
 
@@ -883,7 +887,8 @@
                 break;
 
             default:
-                    console.log("enter openMenuItem default.");
+                $("#dashboard").show();
+                console.log("enter openMenuItem default.");
                 break;
         }
     }
