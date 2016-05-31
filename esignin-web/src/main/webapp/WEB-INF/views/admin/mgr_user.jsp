@@ -17,5 +17,19 @@
 </head>
 <body>
     <h1 align="center">欢迎来到用户管理界面.</h1>
+    <c:choose>
+        <c:when test="${userList!=null}">
+            <ul>
+                <c:forEach var="user" items="${userList}" varStatus="status" >
+                    <li>
+                            ${status.count}&nbsp;&nbsp;${user.userName}&nbsp;&nbsp;${user.mobile}
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:when>
+        <c:when test="${userList==null || userList.size()==0}">
+            <h3 align="center">暂无数据。</h3>
+        </c:when>
+    </c:choose>
 </body>
 </html>

@@ -749,7 +749,7 @@
                             <i class="icon-angle-right"></i>
                         </li>
                         <!-- Dashboard Module -->
-                        <li><a href="#">控制面板</a></li>
+                        <li><a href="javascript:(0)" onclick="openMenuItem(0)">控制面板</a></li>
                         <li class="pull-right no-text-shadow">
                             <div id="dashboard-report-range" class="dashboard-date-range tooltips no-tooltip-on-touch-device responsive" data-tablet="" data-desktop="tooltips" data-placement="top" data-original-title="Change dashboard date range">
                                 <i class="icon-calendar"></i>
@@ -865,7 +865,6 @@
 
         yearShow();
 
-        //initComponent();
     });
 
     function yearShow() {
@@ -873,23 +872,9 @@
         var currYear = d.getFullYear();
         $("#curr_year").html(currYear);
     }
-
-    /*function initComponent() {
-        // init click event
-        $("#a_mgr_user").click(function(){
-            console.log("init a_mgr_user onclick");
-            openMenuItem(1);
-        });
-        $("#a_mgr_role").click(openMenuItem(2));
-        $("#a_mgr_perm").click(openMenuItem(3));
-        $("#a_mgr_menu").click(openMenuItem(4));
-        // other
-        //$("#a_mgr_user").click(openMenuItem(1));
-    }*/
-
+    // 打开菜单项
     function openMenuItem(operType) {
         $("#dashboardPanel").hide();
-        alert(operType);
         switch (operType) {
             case 1:
                     console.log("enter switch 1");
@@ -918,6 +903,7 @@
                 break;
             default:
                 $("#dashboardPanel").show();
+                $("#mainPanel").hide();
                 console.log("enter openMenuItem default.");
                 break;
         }

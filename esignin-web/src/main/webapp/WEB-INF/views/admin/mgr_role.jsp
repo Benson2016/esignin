@@ -17,7 +17,21 @@
 </head>
 <body>
 
-<h1 align="center">欢迎来到角色管理界面.</h1>
+    <h1 align="center">欢迎来到角色管理界面.</h1>
 
+    <c:choose>
+        <c:when test="${dataList!=null}">
+            <ul>
+                <c:forEach var="role" items="${dataList}" varStatus="status" >
+                    <li>
+                            ${status.count}&nbsp;&nbsp;${role.name}&nbsp;&nbsp;${role.createTime}
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:when>
+        <c:when test="${dataList==null || dataList.size()==0}">
+            <h3 align="center">暂无数据。</h3>
+        </c:when>
+    </c:choose>
 </body>
 </html>

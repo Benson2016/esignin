@@ -16,8 +16,10 @@
 
 </head>
 <body>
+    <!--
     <h1>&nbsp;</h1>
     <h1 align="center">Welcome to ESignIn Management Console.</h1>
     <h1>&nbsp;</h1>
+    -->
 </body>
 </html>
