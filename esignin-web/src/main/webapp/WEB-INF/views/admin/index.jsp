@@ -580,13 +580,13 @@
                         <a href="javascript:0" onclick="openMenuItem(1)">用户管理</a>
                     </li>
                     <li >
-                        <a href="${root}/admin/mgrRole.bs">角色管理</a>
+                        <a href="javascript:0" onclick="openMenuItem(2)">角色管理</a>
                     </li>
                     <li >
-                        <a href="${root}/admin/mgrPermission.bs">权限管理</a>
+                        <a href="javascript:0" onclick="openMenuItem(3)">权限管理</a>
                     </li>
                     <li >
-                        <a href="${root}/admin/mgrMenu.bs">菜单管理</a>
+                        <a href="javascript:0" onclick="openMenuItem(4)">菜单管理</a>
                     </li>
 
                 </ul>
@@ -764,14 +764,15 @@
             </div>
             <!-- END PAGE HEADER-->
 
+            <!-- BEGIN DASHBOARD -->
             <div id="dashboard">
                 <div id="dashboardPanel"><c:import url="dashboard.jsp"></c:import></div>
+                <div id="mainPanel" style="display: none; ">
+                    <iframe id="mainContent" src="${root}/admin/welcome.bs" style="width: 100%; height: 100%; margin: 0 0 0 0; border-width: 0px; scrolling:no;" >
+                    </iframe>
+                </div>
             </div>
-            <div id="mainPanel" style="display: none;">
-                <iframe id="mainContent" src="${root}/admin/welcome.bs" style="width: 100%; height: 100%; margin: 0 0 0 0; border-width: 0px; scrolling:no;" >
-
-                </iframe>
-            </div>
+            <!-- END DASHBOARD -->
 
         </div>
         <!-- END PAGE CONTAINER-->
@@ -863,6 +864,8 @@
         Index.initIntro();
 
         yearShow();
+
+        //initComponent();
     });
 
     function yearShow() {
@@ -871,23 +874,50 @@
         $("#curr_year").html(currYear);
     }
 
+    /*function initComponent() {
+        // init click event
+        $("#a_mgr_user").click(function(){
+            console.log("init a_mgr_user onclick");
+            openMenuItem(1);
+        });
+        $("#a_mgr_role").click(openMenuItem(2));
+        $("#a_mgr_perm").click(openMenuItem(3));
+        $("#a_mgr_menu").click(openMenuItem(4));
+        // other
+        //$("#a_mgr_user").click(openMenuItem(1));
+    }*/
+
     function openMenuItem(operType) {
-        $("#dashboard").hide();
+        $("#dashboardPanel").hide();
+        alert(operType);
         switch (operType) {
             case 1:
-                console.log("enter 1 option");
+                    console.log("enter switch 1");
                 $("#mainContent").attr("src", "${root}/admin/mgrUser.bs");
                 $("#mainPanel").show();
                 break;
             case 2:
-
+                $("#mainContent").attr("src", "${root}/admin/mgrRole.bs");
+                $("#mainPanel").show();
                 break;
             case 3:
-
+                $("#mainContent").attr("src", "${root}/admin/mgrPermission.bs");
+                $("#mainPanel").show();
                 break;
-
+            case 4:
+                $("#mainContent").attr("src", "${root}/admin/mgrMenu.bs");
+                $("#mainPanel").show();
+                break;
+            case 5:
+                /*$("#mainContent").attr("src", "${root}/admin/mgrMenu.bs");
+                $("#mainPanel").show();*/
+                break;
+            case 6:
+                /*$("#mainContent").attr("src", "${root}/admin/mgrMenu.bs");
+                $("#mainPanel").show();*/
+                break;
             default:
-                $("#dashboard").show();
+                $("#dashboardPanel").show();
                 console.log("enter openMenuItem default.");
                 break;
         }
