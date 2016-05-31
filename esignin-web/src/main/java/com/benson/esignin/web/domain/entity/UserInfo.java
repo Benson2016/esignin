@@ -129,4 +129,8 @@ public class UserInfo extends IdEntity {
         this.isValid = isValid;
     }
 
+    public String getCreateTimeStr() {
+        return DateUtil.converToString(this.createTime, CommonCons.D_FMT_NORMAL);
+    }
+
 }

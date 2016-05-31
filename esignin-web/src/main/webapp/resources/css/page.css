@@ -1,0 +1,4 @@
+.pagebar{text-align:center;padding:8px 0;width:100%;}
+.pagebar_numlist a, .pagebar_numlist span {margin: 0px 2px;padding:3px 6px;color:#666;font-size:13px;}
+.pagebar_numlist a {border:1px solid #e1e1e1;text-decoration:none;}
+.pagebar_numlist .pagebar_numlist_current,.pagebar_numlist a:hover {background:#FFF;color:#50a73f;border:1px solid #50a73f;}

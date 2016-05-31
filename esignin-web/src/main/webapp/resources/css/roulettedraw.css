@@ -1,0 +1,42 @@
+@charset "utf-8";
+.configureBox { overflow:hidden; padding-left:20px;}
+.configureleft{ float:left; width:600px; overflow:hidden;}
+.configureright { float:left; width:312px; overflow:hidden; padding-top:25px;}
+.ihone{overflow:hidden; width:266px; height:471px; margin:0 auto; padding:94px 23px 91px 23px; background:url(../images/weiyunying/phone.jpg) left top no-repeat;}
+.ihone img { float:left; width:266px; height:471px;}
+.numbertitle{ overflow:hidden; line-height:30px; padding-top:25px; color:#333333; font-size:16px; font-weight:bold;}
+.numbertitle img { float:left; padding-right:10px;}
+.numbertitle span { color:#999; font-size:14px; padding-left:10px;}
+.dongstitle{ overflow:hidden; padding-top:10px;}
+.dongs{ overflow:hidden; padding-top:10px;}
+.dongs dt,.dongs dd { overflow:hidden;}
+.timeBox { overflow:hidden; color:#333;}
+.timeBox li { overflow:hidden; padding-top:15px;}
+.g-middleTxt input { float:left; margin:9px 4px 0 0; cursor:pointer;*margin:5px 2px 0 0;}
+.g-middleTxt a { color:#3277de; text-decoration:underline; margin-left:10px; display:none;}
+.txtinput{ display:inline-block; overflow:hidden; float:left; position:relative;}
+.txtinput font { position:absolute; top:50%; right:10px; margin-top:-10px; height:20px; line-height:20px; font-size:14px; color:#333;}
+.w-80{ width:80px;}
+.w-349 { width:347px;}
+.switchBox { overflow:hidden; float:left; height:32px; width:80px;}
+.switchmain { float:left; width:64px; height:32px; background:url(../images/weiyunying/switchbggreen.png) left top no-repeat; position:relative; font-size:14px; color:#fff; font-weight:normal; line-height:32px; overflow:hidden;}
+.switchmain span { float:left; width:32px; text-align:left; cursor:pointer;text-indent:12px;}
+.switchmain p { float:left; width:32px; text-align:left; cursor:pointer; text-indent:7px;}
+.switchmain em { float:left; width:32px; height:32px; overflow:hidden; background:url(../images/weiyunying/switch.png) left top no-repeat; position:absolute; left:32px; top:0;}
+.switchcur{ background:url(../images/weiyunying/switchbggray.png) left top no-repeat !important;}
+.scoreBox { overflow:hidden; float:left; width:200px;}
+.conversion { float:left; border:1px solid #e3e3e3; overflow:hidden; height:28px; width:126px;}
+.conversion span { float:left; background:#f1f7ff; width:33px; line-height:28px; text-align:center; font-size:20px; font-weight:bold; color:#3277de; cursor:pointer;}
+.w-58{ width:58px;}
+.addrewardBox { overflow:hidden; padding-top:10px;width:504px;}
+.addrewardBox dt,.addrewardBox dd { overflow:hidden;}
+.addrewardBox dt li { float:left; width:496px; border:1px solid #e5e5e5; overflow:hidden; height:88px; margin-top:14px;}
+.addprize { overflow:hidden; float:left; width:300px; border:2px dashed #e5e5e5; margin-top:10px; height:34px; padding:25px 0 25px 194px; line-height:34px; cursor:pointer;}
+.addprize img { float:left; padding-right:19px;}
+.prizepic{float:left; overflow:hidden; background:#3277de; width:48px; height:48px; padding:20px; border-right:1px solid #e5e5e5;}
+.prizepic img {float:left;width:48px;height: 48px; }
+.prizename{ float:left; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; height:88px; line-height:88px; padding:0 20px; width:270px;font-size:16px; color:#333; font-weight:bold;}
+.editlink{ float:left; overflow:hidden; height:88px; line-height:88px; font-size:16px; color:#3277de !important; width:48px; text-align:center;}
+.editlink:hover { color:#225bb0 !important;}
+.graylink {float:left; overflow:hidden; height:88px; line-height:88px; font-size:16px; color:#666 !important; width:48px; text-align:center;}
+.graylink:hover{color:#999 !important;}

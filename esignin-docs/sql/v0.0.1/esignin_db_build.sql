@@ -110,3 +110,13 @@ CREATE TABLE `t_sys_user_role` (
 -- ----------------------------
 -- Records of t_sys_user_role
 -- ----------------------------
+
+
+insert into `esignin`.`t_sys_role` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'super', '100000000', '超级管理员', '超级管理员。', '2016-05-31 21:00:14');
+insert into `esignin`.`t_sys_role` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'admin', '100000001', '系统管理员', '系统管理员。', '2016-05-31 21:02:33');
+insert into `esignin`.`t_sys_role` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'user', '100000002', '普通会员', '普通会员。', '2016-05-31 21:10:33');
+
+insert into `esignin`.`t_sys_permission` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'sys', '100000000', '系统管理', '系统管理模块。', '2016-05-31 21:03:54');
+insert into `esignin`.`t_sys_permission` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'user', '100000001', '用户管理', '用户管理模块。', '2016-05-31 21:04:48');
+insert into `esignin`.`t_sys_permission` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'role', '100000002', '角色管理', '角色管理模块。', '2016-05-31 21:05:24');
+insert into `esignin`.`t_sys_permission` ( `flag`, `id`, `name`, `description`, `create_time`) values ( 'permission', '100000003', '权限管理', '权限管理模块。', '2016-05-31 21:05:58');

@@ -562,7 +562,7 @@
             </li>
 
             <li class="start active">
-                <a href="#">
+                <a href="javascript:(0);" onclick="openMenuItem(0)">
                     <i class="icon-home"></i>
                     <span class="title">控制面板</span>
                     <span class="selected"></span>
@@ -570,7 +570,7 @@
             </li>
             <!-- Sys Manager -->
             <li class="">
-                <a href="javascript:;">
+                <a href="javascript:(0);">
                     <i class="icon-cogs"></i>
                     <span class="title">系统管理</span>
                     <span class="arrow "></span>

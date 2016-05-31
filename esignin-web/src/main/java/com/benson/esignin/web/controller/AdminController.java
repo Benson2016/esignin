@@ -3,12 +3,16 @@ package com.benson.esignin.web.controller;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.RoleInfo;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.BensonPage;
+import com.benson.esignin.web.domain.vo.UserInfoQuery;
 import com.benson.esignin.web.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -117,6 +121,28 @@ public class AdminController {
         return "admin/welcome";
     }
 
+
+    // 查询用户列表
+    @RequestMapping(value = "/userListData",method = RequestMethod.POST)
+    @ResponseBody
+    public BensonPage userListData(UserInfoQuery query) {
+        logger.info("enter to userListData Method.");
+
+        BensonPage<UserInfo> page = null;
+
+        try {
+            List<UserInfo> userList = userInfoService.findAll();
+
+            page = new BensonPage<UserInfo>(query.getPage(), query.getSize(), userList, userList.size());
+
+        }catch (Exception e) {
+            logger.error("查询用户列表异常：{}", e);
+        } finally {
+            logger.info("leave to userListData Method.");
+        }
+
+        return page;
+    }
 
 
 
