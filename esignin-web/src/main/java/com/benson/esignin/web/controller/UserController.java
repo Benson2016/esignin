@@ -1,6 +1,5 @@
 package com.benson.esignin.web.controller;
 
-import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.*;
@@ -21,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -340,12 +337,12 @@ public class UserController {
                 result += userInfoService.delete(id);
             }
             //int result = userInfoService.deleteByIds(ids);
-            logger.info(String.format("===》》》删除操作，预期删除 %d条记录，实际删除 %d条记录。", idArray.length, result));
+            logger.info(String.format("===》》》用户删除操作，预期删除 %d条记录，实际删除 %d条记录。", idArray.length, result));
 
             response = new UserInfoResponse(StateResponse.SUCCESS);
             response.setRspMsg("删除成功！");
         } catch (Exception e) {
-            logger.error("手动删除积分记录失败！异常：{}", e);
+            logger.error("手动删除用户记录失败！异常：{}", e);
             response = new UserInfoResponse(StateResponse.ERROR_SYS);
         }
 
