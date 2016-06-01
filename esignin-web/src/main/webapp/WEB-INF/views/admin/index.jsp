@@ -767,13 +767,13 @@
             <!-- BEGIN DASHBOARD -->
             <div id="dashboard">
                 <div id="dashboardPanel"><c:import url="dashboard.jsp"></c:import></div>
-                <div id="mainPanel" style="display: none; ">
-                    <iframe id="mainContent" src="${root}/admin/welcome.bs" style="width: 100%; height: 100%; margin: 0 0 0 0; border-width: 0px; scrolling:no;" >
-                    </iframe>
-                </div>
             </div>
             <!-- END DASHBOARD -->
-
+            <!-- BEGIN MAINPANEL -->
+            <div id="mainPanel" style="display: none; width: 100%; height: 100%">
+                <iframe id="mainContent" allowfullscreen="allowfullscreen" width="100%" height="100%" style="border-width: 0px;" src="${root}/admin/welcome.bs"></iframe>
+            </div>
+            <!-- END MAINPANEL -->
         </div>
         <!-- END PAGE CONTAINER-->
 
@@ -874,10 +874,9 @@
     }
     // 打开菜单项
     function openMenuItem(operType) {
-        $("#dashboardPanel").hide();
+        $("#dashboard").hide();
         switch (operType) {
             case 1:
-                    console.log("enter switch 1");
                 $("#mainContent").attr("src", "${root}/admin/mgrUser.bs");
                 $("#mainPanel").show();
                 break;
@@ -902,7 +901,7 @@
                 $("#mainPanel").show();*/
                 break;
             default:
-                $("#dashboardPanel").show();
+                $("#dashboard").show();
                 $("#mainPanel").hide();
                 console.log("enter openMenuItem default.");
                 break;

@@ -101,12 +101,19 @@ public class JsonUtil {
 		return objectMapper.readValue(json, clazz);
 	}
 
-	public static String bean2Json(Object obj) throws IOException {
+	public static String bean2Json(Object obj) {
 		if (obj == null) {
 			return null;
 		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(obj);
+
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			return objectMapper.writeValueAsString(obj);
+		} catch (IOException e) {
+			System.out.println("bean2Json发生异常：");
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

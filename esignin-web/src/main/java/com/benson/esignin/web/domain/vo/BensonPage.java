@@ -33,6 +33,14 @@ public class BensonPage<T> implements Serializable {
         this.total = total;
     }
 
+    /**
+     * 获取总页数
+     * @return
+     */
+    public int getTotalPages() {
+        return this.pageSize == 0?1:(int)Math.ceil((double)this.total / (double)this.pageSize);
+    }
+
     public int getPage() {
         return page;
     }
@@ -63,14 +71,6 @@ public class BensonPage<T> implements Serializable {
 
     public void setContent(List<T> content) {
         this.content = content;
-    }
-
-    public int getSize() {
-        return null == getContent() ? 0 : getContent().size();
-    }
-
-    public int getTotalPages() {
-        return this.getSize() == 0?1:(int)Math.ceil((double)this.total / (double)this.getSize());
     }
 
 }

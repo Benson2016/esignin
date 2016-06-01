@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -173,7 +174,7 @@ public class UserController {
             // 身份验证失败
             model.addAttribute("rspMsg", "用户名或密码错误 ！");
             return "login";
-        } catch (IOException ex) {
+        } catch (Exception e) {
             model.addAttribute("rspMsg", "系统错误 ！");
             return "login";
         }
@@ -320,6 +321,35 @@ public class UserController {
      */
     private void removeUserFromSession(HttpServletRequest request, String name) {
         request.getSession().removeAttribute(name);
+    }
+
+    @RequestMapping(value = "/delUser",method = RequestMethod.POST)
+    @ResponseBody
+    public Object delUser(@RequestParam String ids) {
+        UserInfoResponse response = null;
+        if (CommonUtil.isNull(ids)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+
+        try {
+            // 删除给定id的记录
+            String[] idArray = ids.split(",");
+            int result = 0;
+            for (String id : idArray) {
+                result += userInfoService.delete(id);
+            }
+            //int result = userInfoService.deleteByIds(ids);
+            logger.info(String.format("===》》》删除操作，预期删除 %d条记录，实际删除 %d条记录。", idArray.length, result));
+
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response.setRspMsg("删除成功！");
+        } catch (Exception e) {
+            logger.error("手动删除积分记录失败！异常：{}", e);
+            response = new UserInfoResponse(StateResponse.ERROR_SYS);
+        }
+
+        return JsonUtil.toJson(response);
     }
 
 }

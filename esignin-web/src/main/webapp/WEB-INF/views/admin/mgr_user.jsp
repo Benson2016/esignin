@@ -30,8 +30,8 @@
         .screen .headBox .childicon { float:left; width:45px; height:45px; overflow:hidden; margin-top:20px;}
         .screen .headBox .childicon img { float:left;  width:45px; height:45px;}
         .screen .headBox .childtetle{ float:left; height:45px; line-height:45px; overflow:hidden; padding:20px 0 0 24px; font-size:24px; color:#666;}
-        .screen .headBox .childclose { float:right; overflow:hidden; width:34px; height:34px; margin:25px 0 0 28px; background:url(${root}/resources/images/config/close.png);}
-        .screen .headBox .childclose:hover{ background:url(${root}/resources/images/config/closehover.png);}
+        .screen .headBox .childclose { float:right; overflow:hidden; width:34px; height:34px; margin:25px 0 0 28px; background:url(${root}/commons/img/close.png);}
+        .screen .headBox .childclose:hover{ background:url(${root}/commons/img/closehover.png);}
         .screen .headBox .childbut{ float:right;overflow:hidden; margin-top:20px;margin-right:19px}
 
         .screen .contentBox{ overflow:hidden; margin-left:20px; min-height:500px; background:#fff; padding: 129px 20px 20px 20px;}
@@ -49,57 +49,29 @@
         .pagebar_numlist button:hover {background: #f74e37;color: #FFF;}
 
         .tableTopBtn{text-align:right;padding:10px 0;}
-        .exportDataBtn{display:inline-block;text-align:left;background:url(${root}/resources/images/config/export.png) left 0 no-repeat;padding-left:18px;}
-
-        .checkboxIcon { display:block; line-height:34px; cursor:pointer; }
-        .checkboxIcon i {display:inline-block; width:17px;height:17px; margin:-1px 6px 0 0; vertical-align:middle; background:url(${root}/resources/images/config/checkboxIcon.png) -2px -23px no-repeat;}
-        .checkboxIcon:hover,
-        .checkboxIcon.checkboxSel { color:#f74e37; }
-        .checkboxIcon.checkboxSel i { background-position:-2px -2px; }
+        .exportDataBtn{display:inline-block;text-align:left;background:url(${root}/commons/img/export.png) left 0 no-repeat;padding-left:18px;}
 
         .g-tableList .thSort { cursor:ns-resize; }
-        .g-tableList .thSort span {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALCAMAAACah1cpAAAAM1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4Ovn3wBAAAAEHRSTlMAJC02P0JOUVpgeIfq8Pb57Ter4AAAAD9JREFUeF5Fy1sKgDAQQ9GMWh9ja+/+VysZBM9XCIns0CdJlR04HdYHmE2Kjo3QbxlYD6lN7za3V33LTepTzQuA3AJblVbHMwAAAABJRU5ErkJggg==) /*${root}/resources/images/config/toggle-ico.png*/ right 5px no-repeat;_background:url(${root}/resources/images/config/toggle-ico.png) right 5px no-repeat;display:inline-block;padding-right:16px;}
-        .g-tableList .thSort.desc span{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALBAMAAABfd7ooAAAAJ1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4PIqRqDAAAADHRSTlMA+VrwJEItP2Dqh3i2e/DgAAAAM0lEQVR4XnWKsQ0AIAzDsrDwQJcOPYVf+g6PIXwUFRsDGSJZtn5LWEPNsYJJ1Pd9TbzhAdMxBnYi4KGKAAAAAElFTkSuQmCC) /*${root}/resources/images/config/toggle-ico1.png*/;_background-image: url(${root}/resources/images/config/toggle-ico1.png);}
-        .g-tableList .thSort.asc span{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALBAMAAABfd7ooAAAAJ1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4PIqRqDAAAADHRSTlMAJHhRWjb2+UJO6vCS7BriAAAAL0lEQVR4Xm3EsQ0AEBRAwReJXm0KIxjIAIYxjdYbSn7NFcdPi9KOlx3ycELVU3hcwU8G34G0RpYAAAAASUVORK5CYII=) /*${root}/resources/images/config/toggle-ico2.png*/;_background-image: url(${root}/resources/images/config/toggle-ico2.png);}
-        #loading { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:rgba(0, 0, 0, .5) url(${root}/resources/images/loading.gif) no-repeat center; }
+        .g-tableList .thSort span {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALCAMAAACah1cpAAAAM1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4Ovn3wBAAAAEHRSTlMAJC02P0JOUVpgeIfq8Pb57Ter4AAAAD9JREFUeF5Fy1sKgDAQQ9GMWh9ja+/+VysZBM9XCIns0CdJlR04HdYHmE2Kjo3QbxlYD6lN7za3V33LTepTzQuA3AJblVbHMwAAAABJRU5ErkJggg==) /*${root}/commons/img/toggle-ico.png*/ right 5px no-repeat;_background:url(${root}/commons/img/toggle-ico.png) right 5px no-repeat;display:inline-block;padding-right:16px;}
+        .g-tableList .thSort.desc span{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALBAMAAABfd7ooAAAAJ1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4PIqRqDAAAADHRSTlMA+VrwJEItP2Dqh3i2e/DgAAAAM0lEQVR4XnWKsQ0AIAzDsrDwQJcOPYVf+g6PIXwUFRsDGSJZtn5LWEPNsYJJ1Pd9TbzhAdMxBnYi4KGKAAAAAElFTkSuQmCC) /*${root}/commons/img/toggle-ico1.png*/;_background-image: url(${root}/commons/img/toggle-ico1.png);}
+        .g-tableList .thSort.asc span{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALBAMAAABfd7ooAAAAJ1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4PIqRqDAAAADHRSTlMAJHhRWjb2+UJO6vCS7BriAAAAL0lEQVR4Xm3EsQ0AEBRAwReJXm0KIxjIAIYxjdYbSn7NFcdPi9KOlx3ycELVU3hcwU8G34G0RpYAAAAASUVORK5CYII=) /*${root}/commons/img/toggle-ico2.png*/;_background-image: url(${root}/commons/img/toggle-ico2.png);}
+        #loading { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:rgba(0, 0, 0, .5) url(${root}/commons/img/loading.gif) no-repeat center; }
     </style>
 
 </head>
 <body>
-<%--
-    <h1 align="center">欢迎来到用户管理界面.</h1>
-    <c:choose>
-        <c:when test="${userList!=null && userList.size()>0}">
-            <ul>
-                <c:forEach var="user" items="${userList}" varStatus="status" >
-                    <li>
-                            ${status.count}&nbsp;&nbsp;${user.userName}&nbsp;&nbsp;${user.mobile}
-                    </li>
-                </c:forEach>
-            </ul>
-        </c:when>
-        <c:otherwise>
-            <h3 align="center">暂无数据。</h3>
-        </c:otherwise>
-    </c:choose>
---%>
-
-
 <div class="screen">
     <div class="headBox">
         <div class="topBox">
-            <span class="childicon"><img src="${root}/resources/images/config/icon.png"></span>
+            <span class="childicon"><img src="${root}/commons/img/icon.jpg"></span>
             <span class="childtetle">用户信息列表</span>
-            <%--
-            <a href="javascript:hyxt.getTopWindow().hyxt.dialog.hide();" class="childclose"></a>
-            --%>
         </div>
     </div>
     <div class="contentBox">
         <div class="blank30"></div>
         <div class="configureBox"  >
             <!-- 查询与导出 -->
-            <form id="searchForm" action="${root}/admin/exportDataToExcel.bs" method="post">
+            <form id="searchForm" action="${root}/admin/exportUserData.bs" method="post">
                 <div style="margin:13px 0;">
                     <label class="g-label l">手机号码 &nbsp;</label>
                     <input type="text" name="mobile" id="sMobile" class="g-input l w-180" value="" style="margin-right:50px">
@@ -114,7 +86,6 @@
             </form>
 
             <div class="tableTopBtn">
-                <a class="compSelectBtn" href="javascript:void(0)">补偿选中</a>&nbsp;
                 <a class="delSelectBtn" href="javascript:void(0)">删除选中</a>
                 <a class="exportDataBtn" href="javascript:void(0)">导出数据</a>
             </div>
@@ -170,46 +141,6 @@
             $('#searchForm').submit();
         });
 
-        //补偿选中
-        $('.tableTopBtn').delegate('.compSelectBtn', 'click', function(){
-            var arr = getCheckedValues();
-            if(arr.toString()==null || arr.toString()=='') {
-                showMsg("您尚未选中记录！");
-                return;
-            }
-            //避免频繁操作
-            if(isCallbacked) {
-                isCallbacked = false;
-                //弹窗确认
-                showConfirm("确定补偿选中记录？", function() {
-                    $('#loading').show();
-                    $.ajax({
-                        url: "${root}/crm/compensate/compMember",
-                        dataType: "json",
-                        type: "POST",
-                        data: {ids: arr.toString()},
-                        cache: false,
-                        success: function(data){
-                            isCallbacked = true;
-                            $('#loading').hide();
-                            if(data.code==100){ //success
-                                showMsg(data.msg);
-                                getDataHtml(1); //重新加载数据
-                            } else{
-                                showMsg(data.msg);
-                            }
-                        },
-                        error: function(e) {
-                            $('#loading').hide();
-                            isCallbacked = true;
-                            showMsg("系统错误！");
-                        }
-                    });
-                });
-                isCallbacked = true;
-            }
-        });
-
         //删除选中
         $('.tableTopBtn').delegate('.delSelectBtn', 'click', function(){
             var arr = getCheckedValues();
@@ -223,7 +154,7 @@
                 showConfirm("确定删除选中记录？", function() {
                     $('#loading').show();
                     $.ajax({
-                        url: "${root}/crm/compensate/delMember",
+                        url: "${root}/user/delUser.bs",
                         dataType: "json",
                         type: "POST",
                         data: {ids: arr.toString()},
@@ -231,11 +162,11 @@
                         success: function(data){
                             isCallbacked = true;
                             $('#loading').hide();
-                            if(data.code==100){ //success
-                                showMsg(data.msg);
+                            if(data.rspCode==100){ //success
+                                showMsg(data.rspMsg);
                                 getDataHtml(1); //重新加载数据
                             } else{
-                                showMsg(data.msg);
+                                showMsg(data.rspMsg);
                             }
                         },
                         error: function(e) {
@@ -257,9 +188,10 @@
 
     function getDataHtml(pageNo,pagesize) {
         if (isCallBack) {
+            $('#loading').show();
             isCallBack = false;
             $.ajax({
-                url: "${root}/admin/userListData",
+                url: "${root}/admin/userListData.bs",
                 dataType: "json",
                 type: "POST",
                 cache: false,
@@ -277,11 +209,14 @@
                                 '<td>' + v.isValid + '</td>';
                         '</tr>';
                     })
+
+                    $('#loading').hide();
                     $("#data_body").html(html);
                     document.getElementById('pagebar').innerHTML = PageBarNumList.getPageBar(pageNo, data.totalPages, 3, 'getDataHtml', pagesize || 10, true);
                     isCallBack = true;
                 },
                 error: function (e) {
+                    $('#loading').hide();
                     console.log(e);
                     showMsg("系统错误,请重试!");
                 }
@@ -289,10 +224,6 @@
         }
     }
     getDataHtml(1);
-
-    function close(){
-        window.location.href="${kfpt_index}";
-    }
 
     //获取多个checkbox选中项
     function getCheckedValues() {

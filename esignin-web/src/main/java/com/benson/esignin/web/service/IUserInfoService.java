@@ -2,6 +2,8 @@ package com.benson.esignin.web.service;
 
 import com.benson.esignin.common.base.IBaseService;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.BensonPage;
+import com.benson.esignin.web.domain.vo.UserInfoQuery;
 
 import java.util.List;
 
@@ -34,5 +36,19 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
      * @return
      */
     UserInfo findByMobile(String mobile);
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    BensonPage<UserInfo> findByPage(UserInfoQuery query);
+
+    /**
+     * 根据ID数组批量删除记录
+     * @param ids ID数组，多个值以逗号分隔
+     * @return
+     */
+    int deleteByIds(String ids);
 
 }

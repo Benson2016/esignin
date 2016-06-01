@@ -3,6 +3,7 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.UserInfoQuery;
 import com.benson.esignin.web.provider.UserSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -39,5 +40,31 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE mobile = #{mobile}")
     public UserInfo findByMobile(@Param("mobile") String mobile);
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = UserSqlProvider.class, method = "findPage")
+    List<UserInfo> findPage(UserInfoQuery query);
+
+    /**
+     * 查询用户数量
+     * 结合分页使用
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = UserSqlProvider.class, method = "count")
+    int count(UserInfoQuery query);
+
+    /**
+     * 根据ID数组批量删除记录
+     * @param ids ID数组，多个值以逗号分隔
+     * @return
+     */
+    @DeleteProvider(type = UserSqlProvider.class, method = "deleteByBatch")
+    @Options(flushCache =true, timeout =20000)
+    int deleteByIds(@Param("ids") String ids);
 
 }

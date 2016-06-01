@@ -1,6 +1,8 @@
 package com.benson.esignin.web.domain.entity;
 
+import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.entity.IdEntity;
+import com.benson.esignin.common.utils.DateUtil;
 
 import java.util.Date;
 
@@ -52,5 +54,9 @@ public class RoleInfo extends IdEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getCreateTimeStr() {
+        return DateUtil.converToString(this.createTime, CommonCons.D_FMT_NORMAL);
     }
 }

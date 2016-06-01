@@ -2,6 +2,10 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
+import com.benson.esignin.web.domain.entity.RoleInfo;
+import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
+import com.benson.esignin.web.domain.vo.RoleInfoQuery;
+import com.benson.esignin.web.provider.PermissionSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -39,5 +43,23 @@ public interface IPermissionInfoDao extends IBaseDao<PermissionInfo, String> {
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME)
     List<PermissionInfo> findAll();
+
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = PermissionSqlProvider.class, method = "findPage")
+    List<PermissionInfo> findPage(PermissionInfoQuery query);
+
+    /**
+     * 查询数量
+     * 结合分页使用
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = PermissionSqlProvider.class, method = "count")
+    int count(PermissionInfoQuery query);
 
 }

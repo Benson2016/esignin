@@ -2,6 +2,8 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.RoleInfo;
+import com.benson.esignin.web.domain.vo.RoleInfoQuery;
+import com.benson.esignin.web.provider.RoleSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -39,5 +41,22 @@ public interface IRoleInfoDao extends IBaseDao<RoleInfo, String> {
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME)
     List<RoleInfo> findAll();
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = RoleSqlProvider.class, method = "findPage")
+    List<RoleInfo> findPage(RoleInfoQuery query);
+
+    /**
+     * 查询数量
+     * 结合分页使用
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = RoleSqlProvider.class, method = "count")
+    int count(RoleInfoQuery query);
     
 }

@@ -6,11 +6,7 @@ package com.benson.esignin.web.domain.vo;
  * @author: Benson Xu
  * @date: 2016年05月31日 23:39
  */
-public class UserInfoQuery {
-
-    private int page = 1;
-
-    private int size = 10;
+public class UserInfoQuery extends BasePageQuery {
 
     private String mobile;
 
@@ -18,22 +14,6 @@ public class UserInfoQuery {
 
     private String userName;
 
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     public String getMobile() {
         return mobile;

@@ -5,13 +5,13 @@
 .childicon { float:left; width:45px; height:45px; overflow:hidden; margin-top:20px;}
 .childicon img { float:left;  width:45px; height:45px;}
 .childtetle{ float:left; height:45px; line-height:45px; overflow:hidden; padding:20px 0 0 24px; font-size:24px; color:#666;}
-.childclose { float:right; overflow:hidden; width:34px; height:34px; margin:25px 0 0 47px; background:url(../images/weiyunying/close.png);}
-.childclose:hover{  background:url(../images/weiyunying/closehover.png);}
+.childclose { float:right; overflow:hidden; width:34px; height:34px; margin:25px 0 0 47px; background:url(../admin/images/close.png);}
+.childclose:hover{  background:url(../admin/images/closehover.png);}
 .childbut{ float:right;overflow:hidden; margin-top:20px;}
 .publish {float:right;overflow:hidden; margin-top:20px; position:relative;}
 .publish img { float:right; width:8px; height:4px; position:absolute; top:50%; margin-top:-2px; right:15px;}
 .issueBox { overflow:hidden; float:left; width:140px; position:fixed; top:65px; right:110px; display:none; z-index:9;}
-.issueBox span { overflow:hidden; float:left; width:100%; text-align:center; height:9px; background:url(../images/weiyunying/arrowup.png) top center no-repeat; position:relative; z-index:2;}
+.issueBox span { overflow:hidden; float:left; width:100%; text-align:center; height:9px; background:url(../admin/images/arrowup.png) top center no-repeat; position:relative; z-index:2;}
 .issueBox ul { float:left; width:128px; border:1px solid #e3e3e3; border-radius:5px; overflow:hidden; padding:0 5px; background:#fff; margin-top:-1px; position:relative; z-index:1;}
 .issueBox ul li { overflow:hidden; line-height:50px; padding-left:15px; width:113px;}
 .issueBox ul li  a { font-size:14px; color:#3277de;}
@@ -20,14 +20,14 @@
 .contentBox{ overflow:hidden; margin-left:20px; min-height:500px; background:#fff; padding: 134px 20px 20px 20px;}
 .tabBox {border-bottom:2px solid #3277de; padding:0 10px; height:40px; line-height:40px; font-size:16px; color:#999; font-weight:bold;}
 .tabBox a { position:relative; height:42px; margin:0 50px 0 15px; display:inline-block; color:#999;}
-.tabBox a:hover{ background:url(../images/weiyunying/tabbg.png) center bottom no-repeat; color:#3277de;}
-.tabcur{background:url(../images/weiyunying/tabbg.png) center bottom no-repeat; color:#3277de !important;}
+.tabBox a:hover{ background:url(../admin/images/tabbg.png) center bottom no-repeat; color:#3277de;}
+.tabcur{background:url(../admin/images/tabbg.png) center bottom no-repeat; color:#3277de !important;}
 
 .configureBox { overflow:hidden; padding:20px 0 0 20px;}
 .configureleft{ float:left; width:600px; overflow:hidden;}
 
 .configureright { float:left; width:312px; overflow:hidden;}
-.ihone{overflow:hidden; width:266px; height:471px; margin:0 auto; padding:94px 23px 91px 23px; background:url(../images/weiyunying/phone.jpg) left top no-repeat;}
+.ihone{overflow:hidden; width:266px; height:471px; margin:0 auto; padding:94px 23px 91px 23px; background:url(../admin/images/phone.jpg) left top no-repeat;}
 .ihone img { float:left; width:266px; height:471px;}
 
 .numbertitle{ overflow:hidden; line-height:30px; padding-top:8px; color:#333333; font-size:16px; font-weight:bold;}
@@ -47,7 +47,7 @@
 .showbigpic a { width:214px; height:115px; display:inline-block; position:relative;}
 .showbigpic a img { float:left; width:214px; height:115px;}
 .showbigpic a span { top:0; left:0;}
-.showbigpic a span, .showsmallpic a span{  position:absolute; width:214px; height:115px; line-height:115px; text-align:center; font-size:16px; color:#fff; background:url(../images/weiyunying/hoverspanbg.png); display:none;}
+.showbigpic a span, .showsmallpic a span{  position:absolute; width:214px; height:115px; line-height:115px; text-align:center; font-size:16px; color:#fff; background:url(../admin/images/hoverspanbg.png); display:none;}
 .showbigpic a:hover span,.showsmallpic a:hover span { display:block; }
 .showsmallpic { overflow:hidden; width:214px; height:115px;}
 .showsmallpic a { display:inline-block; width:52px; height:52px; border:2px dashed #e5e5e5; padding:30px 79px 29px 79px; position:relative;}
@@ -84,7 +84,7 @@
 .showpic272Box {float:left; overflow:hidden; width:272px; padding:15px 15px 0 0; position:relative;}
 .showpic272Box a {width:272px; height:151px; overflow:hidden; display:inline-block; position:relative;}
 .showpic272Box a img {float:left; width:272px; height:151px;}
-.showpic272Box a span { display:none;  position:absolute; width:272px; height:151px; line-height:151px; text-align:center; font-size:16px; color:#fff; background:url(../images/weiyunying/hoverspanbg.png); top:0; left:0;}
+.showpic272Box a span { display:none;  position:absolute; width:272px; height:151px; line-height:151px; text-align:center; font-size:16px; color:#fff; background:url(../admin/images/hoverspanbg.png); top:0; left:0;}
 .showpic272Box a:hover span { display:block;}
 .showpic272Box p { position:absolute; width:39px; height:39px; top:0; right:0; cursor:pointer;}
 .showpic272Box p img { float:left; width:39px; height:39px;}
@@ -94,7 +94,7 @@
 .polling { overflow:hidden;}
 .countBox { overflow:hidden;padding-left:20px;}
 .censusBox { overflow:hidden; padding-top:10px;}
-.censusBox li { float:left; height:90px; overflow:hidden; padding:0 50px; background:url(../images/tableLine.png) left top repeat-y; text-align:center;}
+.censusBox li { float:left; height:90px; overflow:hidden; padding:0 50px; background:url(../admin/images/tableLine.png) left top repeat-y; text-align:center;}
 .censusBox li:first-child { background:none;}
 
 .censusBox li h1 {font-weight:normal; height:60px; line-height:60px;overflow:hidden; font-size:62px; color:#3277de;}
@@ -106,7 +106,7 @@
 .chart { overflow:hidden; height:250px;}
 
 .bordernone { border:none !important;}
-.picandtxt { display:inline-block; overflow:hidden; color:#3277de !important; background:url(../images/weiyunying/see16.png) right center no-repeat; padding-right:20px;}
+.picandtxt { display:inline-block; overflow:hidden; color:#3277de !important; background:url(../admin/images/see16.png) right center no-repeat; padding-right:20px;}
 
 
 

@@ -2,6 +2,8 @@ package com.benson.esignin.web.service;
 
 import com.benson.esignin.common.base.IBaseService;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
+import com.benson.esignin.web.domain.vo.BensonPage;
+import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
 
 /**
  * 权限信息Service接口
@@ -12,5 +14,19 @@ import com.benson.esignin.web.domain.entity.PermissionInfo;
  * @since 2016年05月31日 15:50
  */
 public interface IPermissionInfoService extends IBaseService<PermissionInfo, String> {
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    BensonPage<PermissionInfo> findByPage(PermissionInfoQuery query);
+
+    /**
+     * 根据ID数组批量删除记录
+     * @param ids ID数组，多个值以逗号分隔
+     * @return
+     */
+    int deleteByIds(String ids);
 
 }

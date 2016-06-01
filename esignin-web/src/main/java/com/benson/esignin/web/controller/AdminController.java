@@ -1,9 +1,12 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.RoleInfo;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.BensonPage;
+import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
+import com.benson.esignin.web.domain.vo.RoleInfoQuery;
 import com.benson.esignin.web.domain.vo.UserInfoQuery;
 import com.benson.esignin.web.service.*;
 import org.apache.log4j.Logger;
@@ -125,15 +128,17 @@ public class AdminController {
     // 查询用户列表
     @RequestMapping(value = "/userListData",method = RequestMethod.POST)
     @ResponseBody
-    public BensonPage userListData(UserInfoQuery query) {
+    public Object userListData(UserInfoQuery query) {
         logger.info("enter to userListData Method.");
 
         BensonPage<UserInfo> page = null;
 
+        String result = null;
         try {
-            List<UserInfo> userList = userInfoService.findAll();
+            page = userInfoService.findByPage(query);
 
-            page = new BensonPage<UserInfo>(query.getPage(), query.getSize(), userList, userList.size());
+            result = JsonUtil.bean2Json(page);
+            logger.info(String.format("分页查询结果：" + result));
 
         }catch (Exception e) {
             logger.error("查询用户列表异常：{}", e);
@@ -141,9 +146,46 @@ public class AdminController {
             logger.info("leave to userListData Method.");
         }
 
-        return page;
+        return result;
     }
 
+    // 查询角色列表
+    @RequestMapping(value = "/roleListData",method = RequestMethod.POST)
+    @ResponseBody
+    public Object roleListData(RoleInfoQuery query) {
+        logger.info("enter to roleListData Method.");
+
+        BensonPage<RoleInfo> page = null;
+        String result = null;
+        try {
+            page = roleInfoService.findByPage(query);
+            result = JsonUtil.bean2Json(page);
+        }catch (Exception e) {
+            logger.error("查询用户列表异常：{}", e);
+        } finally {
+            logger.info("leave to roleListData Method.");
+        }
+        return result;
+    }
+
+    // 查询权限列表
+    @RequestMapping(value = "/permListData",method = RequestMethod.POST)
+    @ResponseBody
+    public Object permListData(PermissionInfoQuery query) {
+        logger.info("enter to permListData Method.");
+
+        BensonPage<PermissionInfo> page = null;
+        String result = null;
+        try {
+            page = permissionInfoService.findByPage(query);
+            result = JsonUtil.bean2Json(page);
+        }catch (Exception e) {
+            logger.error("查询用户列表异常：{}", e);
+        } finally {
+            logger.info("leave to permListData Method.");
+        }
+        return result;
+    }
 
 
 }
