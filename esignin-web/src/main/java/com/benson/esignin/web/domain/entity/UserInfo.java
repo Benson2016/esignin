@@ -30,8 +30,6 @@ public class UserInfo extends IdEntity {
 
     private Integer isValid;    //是否有效：0无效，1有效（默认）
 
-    private static final long serialVersionUID = 1L;
-
 
     public UserInfo() {}
 

@@ -85,19 +85,19 @@
         <div class="blank30"></div>
         <div class="configureBox"  >
             <!-- 查询与导出 -->
-            <form id="searchForm" action="${root}/admin/exportPermissionData.bs" method="post">
+            <form id="searchForm" action="${root}/admin/exportDataToExcel.bs" method="post">
                 <div style="margin:13px 0;">
                     <label class="g-label l">权限名称 &nbsp;</label>
                     <input type="text" name="name" id="sName" class="g-input l w-180" value="" style="margin-right:50px">
                     <a href="javascript:;" class="g-searchBtn r" id="searchBtn">查询</a>
                     <div class="clear"></div>
-                    <input type="hidden" id="exportType" name="exportType" value="1">
+                    <input type="hidden" id="exportType" name="exportType" value="3">
                 </div>
             </form>
 
             <div class="tableTopBtn">
                 <a class="delSelectBtn" href="javascript:void(0)">删除选中</a>
-                <a class="exportDataBtn" href="javascript:void(0)">导出数据</a>
+                <a class="exportDataBtn" href="javascript:void(0)">导出所有数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />
             <input id="direction" type="hidden" name="direction" value="desc" />

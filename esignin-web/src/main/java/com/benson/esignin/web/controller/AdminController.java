@@ -1,5 +1,8 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.cons.CommonCons;
+import com.benson.esignin.common.utils.DateUtil;
+import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.RoleInfo;
@@ -15,10 +18,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,6 +192,75 @@ public class AdminController {
             logger.info("leave to permListData Method.");
         }
         return result;
+    }
+
+
+
+    /**
+     * 导出数据到Excel文档中
+     * @param exportType 导出类型：1.用户；2.角色；3.权限
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/exportDataToExcel",method = RequestMethod.POST)
+    public void exportDataToExcel(@RequestParam Integer exportType, HttpServletRequest request, HttpServletResponse response) {
+        //System.out.println("\n当前导出类型："+exportType+"\n");
+
+        List<? extends Serializable> records = null;
+        Field[] fields = null;
+        String[] headers = null;
+        String fileName = "records.xls";
+
+
+        try {
+
+            // 根据导出类型导出业务相应数据：1.用户；2.角色；3.权限
+            switch (exportType) {
+                case 1:
+                    records = userInfoService.findAll();
+                    fields = new UserInfo().getClass().getDeclaredFields();
+                    fileName = "user_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                    logger.info("即将导出所有用户信息数据。");
+                    break;
+                case 2:
+                    records = roleInfoService.findAll();
+                    fields = new RoleInfo().getClass().getDeclaredFields();
+                    fileName = "role_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                    logger.info("即将导出所有角色信息数据。");
+                    break;
+                case 3:
+                    records = permissionInfoService.findAll();
+                    fields = new PermissionInfo().getClass().getDeclaredFields();
+                    fileName = "permission_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                    logger.info("即将导出所有权限信息数据。");
+                    break;
+                default:
+                    logger.info("【exportType="+ exportType +"】导出类型不存在！");
+                    break;
+            }
+
+            logger.info("fields长度：" + fields.length);
+            if (null != fields) {
+                headers = new String[fields.length];
+                for (int i=0; i<fields.length; i++) {
+                    headers[i] = fields[i].getName();
+                }
+            }
+
+
+            response.reset();// 清空输出流
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
+            response.setContentType("application/msexcel");// 定义输出类型
+            ExportExcelUtil.exportExcel("补偿记录", headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
+
+        } catch (IOException e) {
+            logger.error("导出数据IO异常：{}", e);
+        } catch (Exception e) {
+            logger.error("导出数据异常：{}", e);
+        } finally {
+            logger.info("数据导出完毕！文件名：" + fileName);
+        }
     }
 
 
