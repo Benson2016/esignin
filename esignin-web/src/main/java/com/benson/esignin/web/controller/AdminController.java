@@ -5,12 +5,10 @@ import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
+import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.RoleInfo;
 import com.benson.esignin.web.domain.entity.UserInfo;
-import com.benson.esignin.web.domain.vo.BensonPage;
-import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
-import com.benson.esignin.web.domain.vo.RoleInfoQuery;
-import com.benson.esignin.web.domain.vo.UserInfoQuery;
+import com.benson.esignin.web.domain.vo.*;
 import com.benson.esignin.web.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +46,8 @@ public class AdminController {
     private IRoleInfoService roleInfoService;
     @Autowired
     private IPermissionInfoService permissionInfoService;
+    @Autowired
+    private IQrCodeService qrCodeService;
 
 
 
@@ -190,6 +190,25 @@ public class AdminController {
             logger.error("查询用户列表异常：{}", e);
         } finally {
             logger.info("leave to permListData Method.");
+        }
+        return result;
+    }
+
+    // 查询权限列表
+    @RequestMapping(value = "/qrCodeListData",method = RequestMethod.POST)
+    @ResponseBody
+    public Object qrCodeListData(QrCodeQuery query) {
+        logger.info("enter to qrCodeListData Method.");
+
+        BensonPage<QrCode> page = null;
+        String result = null;
+        try {
+            page = qrCodeService.findByPage(query);
+            result = JsonUtil.bean2Json(page);
+        }catch (Exception e) {
+            logger.error("查询用二维码表异常：{}", e);
+        } finally {
+            logger.info("leave to qrCodeListData Method.");
         }
         return result;
     }

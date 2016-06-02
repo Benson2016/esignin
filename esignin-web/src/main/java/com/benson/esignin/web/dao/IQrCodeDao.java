@@ -2,6 +2,9 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.QrCode;
+import com.benson.esignin.web.domain.entity.RoleInfo;
+import com.benson.esignin.web.domain.vo.QrCodeQuery;
+import com.benson.esignin.web.provider.QrCodeSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -41,5 +44,24 @@ public interface IQrCodeDao extends IBaseDao<QrCode, String> {
     // 根据签到类型查询
     @Select("select "+BASE_COLUMN_LIST+" from "+TABLE_NAME+" where sign_in_type=#{signInType} ")
     List<QrCode> findBySignType(Integer signInType);
+
+
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = QrCodeSqlProvider.class, method = "findPage")
+    List<QrCode> findPage(QrCodeQuery query);
+
+    /**
+     * 查询数量
+     * 结合分页使用
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = QrCodeSqlProvider.class, method = "count")
+    int count(QrCodeQuery query);
     
 }
