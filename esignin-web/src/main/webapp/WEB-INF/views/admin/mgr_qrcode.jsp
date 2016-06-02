@@ -21,6 +21,7 @@
     <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/css/discount.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/css/page.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
 
     <%@ include file="/commons/style.jsp" %>
 </head>
@@ -39,25 +40,31 @@
             <form id="searchForm" action="${root}/code/exportQrCodeData.bs" method="post">
                 <div style="margin:13px 0;">
                     <label class="g-label l">业务主题 &nbsp;</label>
-                    <input type="text" name="title" id="sTitle" class="g-input l w-180" value="" style="margin-right:50px">
+                    <input type="text" name="title" id="sTitle" class="g-input l w-180" value="" style="margin-right:30px">
                     <label class="g-label l">签到类型 &nbsp;</label>
-                    <input type="hidden" name="signInType" id="sSignInType" class="g-input l w-180" value="" style="margin-right:50px">
-                    <select id="siTypeSelect">
+                    <select id="siTypeSelect" class="g-input l w-180" style="margin-right:30px">
                         <option value="">不限</option>
                         <c:if test="${null!=signInTypeList}">
                             <c:forEach var="sitype" items="${signInTypeList}">
                                 <option value="${sitype.id}">${sitype.typeName}</option>
                             </c:forEach>
                         </c:if>
-                    </select>
+                    </select> &nbsp;
+                    <label class="g-label l">创建时间 &nbsp;</label>
+                    <input type="text" name="startTime" id="sStartTime" class="g-input l w-180" value=""  style="margin-right:10px" >
+                    <label class="g-label l">至 &nbsp;</label>
+                    <input type="text" name="endTime" id="sEndTime" class="g-input l w-180" value=""  style="margin-right:30px" >
+
                     <a href="javascript:;" class="g-searchBtn r" id="searchBtn">查询</a>
+                    <a href="javascript:;" class="g-searchBtn r" id="clearBtn">清除</a>&nbsp;&nbsp;
                     <div class="clear"></div>
                     <input type="hidden" id="exportType" name="exportType" value="4">
                 </div>
             </form>
 
             <div class="tableTopBtn">
-                <a class="delSelectBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+                <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
+                <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />
@@ -90,14 +97,34 @@
 <div id="loading"></div>
 
 <script src="${root}/resources/js/jquery.min.js"></script>
-<script src="${root}/resources/js/plus/date/WdatePicker.js"></script>
 <script src="${root}/resources/js/plus/placeholder.min.js"></script>
 <script src="${root}/resources/js/plus/graphic/highcharts.js"></script>
 <script src="${root}/resources/js/hyxt.js"></script>
 <script src="${root}/resources/js/dialog.js"></script>
 <script src="${root}/resources/js/PageBarNumList.js"></script>
+<script src="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+<script src="${root}/commons/js/esignInDialog.js"></script>
+
 
 <script>
+    var sitype_array = eval(${signInTypeData});
+    // 格式化签到类型
+    function fmtSignInType(sitype){
+        if(null==sitype_array) {
+            return sitype;
+        }
+        var tn = "";
+        // 遍历获取签到类型名称
+        $.each(sitype_array, function (i, v) {
+            if(sitype == v.id) {
+                tn = v.typeName;
+                return;
+            }
+        });
+        return tn;
+    }
+
+
     // 是否已回调
     var isCallbacked = true;
 
@@ -108,11 +135,26 @@
         $("#searchBtn").click(function(){
             getDataHtml(1, 10);
         });
+        // 清除查询条件
+        $("#clearBtn").click(function(){
+            $('#sStartTime').val("");
+            $('#sEndTime').val("");
+            $('#sTitle').val("");
+            $('#siTypeSelect').val("");
+        });
 
         //导出数据
         $('.tableTopBtn').delegate('.exportDataBtn', 'click', function(){
             $('#searchForm').submit();
         });
+
+        //添加
+        $('.tableTopBtn').delegate('.addBtn', 'click', function(){
+            showFormDialog("${root}/page/toQrAdd.bs", "addForm", "添加二维码", addCallback);
+        });
+        function addCallback() {
+            console.log("已经关闭窗口。");
+        }
 
         //删除选中
         $('.tableTopBtn').delegate('.delSelectBtn', 'click', function(){
@@ -153,6 +195,9 @@
             }
         });
 
+        // init datetime picker
+        $('#sStartTime').datetimepicker({lang:'ch',yearEnd:3060,format:"Y-m-d H:i:s"});
+        $('#sEndTime').datetimepicker({lang:'ch',yearEnd:3060,format:"Y-m-d H:i:s"});
     });
 
 
@@ -167,7 +212,7 @@
                 dataType: "json",
                 type: "POST",
                 cache: false,
-                data: {title: $("#sTitle").val(), page: pageNo, size: pagesize || 10},
+                data: {title: $("#sTitle").val(), signInType: $("#siTypeSelect").val(), startTime:$('#sStartTime').val(), endTime:$('#sEndTime').val(), page: pageNo, size: pagesize || 10},
                 success: function (data) {
                     var html = "";
                     $.each(data.content, function (i, v) {
@@ -176,7 +221,7 @@
                                 '<td><input type="checkbox" name="checkbox" value="' + v.id + '"/></td>' +
                                 '<td>' + v.title + '</td>' +
                                 '<td>' + v.description + '</td>' +
-                                '<td>' + v.signInType + '</td>' +
+                                '<td>' + fmtSignInType(v.signInType) + '</td>' +
                                 '<td>' + v.image + '</td>' +
                                 '<td>' + v.createTimeStr + '</td>' +
                                 '<td>' + v.effectiveTimeEndStr + '</td>' +

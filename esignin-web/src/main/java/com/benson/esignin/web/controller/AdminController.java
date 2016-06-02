@@ -87,6 +87,8 @@ public class AdminController {
             List<SignInType> signInTypeList = signInTypeService.findAll();
 
             model.addAttribute("signInTypeList", signInTypeList);
+            String json = JsonUtil.bean2Json(signInTypeList);
+            model.addAttribute("signInTypeData", json);
         } catch (Exception e) {
             logger.error("获取签到类型列表异常：{}", e);
         }

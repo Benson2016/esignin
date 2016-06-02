@@ -79,6 +79,21 @@ public class PageController {
         return "success";
     }
 
+    /**
+     * 去二维码添加页面
+     */
+    @RequestMapping("/toQrAdd")
+    public String toQrAdd() {
+        return "admin/qrcode_add";
+    }
+    /**
+     * 去二维码编辑页面
+     */
+    @RequestMapping("/toQrEdit")
+    public String toQrEdit() {
+        return "admin/qrcode_edit";
+    }
+
 
     @RequestMapping("/handler")
     public String handler(@RequestParam String businessId, HttpServletRequest request) {
