@@ -46,6 +46,13 @@ public interface IQrCodeDao extends IBaseDao<QrCode, String> {
     List<QrCode> findBySignType(Integer signInType);
 
 
+    /**
+     * 条件查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = QrCodeSqlProvider.class, method = "findAllByQuery")
+    List<QrCode> findAllByQuery(QrCodeQuery query);
 
     /**
      * 分页查询

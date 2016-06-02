@@ -35,7 +35,7 @@ public interface ISignInTypeDao extends IBaseDao<SignInType, Integer> {
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" WHERE id = #{id}")
     SignInType findOne(@Param("id") Integer primaryKey);
 
-    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME)
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" order by id asc")
     List<SignInType> findAll();
 
 }

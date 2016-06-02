@@ -34,8 +34,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
-      <module name="esignin-commons" target="1.5" />
-      <module name="esignin-web" target="1.5" />
+      <module name="esignin-commons" target="1.7" />
+      <module name="esignin-web" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

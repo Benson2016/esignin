@@ -1,6 +1,8 @@
 package com.benson.esignin.web.domain.entity;
 
+import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.entity.IdEntity;
+import com.benson.esignin.common.utils.DateUtil;
 
 import java.util.Date;
 
@@ -18,7 +20,7 @@ public class QrCode extends IdEntity {
 
     private String createUser;  // 二维码创建者
 
-    private String image;   // 二维码图片地址
+    private String image;   // 二维码图片内容
 
     private Date effectiveTimeStart;    // 二维码生效时间
 
@@ -91,5 +93,16 @@ public class QrCode extends IdEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * 获取创建时间
+     * @return 字符串格式
+     */
+    public String getCreateTimeStr() {
+        return DateUtil.converToString(this.effectiveTimeStart, CommonCons.D_FMT_NORMAL);
+    }
+    public String getEffectiveTimeEndStr() {
+        return DateUtil.converToString(this.effectiveTimeEnd, CommonCons.D_FMT_NORMAL);
     }
 }

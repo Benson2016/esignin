@@ -4,10 +4,7 @@ import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
-import com.benson.esignin.web.domain.entity.PermissionInfo;
-import com.benson.esignin.web.domain.entity.QrCode;
-import com.benson.esignin.web.domain.entity.RoleInfo;
-import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.entity.*;
 import com.benson.esignin.web.domain.vo.*;
 import com.benson.esignin.web.service.*;
 import org.apache.log4j.Logger;
@@ -48,76 +45,33 @@ public class AdminController {
     private IPermissionInfoService permissionInfoService;
     @Autowired
     private IQrCodeService qrCodeService;
+    @Autowired
+    private ISignInTypeService signInTypeService;
 
-
-
+    // 后台管理页
     @RequestMapping(value = "toAdmin")
     public String toAdmin(Model model, HttpServletRequest request, HttpServletResponse response) {
-        logger.info("enter to toAdmin Method.");
+        /*logger.info("enter to toAdmin Method.");
 
-        logger.info("leave to toAdmin Method.");
+        logger.info("leave to toAdmin Method.");*/
         return "admin/index";
     }
-
-    /**
-     * 用户管理列表
-     * @param model
-     * @param request
-     * @param response
-     * @return
-     */
+    // 用户管理页
     @RequestMapping(value = "mgrUser")
     public String mgrUser(Model model, HttpServletRequest request, HttpServletResponse response) {
-        logger.info("enter to mgrUser Method.");
-        try {
-            List<UserInfo> userList = userInfoService.findAll();
-
-            model.addAttribute("userList", userList);
-        }catch (Exception e) {
-            logger.error("查询用户列表异常：{}", e);
-        } finally {
-            logger.info("leave to mgrUser Method.");
-        }
-
         return "admin/mgr_user";
     }
-
+    // 角色管理页
     @RequestMapping(value = "mgrRole")
     public String mgrRole(Model model, HttpServletRequest request, HttpServletResponse response) {
-        logger.info("enter to mgrRole Method.");
-        try {
-            List<RoleInfo> dataList = roleInfoService.findAll();
-
-            if (null == dataList) dataList = new ArrayList<RoleInfo>();
-
-            model.addAttribute("dataList", dataList);
-
-        }catch (Exception e) {
-            logger.error("查询用户列表异常：{}", e);
-        } finally {
-            logger.info("leave to mgrRole Method.");
-        }
         return "admin/mgr_role";
     }
-
+    // 权限管理页
     @RequestMapping(value = "mgrPermission")
     public String mgrPermission(Model model, HttpServletRequest request, HttpServletResponse response) {
-        logger.info("enter to mgrPermission Method.");
-        try {
-            List<PermissionInfo> dataList = permissionInfoService.findAll();
-
-            if (null == dataList) dataList = new ArrayList<PermissionInfo>();
-
-            model.addAttribute("dataList", dataList);
-
-        }catch (Exception e) {
-            logger.error("查询用户列表异常：{}", e);
-        } finally {
-            logger.info("leave to mgrPermission Method.");
-        }
         return "admin/mgr_permission";
     }
-
+    // 菜单管理页
     @RequestMapping(value = "mgrMenu")
     public String mgrMenu(Model model, HttpServletRequest request, HttpServletResponse response) {
         logger.info("enter to mgrMenu Method.");
@@ -125,7 +79,21 @@ public class AdminController {
         logger.info("leave to mgrMenu Method.");
         return "admin/mgr_permission";
     }
+    // QrCode管理页
+    @RequestMapping(value = "mgrQrCode")
+    public String mgrQrCode(Model model, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            // 获取所有业务类型
+            List<SignInType> signInTypeList = signInTypeService.findAll();
 
+            model.addAttribute("signInTypeList", signInTypeList);
+        } catch (Exception e) {
+            logger.error("获取签到类型列表异常：{}", e);
+        }
+
+        return "admin/mgr_qrcode";
+    }
+    // 后台欢迎页
     @RequestMapping(value = "welcome")
     public String welcome(Model model) {
         return "admin/welcome";
@@ -214,7 +182,6 @@ public class AdminController {
     }
 
 
-
     /**
      * 导出数据到Excel文档中
      * @param exportType 导出类型：1.用户；2.角色；3.权限
@@ -231,9 +198,7 @@ public class AdminController {
         String[] headers = null;
         String fileName = "records.xls";
 
-
         try {
-
             // 根据导出类型导出业务相应数据：1.用户；2.角色；3.权限
             switch (exportType) {
                 case 1:
@@ -267,7 +232,6 @@ public class AdminController {
                 }
             }
 
-
             response.reset();// 清空输出流
             response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
             response.setContentType("application/msexcel");// 定义输出类型
@@ -282,5 +246,7 @@ public class AdminController {
         }
     }
 
+
+    // otherwise methods ...
 
 }
