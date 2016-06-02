@@ -1,6 +1,5 @@
 package com.benson.esignin.common.utils;
 
-import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.cons.CommonCons;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.*;
