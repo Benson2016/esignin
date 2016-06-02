@@ -625,7 +625,7 @@
                         <a href="javascript:;">业务类型</a>
                     </li>
                     <li >
-                        <a href="javascript:;">QRCode列表</a>
+                        <a href="javascript:;" onclick="openMenuItem(6)">QRCode列表</a>
                     </li>
                 </ul>
             </li>
@@ -644,7 +644,7 @@
                     </li>
                     <li >
                         <a href="page_coming_soon.html">
-                            <i class="icon-cogs"></i>签到记录</a>
+                            <i class="icon-time"></i>签到记录</a>
                     </li>
                 </ul>
             </li>
@@ -685,10 +685,16 @@
                 Widget settings form goes here
             </div>
         </div>
-
         <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+
+        <!-- BEGIN MAINPANEL -->
+        <div id="mainPanel" style="display: none; width: 100%; height: 100%">
+            <iframe id="mainContent" scrolling="auto" frameborder="0"  width="100%" height="100%" style="_width: 100%;" onload="javascript:this.height=this.contentWindow.document.body.scrollHeight+110;" src="${root}/admin/welcome.bs"></iframe>
+        </div>
+        <!-- END MAINPANEL -->
+
         <!-- BEGIN PAGE CONTAINER-->
-        <div class="container-fluid">
+        <div class="container-fluid" id="container123">
             <!-- BEGIN PAGE HEADER-->
             <div class="row-fluid">
                 <div class="span12">
@@ -769,11 +775,7 @@
                 <div id="dashboardPanel"><c:import url="dashboard.jsp"></c:import></div>
             </div>
             <!-- END DASHBOARD -->
-            <!-- BEGIN MAINPANEL -->
-            <div id="mainPanel" style="display: none; width: 100%; height: 100%">
-                <iframe id="mainContent" allowfullscreen="allowfullscreen" width="100%" height="100%" style="border-width: 0px;" src="${root}/admin/welcome.bs"></iframe>
-            </div>
-            <!-- END MAINPANEL -->
+
         </div>
         <!-- END PAGE CONTAINER-->
 
@@ -874,7 +876,7 @@
     }
     // 打开菜单项
     function openMenuItem(operType) {
-        $("#dashboard").hide();
+        $("#container123").hide();
         switch (operType) {
             case 1:
                 $("#mainContent").attr("src", "${root}/admin/mgrUser.bs");
@@ -897,11 +899,11 @@
                 $("#mainPanel").show();*/
                 break;
             case 6:
-                /*$("#mainContent").attr("src", "${root}/admin/mgrMenu.bs");
-                $("#mainPanel").show();*/
+                $("#mainContent").attr("src", "${root}/admin/mgrQrCode.bs");
+                $("#mainPanel").show();
                 break;
             default:
-                $("#dashboard").show();
+                $("#container123").show();
                 $("#mainPanel").hide();
                 console.log("enter openMenuItem default.");
                 break;

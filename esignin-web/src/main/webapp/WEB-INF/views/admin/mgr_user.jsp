@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="contentBox">
-        <div class="blank30"></div>
+        <div class="blank3"></div>
         <div class="configureBox">
             <!-- 查询与导出 -->
             <form id="searchForm" action="${root}/admin/exportDataToExcel.bs" method="post">

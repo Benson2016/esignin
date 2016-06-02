@@ -17,7 +17,7 @@
 .issueBox ul li  a { font-size:14px; color:#3277de;}
 .border1{ border-bottom:1px solid #e3e3e3;}
 
-.contentBox{ overflow:hidden; margin-left:20px; min-height:500px; background:#fff; padding: 134px 20px 20px 20px;}
+.contentBox{ overflow:hidden; margin-left:20px; min-height:500px; background:#fff; padding: 124px 10px 10px 10px;}
 .tabBox {border-bottom:2px solid #3277de; padding:0 10px; height:40px; line-height:40px; font-size:16px; color:#999; font-weight:bold;}
 .tabBox a { position:relative; height:42px; margin:0 50px 0 15px; display:inline-block; color:#999;}
 .tabBox a:hover{ background:url(../admin/images/tabbg.png) center bottom no-repeat; color:#3277de;}
