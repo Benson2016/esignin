@@ -148,12 +148,65 @@
             $('#searchForm').submit();
         });
 
-        //添加
+        // 显示添加Dialog
         $('.tableTopBtn').delegate('.addBtn', 'click', function(){
-            showFormDialog("${root}/page/toQrAdd.bs", "addForm", "添加二维码", addCallback);
+            showFormDialog("${root}/code/toQrAdd.bs", "addForm", "添加二维码", 610, 560, {yes: "保 存", yes_before_close:checkForm, yes_after_close: addedCallback});
         });
-        function addCallback() {
-            console.log("已经关闭窗口。");
+        // 检查Form元素
+        function checkForm() {
+            console.log("进入checkForm()。");
+            var title = $('#addForm').contents().find("#title").val();
+            if(''==title) {
+                showMsg("请填写业务主题！");
+                return false;
+            }
+            var signInType = $('#addForm').contents().find("#signInType").val();
+            if(''==signInType) {
+                showMsg("请填选择签到类型！");
+                return false;
+            }
+
+            var effectiveTimeStart = $('#addForm').contents().find("#dStartTime").val();
+            var effectiveTimeEnd = $('#addForm').contents().find("#dEndTime").val();
+            // 输入有效后提交表单保存数据
+            if(isCallbacked) {
+                isCallbacked = false;
+                $.ajax({
+                    url: "${root}/code/addQrCode.bs",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        title: title,
+                        signInType: signInType,
+                        effectiveTimeStart: effectiveTimeStart,
+                        effectiveTimeEnd: effectiveTimeEnd,
+                        description: $('#addForm').contents().find("#description").val()
+                    },
+                    cache: false,
+                    success: function(data){
+                        isCallbacked = true;
+                        $('#loading').hide();
+                        if(data.rspCode==100){ //success
+                            getDataHtml(1); //重新加载数据
+                            showMsg(data.rspMsg);
+                            return true;
+                        } else{
+                            showMsg(data.rspMsg);
+                            return false;
+                        }
+                    },
+                    error: function(e) {
+                        $('#loading').hide();
+                        isCallbacked = true;
+                        showMsg("系统错误！");
+                        return false;
+                    }
+                });
+            } //end of if
+        }
+        // 添加成功后的回调
+        function addedCallback(p) {
+            console.log("add form already close.");
         }
 
         //删除选中

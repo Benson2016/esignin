@@ -4,17 +4,18 @@ import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.*;
-import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.QrCode;
-import com.benson.esignin.web.domain.entity.RoleInfo;
+import com.benson.esignin.web.domain.entity.SignInType;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.QrCodeQuery;
 import com.benson.esignin.web.domain.vo.QrCodeResponse;
+import com.benson.esignin.web.domain.vo.QrCodeVo;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IQrCodeService;
+import com.benson.esignin.web.service.ISignInTypeService;
 import com.benson.esignin.web.service.IUserInfoService;
 import com.benson.esignin.web.utils.QRCodeUtil;
-import com.google.gson.JsonArray;
+import com.benson.esignin.web.utils.UserUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,9 +32,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 二维码控制类
@@ -53,7 +52,8 @@ public class QrCodeController {
     private IUserInfoService userInfoService;
     @Autowired
     private IQrCodeService qrCodeService;
-
+    @Autowired
+    private ISignInTypeService signInTypeService;
 
     /**
      * 显示二维码页面
@@ -175,6 +175,65 @@ public class QrCodeController {
         }
     }
 
+    // 添加二维码
+    @RequestMapping(value = "/addQrCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addQrCode(QrCodeVo qrCodeVo, HttpServletRequest request) {
+        logger.info("Enter addQrCode Method. and request parameters is " + JsonUtil.bean2Json(qrCodeVo));
+        QrCodeResponse response = null;
+        if (CommonUtil.isNull(qrCodeVo)) {
+            response = new QrCodeResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+
+        try {
+            QrCode qrCode = new QrCode();
+            qrCode.setTitle(qrCodeVo.getTitle());
+            qrCode.setSignInType(qrCodeVo.getSignInType());
+            qrCode.setDescription(qrCodeVo.getDescription());
+            // 设置一些默认参数
+            qrCode.generateUUId();
+            qrCode.setIsValid(1);
+            // 设置创建者
+            UserInfo loginUser = UserUtil.getLoginUser(request);
+            qrCode.setCreateUser(CommonUtil.isNotNull(loginUser) ? loginUser.getId() : "100000000");
+
+            // 如果生效时间为空，则默认当前时间
+            if (CommonUtil.isNull(qrCodeVo.getEffectiveTimeStart())) {
+                qrCode.setEffectiveTimeStart(DateUtil.getCurrentDateTime());
+            } else {
+                qrCode.setEffectiveTimeStart(DateUtil.parseYMDHMS(qrCodeVo.getEffectiveTimeStart()));
+            }
+            // 如果到期时间为空，则默认2小时有效
+            if (CommonUtil.isNull(qrCodeVo.getEffectiveTimeEnd())) {
+                qrCode.setEffectiveTimeEnd(DateUtil.addHourToDate(qrCode.getEffectiveTimeStart(), 2));
+            } else {
+                qrCode.setEffectiveTimeEnd(DateUtil.parseYMDHMS(qrCodeVo.getEffectiveTimeEnd()));
+            }
+
+            // 添加图片内容
+            String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+            String content = String.format("%s/page/handler.bs?%s=%s", basePath, SysCons.BUSINESS_ID, qrCode.getId());
+            qrCode.setImage(content);
+            logger.info(String.format("图片内容：%s", content));
+
+            // 保存QR记录
+            int row = qrCodeService.add(qrCode);
+            if (row>0) {
+                logger.info(String.format("添加二维码【%s】成功！", qrCode.getTitle()));
+            } else {
+                logger.info(String.format("保存二维码【%s】未成功！", qrCode.getTitle()));
+            }
+            response = new QrCodeResponse(StateResponse.SUCCESS);
+            response.setRspMsg("添加成功！");
+        } catch (Exception e) {
+            logger.error("保存二维码时发生异常: ", e);
+        } finally {
+            logger.info("Exit addQrCode Method");
+        }
+        return JsonUtil.toJson(response);
+    }
+
     /**
      * 扫二维码登录
      * @param un
@@ -288,6 +347,44 @@ public class QrCodeController {
         } finally {
             logger.info("数据导出完毕！文件名：" + fileName);
         }
+    }
+
+
+    /**
+     * 去QRCode添加页面
+     */
+    @RequestMapping("/toQrAdd")
+    public String toQrAdd(Model model) {
+        try {
+            // 获取所有业务类型
+            List<SignInType> signInTypeList = signInTypeService.findAll();
+            model.addAttribute("signInTypeList", signInTypeList);
+        } catch (Exception e) {
+            logger.error("获取签到类型列表时发生异常：", e);
+        }
+        return "admin/qrcode_add";
+    }
+
+    /**
+     * 去QRCode编辑页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toQrEdit")
+    public String toQrEdit(Model model, String qrCodeId) {
+        try {
+            QrCode qrCode = qrCodeService.findOne(qrCodeId);
+            String json = JsonUtil.bean2Json(qrCode);
+            model.addAttribute("qrCode", json);
+
+            // 获取所有业务类型
+            List<SignInType> signInTypeList = signInTypeService.findAll();
+            model.addAttribute("signInTypeList", signInTypeList);
+
+        } catch (Exception e) {
+            logger.error("去QRCode编辑页面之前发生异常：", e);
+        }
+        return "admin/qrcode_edit";
     }
 
 

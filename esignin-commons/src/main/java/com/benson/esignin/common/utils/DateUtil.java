@@ -846,14 +846,29 @@ public class DateUtil {
 	 * 获取给定时间的几分钟后的时间
 	 * 如果date不指定，则默认当前时间
 	 * @param date 指定时间
-	 * @param minute 前几分钟
+	 * @param minutes 前几分钟
 	 * @return
 	 */
-	public static Date addMinuteToDate(Date date, int minute) {
+	public static Date addMinuteToDate(Date date, int minutes) {
 
 		Calendar calendar = Calendar.getInstance();
 		if(null != date) calendar.setTime(date);
-		calendar.add(Calendar.MINUTE, minute);
+		calendar.add(Calendar.MINUTE, minutes);
+
+		return calendar.getTime();
+	}
+
+	/**
+	 * 给指定时间添加小时数，24小时制
+	 * @param date 目标日期
+	 * @param hours 1~23 小时数
+	 * @return
+	 */
+	public static Date addHourToDate(Date date, int hours) {
+
+		Calendar calendar = Calendar.getInstance();
+		if(null != date) calendar.setTime(date);
+		calendar.add(Calendar.HOUR_OF_DAY, hours);
 
 		return calendar.getTime();
 	}

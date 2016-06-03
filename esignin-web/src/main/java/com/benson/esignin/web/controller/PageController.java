@@ -6,12 +6,10 @@ import com.benson.esignin.web.domain.entity.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -25,6 +23,7 @@ import javax.servlet.http.HttpSession;
 public class PageController {
 
     private final static Logger logger = LoggerFactory.getLogger(PageController.class);
+
 
     /**
      * 登录页
@@ -79,13 +78,6 @@ public class PageController {
         return "success";
     }
 
-    /**
-     * 去二维码添加页面
-     */
-    @RequestMapping("/toQrAdd")
-    public String toQrAdd() {
-        return "admin/qrcode_add";
-    }
     /**
      * 去二维码编辑页面
      */
