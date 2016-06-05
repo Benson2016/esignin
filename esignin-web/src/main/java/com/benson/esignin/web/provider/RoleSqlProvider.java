@@ -14,12 +14,23 @@ import com.benson.esignin.web.domain.vo.RoleInfoQuery;
  */
 public class RoleSqlProvider {
 
+    public String findAllByQuery(RoleInfoQuery query) {
+
+        StringBuffer sql = new StringBuffer("SELECT "+ IRoleInfoDao.BASE_COLUMN_LIST + " FROM  "+ IRoleInfoDao.TABLE_NAME +" where 1=1 ");
+        addCondition(query, sql);
+
+        //添加排序
+        sql.append(" order by create_time DESC ");
+
+        System.out.println("--->>>根据查询条件查询角色信息SQL：" + sql.toString());
+
+        return sql.toString();
+    }
+
     public String findPage(RoleInfoQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT "+ IRoleInfoDao.BASE_COLUMN_LIST + " FROM  "+ IRoleInfoDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getName())) {
-            sql.append("and name like '%"+ query.getName() +"%'");
-        }
+        addCondition(query, sql);
 
         //添加排序和分页
         int index = (query.getPage()-1) * query.getSize();
@@ -32,12 +43,21 @@ public class RoleSqlProvider {
 
     public String count(RoleInfoQuery query) {
         StringBuffer sql = new StringBuffer("SELECT count(id) FROM "+ IRoleInfoDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getName())) {
-            sql.append("and name like '%"+ query.getName() +"%'");
-        }
-        System.out.println("--->>>用户count查询SQL：" + sql.toString());
+        addCondition(query, sql);
+        System.out.println("--->>>角色count查询SQL：" + sql.toString());
 
         return sql.toString();
     }
-    
+
+    /**
+     * 添加查询条件
+     * @param query
+     * @param sql
+     */
+    private void addCondition(RoleInfoQuery query, StringBuffer sql) {
+        if (CommonUtil.isNotNull(query.getName())) {
+            sql.append("and name like '%"+ query.getName() +"%'");
+        }
+    }
+
 }

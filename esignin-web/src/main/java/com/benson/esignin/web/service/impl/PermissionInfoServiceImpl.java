@@ -37,6 +37,15 @@ public class PermissionInfoServiceImpl extends BaseServiceImpl<PermissionInfo, S
 
 
     /**
+     * 根据条件查询
+     * @param query
+     * @return
+     */
+    public List<PermissionInfo> findAllByQuery(PermissionInfoQuery query) {
+        return permissionInfoDao.findAllByQuery(query);
+    }
+
+    /**
      * 分页查询
      * @param query 查询条件
      * @return

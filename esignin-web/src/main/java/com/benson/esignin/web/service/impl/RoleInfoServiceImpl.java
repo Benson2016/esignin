@@ -38,6 +38,15 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfo, String> imple
 
 
     /**
+     * 根据条件查询
+     * @param query
+     * @return
+     */
+    public List<RoleInfo> findAllByQuery(RoleInfoQuery query) {
+        return roleInfoDao.findAllByQuery(query);
+    }
+
+    /**
      * 分页查询
      * @param query 查询条件
      * @return

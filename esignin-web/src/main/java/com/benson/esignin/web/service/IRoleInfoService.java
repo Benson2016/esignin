@@ -5,6 +5,8 @@ import com.benson.esignin.web.domain.entity.RoleInfo;
 import com.benson.esignin.web.domain.vo.BensonPage;
 import com.benson.esignin.web.domain.vo.RoleInfoQuery;
 
+import java.util.List;
+
 /**
  * 角色信息Service接口
  *
@@ -14,6 +16,13 @@ import com.benson.esignin.web.domain.vo.RoleInfoQuery;
  * @since 2016年05月31日 15:55
  */
 public interface IRoleInfoService extends IBaseService<RoleInfo, String> {
+
+    /**
+     * 根据条件查询
+     * @param query
+     * @return
+     */
+    List<RoleInfo> findAllByQuery(RoleInfoQuery query);
 
     /**
      * 分页查询

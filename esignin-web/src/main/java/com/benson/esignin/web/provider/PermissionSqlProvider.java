@@ -14,12 +14,21 @@ import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
  */
 public class PermissionSqlProvider {
 
+    public String findAllByQuery(PermissionInfoQuery query) {
+
+        StringBuffer sql = new StringBuffer("SELECT "+ IPermissionInfoDao.BASE_COLUMN_LIST + " FROM  "+ IPermissionInfoDao.TABLE_NAME +" where 1=1 ");
+        addCondition(query, sql);
+
+        //添加排序
+        sql.append(" order by create_time DESC ");
+
+        return sql.toString();
+    }
+
     public String findPage(PermissionInfoQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT "+ IPermissionInfoDao.BASE_COLUMN_LIST + " FROM  "+ IPermissionInfoDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getName())) {
-            sql.append("and name like '%"+ query.getName() +"%'");
-        }
+        addCondition(query, sql);
 
         //添加排序和分页
         int index = (query.getPage()-1) * query.getSize();
@@ -32,12 +41,21 @@ public class PermissionSqlProvider {
 
     public String count(PermissionInfoQuery query) {
         StringBuffer sql = new StringBuffer("SELECT count(id) FROM "+ IPermissionInfoDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getName())) {
-            sql.append("and name like '%"+ query.getName() +"%'");
-        }
+        addCondition(query, sql);
         System.out.println("--->>>权限count查询SQL：" + sql.toString());
 
         return sql.toString();
+    }
+
+    /**
+     * 添加查询条件
+     * @param query
+     * @param sql
+     */
+    private void addCondition(PermissionInfoQuery query, StringBuffer sql) {
+        if (CommonUtil.isNotNull(query.getName())) {
+            sql.append("and name like '%"+ query.getName() +"%'");
+        }
     }
 
 }

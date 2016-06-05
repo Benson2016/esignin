@@ -52,18 +52,22 @@ public class UserSqlProvider {
         return sql.toString();
     }
 
+    public String findAllByQuery(UserInfoQuery query) {
+
+        StringBuffer sql = new StringBuffer("SELECT "+ IUserInfoDao.BASE_COLUMN_LIST + " FROM  t_sys_user where 1=1 ");
+        addCondition(query, sql);
+
+        sql.append(" order by create_time DESC ");
+
+        System.out.println("--->>>根据条件查询用户信息列表SQL：" + sql.toString());
+
+        return sql.toString();
+    }
+
     public String findPage(UserInfoQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT "+ IUserInfoDao.BASE_COLUMN_LIST + " FROM  t_sys_user where 1=1 ");
-        if (CommonUtil.isNotNull(query.getMobile())) {
-            sql.append("and mobile like '%"+ query.getMobile() +"%'");
-        }
-        if (CommonUtil.isNotNull(query.getFullName())) {
-            sql.append("and full_name like '%"+ query.getFullName() +"%'");
-        }
-        if (CommonUtil.isNotNull(query.getUserName())) {
-            sql.append("and user_name like '%"+ query.getUserName() +"%'");
-        }
+        addCondition(query, sql);
 
         //添加排序和分页
         int index = (query.getPage()-1) * query.getSize();
@@ -76,6 +80,18 @@ public class UserSqlProvider {
 
     public String count(UserInfoQuery query) {
         StringBuffer sql = new StringBuffer("SELECT count(id) FROM t_sys_user where 1=1 ");
+        addCondition(query, sql);
+        System.out.println("--->>>用户count查询SQL：" + sql.toString());
+
+        return sql.toString();
+    }
+
+    /**
+     * 添加查询条件
+     * @param query
+     * @param sql
+     */
+    private void addCondition(UserInfoQuery query, StringBuffer sql) {
         if (CommonUtil.isNotNull(query.getMobile())) {
             sql.append("and mobile like '%"+ query.getMobile() +"%'");
         }
@@ -85,10 +101,8 @@ public class UserSqlProvider {
         if (CommonUtil.isNotNull(query.getUserName())) {
             sql.append("and user_name like '%"+ query.getUserName() +"%'");
         }
-        System.out.println("--->>>用户count查询SQL：" + sql.toString());
-
-        return sql.toString();
     }
+
 
     public String deleteByBatch(String ids) {
 

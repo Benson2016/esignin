@@ -46,6 +46,14 @@ public interface IPermissionInfoDao extends IBaseDao<PermissionInfo, String> {
 
 
     /**
+     * 根据条件查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = PermissionSqlProvider.class, method = "findAllByQuery")
+    List<PermissionInfo> findAllByQuery(PermissionInfoQuery query);
+
+    /**
      * 分页查询
      * @param query 查询条件
      * @return

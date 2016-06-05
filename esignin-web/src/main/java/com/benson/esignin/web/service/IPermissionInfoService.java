@@ -5,6 +5,8 @@ import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.vo.BensonPage;
 import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
 
+import java.util.List;
+
 /**
  * 权限信息Service接口
  *
@@ -14,6 +16,13 @@ import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
  * @since 2016年05月31日 15:50
  */
 public interface IPermissionInfoService extends IBaseService<PermissionInfo, String> {
+
+    /**
+     * 根据条件查询
+     * @param query
+     * @return
+     */
+    List<PermissionInfo> findAllByQuery(PermissionInfoQuery query);
 
     /**
      * 分页查询

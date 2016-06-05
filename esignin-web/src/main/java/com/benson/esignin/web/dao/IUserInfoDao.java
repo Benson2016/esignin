@@ -45,6 +45,14 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
     public UserInfo findByMobile(@Param("mobile") String mobile);
 
     /**
+     * 根据条件查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = UserSqlProvider.class, method = "findAllByQuery")
+    List<UserInfo> findAllByQuery(UserInfoQuery query);
+
+    /**
      * 分页查询
      * @param query 查询条件
      * @return

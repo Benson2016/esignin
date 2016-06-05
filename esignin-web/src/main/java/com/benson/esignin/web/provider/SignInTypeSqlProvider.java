@@ -15,9 +15,7 @@ public class SignInTypeSqlProvider {
     public String findPage(SignInTypeQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT "+ ISignInTypeDao.BASE_COLUMN_LIST + " FROM  "+ ISignInTypeDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getTypeName())) {
-            sql.append("and type_name like '%"+ query.getTypeName() +"%'");
-        }
+        addCondition(query, sql);
 
         //添加排序和分页
         int index = (query.getPage()-1) * query.getSize();
@@ -28,11 +26,20 @@ public class SignInTypeSqlProvider {
         return sql.toString();
     }
 
-    public String count(SignInTypeQuery query) {
-        StringBuffer sql = new StringBuffer("SELECT count(id) FROM "+ ISignInTypeDao.TABLE_NAME +" where 1=1 ");
+    /**
+     * 添加查询条件
+     * @param query
+     * @param sql
+     */
+    private void addCondition(SignInTypeQuery query, StringBuffer sql) {
         if (CommonUtil.isNotNull(query.getTypeName())) {
             sql.append("and type_name like '%"+ query.getTypeName() +"%'");
         }
+    }
+
+    public String count(SignInTypeQuery query) {
+        StringBuffer sql = new StringBuffer("SELECT count(id) FROM "+ ISignInTypeDao.TABLE_NAME +" where 1=1 ");
+        addCondition(query, sql);
 
         System.out.println("--->>>签到类型分页查询SQL：" + sql.toString());
 
@@ -43,9 +50,7 @@ public class SignInTypeSqlProvider {
     public String findAllByQuery(SignInTypeQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT " + ISignInTypeDao.BASE_COLUMN_LIST + " FROM  " + ISignInTypeDao.TABLE_NAME + " where 1=1 ");
-        if (CommonUtil.isNotNull(query.getTypeName())) {
-            sql.append("and type_name like '%" + query.getTypeName() + "%'");
-        }
+        addCondition(query, sql);
         sql.append(" order by id ASC ");
 
         return sql.toString();

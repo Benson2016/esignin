@@ -38,6 +38,13 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
     UserInfo findByMobile(String mobile);
 
     /**
+     * 根据条件查询
+     * @param query 查询条件
+     * @return
+     */
+    List<UserInfo> findAllByQuery(UserInfoQuery query);
+
+    /**
      * 分页查询
      * @param query 查询条件
      * @return

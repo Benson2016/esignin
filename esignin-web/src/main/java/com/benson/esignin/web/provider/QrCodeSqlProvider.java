@@ -16,20 +16,7 @@ public class QrCodeSqlProvider {
     public String findAllByQuery(QrCodeQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT "+ IQrCodeDao.BASE_COLUMN_LIST + " FROM  "+ IQrCodeDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getTitle())) {
-            sql.append("and title like '%"+ query.getTitle() +"%'");
-        }
-        if (CommonUtil.isNotNull(query.getSignInType())) {
-            sql.append(" and sign_in_type = "+ query.getSignInType());
-        }
-        // 日期逻辑判断
-        if (CommonUtil.isNotNull(query.getStartTime(), query.getEndTime())) {
-            sql.append(" and effective_time_start between '"+ query.getStartTime() +"' and '"+ query.getEndTime() +"'");
-        } else if (CommonUtil.isNotNull(query.getStartTime())) {
-            sql.append(" and effective_time_start >= '"+ query.getStartTime() +"'");
-        } else if (CommonUtil.isNotNull(query.getEndTime())) {
-            sql.append(" and effective_time_start <= '"+ query.getEndTime() +"'");
-        }
+        addCondition(query, sql);
 
         //添加排序
         sql.append(" order by create_time DESC");
@@ -40,20 +27,7 @@ public class QrCodeSqlProvider {
     public String findPage(QrCodeQuery query) {
 
         StringBuffer sql = new StringBuffer("SELECT "+ IQrCodeDao.BASE_COLUMN_LIST + " FROM  "+ IQrCodeDao.TABLE_NAME +" where 1=1 ");
-        if (CommonUtil.isNotNull(query.getTitle())) {
-            sql.append("and title like '%"+ query.getTitle() +"%'");
-        }
-        if (CommonUtil.isNotNull(query.getSignInType())) {
-            sql.append(" and sign_in_type = "+ query.getSignInType());
-        }
-        // 日期逻辑判断
-        if (CommonUtil.isNotNull(query.getStartTime(), query.getEndTime())) {
-            sql.append(" and effective_time_start between '"+ query.getStartTime() +"' and '"+ query.getEndTime() +"'");
-        } else if (CommonUtil.isNotNull(query.getStartTime())) {
-            sql.append(" and effective_time_start >= '"+ query.getStartTime() +"'");
-        } else if (CommonUtil.isNotNull(query.getEndTime())) {
-            sql.append(" and effective_time_start <= '"+ query.getEndTime() +"'");
-        }
+        addCondition(query, sql);
 
         //添加排序和分页
         int index = (query.getPage()-1) * query.getSize();
@@ -66,6 +40,18 @@ public class QrCodeSqlProvider {
 
     public String count(QrCodeQuery query) {
         StringBuffer sql = new StringBuffer("SELECT count(id) FROM "+ IQrCodeDao.TABLE_NAME +" where 1=1 ");
+        addCondition(query, sql);
+        System.out.println("--->>>二维码count查询SQL：" + sql.toString());
+
+        return sql.toString();
+    }
+
+    /**
+     * 添加查询条件
+     * @param query
+     * @param sql
+     */
+    private void addCondition(QrCodeQuery query, StringBuffer sql) {
         if (CommonUtil.isNotNull(query.getTitle())) {
             sql.append("and title like '%"+ query.getTitle() +"%'");
         }
@@ -80,9 +66,6 @@ public class QrCodeSqlProvider {
         } else if (CommonUtil.isNotNull(query.getEndTime())) {
             sql.append(" and effective_time_start <= '"+ query.getEndTime() +"'");
         }
-        System.out.println("--->>>二维码count查询SQL：" + sql.toString());
-
-        return sql.toString();
     }
 
 

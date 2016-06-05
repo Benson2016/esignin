@@ -62,6 +62,20 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
         return userInfoDao.findByMobile(mobile);
     }
 
+    /**
+     * 根据条件查询
+     * @param query
+     * @return
+     */
+    public List<UserInfo> findAllByQuery(UserInfoQuery query) {
+        return userInfoDao.findAllByQuery(query);
+    }
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
     public BensonPage<UserInfo> findByPage(UserInfoQuery query) {
 
         int total = userInfoDao.count(query);
@@ -84,4 +98,5 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
         }
         return userInfoDao.deleteByIds(ids);
     }
+
 }

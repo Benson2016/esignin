@@ -43,6 +43,14 @@ public interface IRoleInfoDao extends IBaseDao<RoleInfo, String> {
     List<RoleInfo> findAll();
 
     /**
+     * 根据条件查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = RoleSqlProvider.class, method = "findAllByQuery")
+    List<RoleInfo> findAllByQuery(RoleInfoQuery query);
+
+    /**
      * 分页查询
      * @param query 查询条件
      * @return
