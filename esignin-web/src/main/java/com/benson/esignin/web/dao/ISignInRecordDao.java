@@ -2,6 +2,8 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.SignInRecord;
+import com.benson.esignin.web.domain.vo.SignInRecordQuery;
+import com.benson.esignin.web.provider.SignInRecordSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -55,5 +57,30 @@ public interface ISignInRecordDao extends IBaseDao<SignInRecord, String> {
      */
     @Select("select "+BASE_COLUMN_LIST+" from "+TABLE_NAME+" where qrid=#{qrid} and user_id=#{userId} order by create_time desc limit 1")
     SignInRecord findByQridAndUserId(@Param("qrid") String qrid, @Param("userId") String userId);
+
+    /**
+     * 条件查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = SignInRecordSqlProvider.class, method = "findAllByQuery")
+    List<SignInRecord> findAllByQuery(SignInRecordQuery query);
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = SignInRecordSqlProvider.class, method = "findPage")
+    List<SignInRecord> findPage(SignInRecordQuery query);
+
+    /**
+     * 查询数量
+     * 结合分页使用
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = SignInRecordSqlProvider.class, method = "count")
+    int count(SignInRecordQuery query);
 
 }

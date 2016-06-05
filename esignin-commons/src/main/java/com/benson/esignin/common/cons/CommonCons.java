@@ -56,7 +56,7 @@ public class CommonCons {
     /**
      * 时间格式--日期时间毫秒连写格式
      */
-    public final static String D_FMT_DATE_TIME_SEQ = "yyyyMMddHHmmssSSS";
+    public final static String D_FMT_DATE_TIME_SEQ = "yyyyMMddHHmmss";
     /**
      * 时间格式--日期时间毫秒
      */

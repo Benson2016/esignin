@@ -73,7 +73,6 @@ public class QrCodeServiceImpl extends BaseServiceImpl<QrCode, String> implement
      * @param query 查询条件
      * @return
      */
-    @Override
     public List<QrCode> findAllByQuery(QrCodeQuery query) {
         return qrCodeDao.findAllByQuery(query);
     }

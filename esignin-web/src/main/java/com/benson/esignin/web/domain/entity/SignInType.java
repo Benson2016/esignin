@@ -1,12 +1,14 @@
 package com.benson.esignin.web.domain.entity;
 
+import java.io.Serializable;
+
 /**
  * 签到类型
  *
  * @author: Benson Xu
  * @date: 2016年05月29日 00:11
  */
-public class SignInType {
+public class SignInType implements Serializable {
 
     private Integer id; //类型ID,自增长列
 

@@ -38,7 +38,7 @@
 <body>
 <div class="mainContent" align="center">
 
-  <form name="addForm" action="${root}/code/addQrCode.bs" method="post">
+  <form name="addForm" action="${root}/code/saveQrCode.bs" method="post">
 
     <div class="blank30"></div>
 
@@ -65,13 +65,13 @@
 
     <div class="field">
       <label class="g-label l">开始时间 &nbsp;</label>
-      <input type="text" name="effectiveTimeStart" id="dStartTime" class="g-input l w-250" value="" >
+      <input type="text" name="effectiveTimeStart" id="effectiveTimeStart" class="g-input l w-250" value="" >
     </div>
 
     <div class="blank30"></div>
     <div class="field">
       <label class="g-label l">结束时间 &nbsp;</label>
-      <input type="text" name="effectiveTimeEnd" id="dEndTime" class="g-input l w-250" value="" >
+      <input type="text" name="effectiveTimeEnd" id="effectiveTimeEnd" class="g-input l w-250" value="" >
     </div>
 
     <div class="blank30"></div>
@@ -94,6 +94,7 @@
     <input type="hidden" name="id" id="id">
     <input type="hidden" name="createUser" id="createUser">
     <input type="hidden" name="isValid" id="isValid">
+    <input type="hidden" name="createTime" id="createTime">
     <!-- HIDDEN AREA END -->
   </form>
 </div>
@@ -104,13 +105,17 @@
 <script src="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.js"></script>
 
 <script>
+
   $(function () {
     hyxt.init();
 
-    console.log("返回值：" + ${qrCode});
+    // init datetime picker
+    $('#effectiveTimeStart').datetimepicker({lang:'ch',yearEnd:3060,format:"Y-m-d H:i:s"});
+    $('#effectiveTimeEnd').datetimepicker({lang:'ch',yearEnd:3060,format:"Y-m-d H:i:s"});
+
+    var qrCode = eval(${qrCode});
     // 初始化控件值
-    var qrCode = ${qrCode};
-    if(null != qrCode){
+    if(''!= qrCode && null!=qrCode){
       $("#id").val(qrCode.id);
       $("#createUser").val(qrCode.createUser);
       $("#isValid").val(qrCode.isValid);
@@ -119,11 +124,11 @@
       $("#image").val(qrCode.image);
       $("#description").val(qrCode.description);
 
+      $('#effectiveTimeStart').val(qrCode.effectiveTimeStartStr);
+      $('#effectiveTimeEnd').val(qrCode.effectiveTimeEndStr);
+      $('#createTime').val(qrCode.createTimeStr);
     }
 
-    // init datetime picker
-    $('#dStartTime').datetimepicker({lang:'ch',yearEnd:3060,format:"Y-m-d H:i:s"});
-    $('#dEndTime').datetimepicker({lang:'ch',yearEnd:3060,format:"Y-m-d H:i:s"});
   });
 
 </script>

@@ -27,6 +27,7 @@ CREATE TABLE `t_qr_code` (
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '二维码图片地址',
   `effective_time_start` timestamp NULL DEFAULT NULL COMMENT '二维码生效时间',
   `effective_time_end` timestamp NULL DEFAULT NULL COMMENT '二维码失效时间',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `is_valid` tinyint(1) DEFAULT NULL COMMENT '是否有效',
   `description` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '业务描述',
   PRIMARY KEY (`id`)

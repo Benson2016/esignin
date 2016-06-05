@@ -14,31 +14,34 @@ import java.util.List;
 @Repository("userInfoDao")
 public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
 
+    final String TABLE_NAME = "t_sys_user";
+
     final String BASE_COLUMN_LIST = "id, user_name as userName, full_name as fullName, password, sex, mobile, email, age, create_time as createTime, update_time as updateTime, flag, is_valid as isValid";
+
     final String INSERT_SQL = "INSERT into t_sys_user(id, user_name, full_name, password, sex, mobile, email, age, create_time, update_time, flag, is_valid) VALUES(#{id},#{userName},#{fullName},#{password},#{sex},#{mobile},#{email},#{age},#{createTime},#{updateTime},#{flag},#{isValid})";
 
     @Insert(INSERT_SQL)
     int add(UserInfo entity);
 
-    @Delete("DELETE FROM t_sys_user where id = #{id}")
+    @Delete("DELETE FROM "+ TABLE_NAME +" where id = #{id}")
     int delete(@Param("id") String id);
 
     @UpdateProvider(type=UserSqlProvider.class, method = "update")
     int update(UserInfo entity);
 
-    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE id = #{id}")
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  "+ TABLE_NAME +"  WHERE id = #{id}")
     UserInfo findOne(@Param("id") String primaryKey);
 
-    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user")
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+ TABLE_NAME)
     List<UserInfo> findAll();
 
-    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE user_name = #{userName} and password=#{password}")
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+ TABLE_NAME +" WHERE user_name = #{userName} and password=#{password}")
     public UserInfo authentication(UserInfo userInfo);
 
-    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE user_name = #{userName}")
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+ TABLE_NAME +" WHERE user_name = #{userName}")
     public UserInfo findByUserName(@Param("userName") String userName);
 
-    @Select("SELECT "+BASE_COLUMN_LIST+" FROM  t_sys_user  WHERE mobile = #{mobile}")
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+ TABLE_NAME +" WHERE mobile = #{mobile}")
     public UserInfo findByMobile(@Param("mobile") String mobile);
 
     /**

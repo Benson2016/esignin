@@ -2,6 +2,8 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.SignInType;
+import com.benson.esignin.web.domain.vo.SignInTypeQuery;
+import com.benson.esignin.web.provider.SignInTypeSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +39,31 @@ public interface ISignInTypeDao extends IBaseDao<SignInType, Integer> {
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" order by id asc")
     List<SignInType> findAll();
+
+
+    /**
+     * 条件查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = SignInTypeSqlProvider.class, method = "findAllByQuery")
+    List<SignInType> findAllByQuery(SignInTypeQuery query);
+
+    /**
+     * 分页查询
+     * @param query 查询条件
+     * @return
+     */
+    @SelectProvider(type = SignInTypeSqlProvider.class, method = "findPage")
+    List<SignInType> findPage(SignInTypeQuery query);
+
+    /**
+     * 查询数量
+     * 结合分页使用
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = SignInTypeSqlProvider.class, method = "count")
+    int count(SignInTypeQuery query);
 
 }

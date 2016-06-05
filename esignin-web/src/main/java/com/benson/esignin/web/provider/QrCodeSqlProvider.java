@@ -2,6 +2,7 @@ package com.benson.esignin.web.provider;
 
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.dao.IQrCodeDao;
+import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.vo.QrCodeQuery;
 
 /**
@@ -31,7 +32,7 @@ public class QrCodeSqlProvider {
         }
 
         //添加排序
-        sql.append(" order by effective_time_start DESC");
+        sql.append(" order by create_time DESC");
 
         return sql.toString();
     }
@@ -56,7 +57,7 @@ public class QrCodeSqlProvider {
 
         //添加排序和分页
         int index = (query.getPage()-1) * query.getSize();
-        sql.append(" order by effective_time_start DESC LIMIT ").append(index).append(",").append(query.getSize());
+        sql.append(" order by create_time DESC LIMIT ").append(index).append(",").append(query.getSize());
 
         System.out.println("--->>>二维码分页查询SQL：" + sql.toString());
 
@@ -81,6 +82,34 @@ public class QrCodeSqlProvider {
         }
         System.out.println("--->>>二维码count查询SQL：" + sql.toString());
 
+        return sql.toString();
+    }
+
+
+    public String update(QrCode entity) {
+        StringBuffer sql = new StringBuffer("update "+ IQrCodeDao.TABLE_NAME +" set is_valid=" + entity.getIsValid());
+        if (CommonUtil.isNotNull(entity.getTitle())) {
+            sql.append(", title='"+ entity.getTitle() +"'");
+        }
+        if (CommonUtil.isNotNull(entity.getSignInType())) {
+            sql.append(", sign_in_type='"+ entity.getSignInType() +"'");
+        }
+        if (CommonUtil.isNotNull(entity.getImage())) {
+            sql.append(", image='" + entity.getImage()+"'");
+        }
+        if (CommonUtil.isNotNull(entity.getDescription())) {
+            sql.append(", description='"+ entity.getDescription() +"'");
+        }
+        if (CommonUtil.isNotNull(entity.getEffectiveTimeStart())) {
+            sql.append(", effective_time_start='"+ entity.getEffectiveTimeStartStr() +"'");
+        }
+        if (CommonUtil.isNotNull(entity.getEffectiveTimeEnd())) {
+            sql.append(", effective_time_end='"+ entity.getEffectiveTimeEndStr() +"'");
+        }
+
+        sql.append(String.format(" where id = '%s'", entity.getId()));
+
+        System.out.println("The words of update sql: " + sql.toString());
         return sql.toString();
     }
     

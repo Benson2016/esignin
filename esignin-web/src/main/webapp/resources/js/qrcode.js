@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------
 // QRCode for JavaScript
 //
-// Copyright (c) 2009 Kazuhiko Arase
+// Copyright (c) 2009 Benson Xu
 //
 // URL: http://www.d-project.com/
 //

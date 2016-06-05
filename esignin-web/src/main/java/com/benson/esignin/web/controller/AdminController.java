@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,6 +94,21 @@ public class AdminController {
 
         return "admin/mgr_qrcode";
     }
+
+    // 签到类别管理
+    @RequestMapping(value = "mgrSignInType")
+    public String mgrSignInType(Model model) {
+
+        return "admin/mgr_signin_type";
+    }
+
+    // 签到记录管理
+    @RequestMapping(value = "mgrSignInRecord")
+    public String mgrSignInRecord(Model model) {
+
+        return "admin/mgr_signin_record";
+    }
+
     // 后台欢迎页
     @RequestMapping(value = "welcome")
     public String welcome(Model model) {
@@ -176,9 +190,27 @@ public class AdminController {
             page = qrCodeService.findByPage(query);
             result = JsonUtil.bean2Json(page);
         }catch (Exception e) {
-            logger.error("查询用二维码表异常：{}", e);
+            logger.error("查询二维码表异常：{}", e);
         } finally {
             logger.info("leave to qrCodeListData Method.");
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/typeListData",method = RequestMethod.POST)
+    @ResponseBody
+    public Object typeListData(SignInTypeQuery query) {
+        logger.info("enter to typeListData Method.");
+
+        BensonPage<SignInType> page = null;
+        String result = null;
+        try {
+            page = signInTypeService.findByPage(query);
+            result = JsonUtil.bean2Json(page);
+        }catch (Exception e) {
+            logger.error("查询签到类型列表异常：{}", e);
+        } finally {
+            logger.info("leave to typeListData Method.");
         }
         return result;
     }
@@ -199,7 +231,7 @@ public class AdminController {
         Field[] fields = null;
         String[] headers = null;
         String fileName = "records.xls";
-
+        String sheelName = "信息列表";
         try {
             // 根据导出类型导出业务相应数据：1.用户；2.角色；3.权限
             switch (exportType) {
@@ -207,18 +239,21 @@ public class AdminController {
                     records = userInfoService.findAll();
                     fields = new UserInfo().getClass().getDeclaredFields();
                     fileName = "user_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                    sheelName = "用户列表";
                     logger.info("即将导出所有用户信息数据。");
                     break;
                 case 2:
                     records = roleInfoService.findAll();
                     fields = new RoleInfo().getClass().getDeclaredFields();
                     fileName = "role_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                    sheelName = "角色列表";
                     logger.info("即将导出所有角色信息数据。");
                     break;
                 case 3:
                     records = permissionInfoService.findAll();
                     fields = new PermissionInfo().getClass().getDeclaredFields();
                     fileName = "permission_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                    sheelName = "权限列表";
                     logger.info("即将导出所有权限信息数据。");
                     break;
                 default:
@@ -237,7 +272,7 @@ public class AdminController {
             response.reset();// 清空输出流
             response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
             response.setContentType("application/msexcel");// 定义输出类型
-            ExportExcelUtil.exportExcel("补偿记录", headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
+            ExportExcelUtil.exportExcel(sheelName, headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
 
         } catch (IOException e) {
             logger.error("导出数据IO异常：{}", e);

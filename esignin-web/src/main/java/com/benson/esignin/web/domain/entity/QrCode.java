@@ -3,6 +3,7 @@ package com.benson.esignin.web.domain.entity;
 import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.entity.IdEntity;
 import com.benson.esignin.common.utils.DateUtil;
+import com.benson.esignin.web.domain.vo.QrCodeVo;
 
 import java.util.Date;
 
@@ -26,9 +27,33 @@ public class QrCode extends IdEntity {
 
     private Date effectiveTimeEnd;  // 二维码失效时间
 
+    private Date createTime;  // 创建时间
+
     private Integer isValid;    // 是否有效
 
     private String description; // 业务描述
+
+
+    public QrCode() {
+        super();
+    }
+
+    /**
+     * 根据VO类创建QrCode对象
+     * @param vo
+     */
+    public QrCode(QrCodeVo vo) {
+        this.id = vo.getId();
+        this.title = vo.getTitle();
+        this.image = vo.getImage();
+        this.signInType = vo.getSignInType();
+        this.createUser = vo.getCreateUser();
+        this.description = vo.getDescription();
+        this.createTime = DateUtil.converToDatetime(vo.getCreateTime());
+        this.effectiveTimeStart = DateUtil.converToDatetime(vo.getEffectiveTimeStart());
+        this.effectiveTimeEnd = DateUtil.converToDatetime(vo.getEffectiveTimeEnd());
+        this.isValid = vo.getIsValid();
+    }
 
 
     public String getTitle() {
@@ -79,6 +104,14 @@ public class QrCode extends IdEntity {
         this.effectiveTimeEnd = effectiveTimeEnd;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public Integer getIsValid() {
         return isValid;
     }
@@ -100,9 +133,13 @@ public class QrCode extends IdEntity {
      * @return 字符串格式
      */
     public String getCreateTimeStr() {
+        return DateUtil.converToString(this.createTime, CommonCons.D_FMT_NORMAL);
+    }
+    public String getEffectiveTimeStartStr() {
         return DateUtil.converToString(this.effectiveTimeStart, CommonCons.D_FMT_NORMAL);
     }
     public String getEffectiveTimeEndStr() {
         return DateUtil.converToString(this.effectiveTimeEnd, CommonCons.D_FMT_NORMAL);
     }
+
 }

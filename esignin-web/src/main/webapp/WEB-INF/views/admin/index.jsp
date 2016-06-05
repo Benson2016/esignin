@@ -568,6 +568,47 @@
                     <span class="selected"></span>
                 </a>
             </li>
+
+
+            <!-- QR Manager -->
+            <li class="">
+                <a href="javascript:;">
+                    <i class="icon-barcode"></i>
+                    <span class="title">QR Code管理</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <%--
+                    <li >
+                        <a href="javascript:;">业务类型</a>
+                    </li>
+                    --%>
+                    <li >
+                        <a href="javascript:void(0);" onclick="openMenuItem(5)">
+                            <i class="icon-barcode"></i>QRCode列表</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Sign in Manager -->
+            <li class="">
+                <a href="javascript:;">
+                    <i class="icon-ok"></i>
+                    <span class="title">签到管理</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li >
+                        <a href="javascript:void(0);" onclick="openMenuItem(6)">
+                            <i class="icon-time"></i>签到类型</a>
+                    </li>
+                    <li >
+                        <a href="javascript:void(0);" onclick="openMenuItem(7)">
+                            <i class="icon-time"></i>签到记录</a>
+                    </li>
+                </ul>
+            </li>
+
             <!-- Sys Manager -->
             <li class="">
                 <a href="javascript:(0);">
@@ -576,17 +617,17 @@
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(1)">用户管理</a>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(1)"><i class="icon-user"></i>用户管理</a>
                     </li>
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(2)">角色管理</a>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(2)"><i class="icon-user-md"></i>角色管理</a>
                     </li>
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(3)">权限管理</a>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(3)"><i class="icon-unlock"></i>权限管理</a>
                     </li>
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(4)">菜单管理</a>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(4)"><i class="icon-tasks"></i>菜单管理</a>
                     </li>
 
                 </ul>
@@ -601,67 +642,33 @@
                 </a>
                 <ul class="sub-menu">
                     <li >
-                        <a href="ui_general.html">后台操作日志</a>
+                        <a href="ui_general.html"><i class="icon-file-alt"></i>后台操作日志</a>
                     </li>
                     <li >
-                        <a href="ui_buttons.html">用户注册日志</a>
+                        <a href="ui_buttons.html"><i class="icon-file-alt"></i>用户注册日志</a>
                     </li>
                     <li >
-                        <a href="ui_modals.html">系统异常日志</a>
+                        <a href="ui_modals.html"><i class="icon-file-alt"></i>系统异常日志</a>
                     </li>
 
-                </ul>
-            </li>
-
-            <!-- QR Manager -->
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-table"></i>
-                    <span class="title">QR Code管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li >
-                        <a href="javascript:;">业务类型</a>
-                    </li>
-                    <li >
-                        <a href="javascript:;" onclick="openMenuItem(6)">QRCode列表</a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- Sing in Manager -->
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-briefcase"></i>
-                    <span class="title">签到管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li >
-                        <a href="page_timeline.html">
-                            <i class="icon-time"></i>签到类型</a>
-                    </li>
-                    <li >
-                        <a href="page_coming_soon.html">
-                            <i class="icon-time"></i>签到记录</a>
-                    </li>
                 </ul>
             </li>
 
             <!-- Statistics Manager -->
             <li class="">
                 <a href="javascript:;">
-                    <i class="icon-gift"></i>
+                    <i class="icon-bar-chart"></i>
                     <span class="title">统计管理</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
                     <li >
-                        <a href="extra_profile.html">用户统计</a>
+                        <a href="extra_profile.html">
+                            <i class="icon-bar-chart"></i>用户统计</a>
                     </li>
                     <li >
-                        <a href="extra_lock.html">签到统计</a>
+                        <a href="extra_lock.html">
+                            <i class="icon-bar-chart"></i>签到统计</a>
                     </li>
                 </ul>
             </li>
@@ -895,11 +902,15 @@
                 $("#mainPanel").show();
                 break;
             case 5:
-                /*$("#mainContent").attr("src", "${root}/admin/mgrMenu.bs");
-                $("#mainPanel").show();*/
+                $("#mainContent").attr("src", "${root}/admin/mgrQrCode.bs");
+                $("#mainPanel").show();
                 break;
             case 6:
-                $("#mainContent").attr("src", "${root}/admin/mgrQrCode.bs");
+                $("#mainContent").attr("src", "${root}/admin/mgrSignInType.bs");
+                $("#mainPanel").show();
+                break;
+            case 7:
+                $("#mainContent").attr("src", "${root}/admin/mgrSignInRecord.bs");
                 $("#mainPanel").show();
                 break;
             default:

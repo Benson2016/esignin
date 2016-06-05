@@ -10,7 +10,6 @@ import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.QrCodeQuery;
 import com.benson.esignin.web.domain.vo.QrCodeResponse;
 import com.benson.esignin.web.domain.vo.QrCodeVo;
-import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IQrCodeService;
 import com.benson.esignin.web.service.ISignInTypeService;
 import com.benson.esignin.web.service.IUserInfoService;
@@ -27,11 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,10 +93,17 @@ public class QrCodeController {
                 logger.info(String.format("没有查找到业务ID为[%s]的二维码!", businessId));
                 outputNotFileImg(request, response);
             }
+            response.getOutputStream().flush();
 
         } catch (Exception e) {
             logger.error("获取二维码时发生异常: ", e);
         } finally {
+            try {
+                if (null != response.getOutputStream())
+                    response.getOutputStream().close();
+            } catch (IOException ioe) {
+                logger.error("获取二维码并关闭输出流时发生异常: ", ioe);
+            }
             logger.info("The End Of getQrCode.");
         }
     }
@@ -136,6 +140,50 @@ public class QrCodeController {
         } finally {
             if (null != os) os.close();
             if (null != fis) fis.close();
+        }
+    }
+
+    /**
+     * 下载二维码
+     * @param businessId
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/download")
+    public void download(@RequestParam String businessId, HttpServletRequest request, HttpServletResponse response) {
+
+        if (CommonUtil.isNull(businessId)) {
+            logger.error("业务Id为空,无法正常获取二维码!");
+            return;
+        }
+
+        try {
+            // 查询业务二维码
+            QrCode qrCode = qrCodeService.findOne(businessId);
+
+            String fileName = String.format("ESIGNIN_QRCODE_%s.jpg", DateUtil.getCurrentDateTimeStr(CommonCons.D_FMT_DATE_TIME_SEQ));
+
+            response.reset();// 清空输出流
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
+            response.setContentType("application/x-download; charset=UTF-8");
+            response.setContentType("image/jpeg");
+
+            if (CommonUtil.isNotNull(qrCode)) {
+                QRCodeUtil.generate(qrCode.getImage(), 300, 300, response);
+            } else {
+                logger.info(String.format("没有查找到业务ID为[%s]的二维码!", businessId));
+                outputNotFileImg(request, response);
+            }
+            response.getOutputStream().flush();
+        } catch (Exception e) {
+            logger.error("下载二维码异常:", e);
+        } finally {
+            try {
+                if (null != response.getOutputStream())
+                    response.getOutputStream().close();
+            } catch (IOException ioe) {
+                logger.error("下载二维码并关闭输出流时发生异常: ", ioe);
+            }
         }
     }
 
@@ -191,16 +239,20 @@ public class QrCodeController {
             qrCode.setTitle(qrCodeVo.getTitle());
             qrCode.setSignInType(qrCodeVo.getSignInType());
             qrCode.setDescription(qrCodeVo.getDescription());
+
+            Date currentTime = DateUtil.getCurrentDateTime();
+
             // 设置一些默认参数
             qrCode.generateUUId();
             qrCode.setIsValid(1);
+            qrCode.setCreateTime(currentTime);
             // 设置创建者
             UserInfo loginUser = UserUtil.getLoginUser(request);
             qrCode.setCreateUser(CommonUtil.isNotNull(loginUser) ? loginUser.getId() : "100000000");
 
             // 如果生效时间为空，则默认当前时间
             if (CommonUtil.isNull(qrCodeVo.getEffectiveTimeStart())) {
-                qrCode.setEffectiveTimeStart(DateUtil.getCurrentDateTime());
+                qrCode.setEffectiveTimeStart(currentTime);
             } else {
                 qrCode.setEffectiveTimeStart(DateUtil.parseYMDHMS(qrCodeVo.getEffectiveTimeStart()));
             }
@@ -227,9 +279,40 @@ public class QrCodeController {
             response = new QrCodeResponse(StateResponse.SUCCESS);
             response.setRspMsg("添加成功！");
         } catch (Exception e) {
-            logger.error("保存二维码时发生异常: ", e);
+            logger.error("添加二维码时发生异常: ", e);
         } finally {
             logger.info("Exit addQrCode Method");
+        }
+        return JsonUtil.toJson(response);
+    }
+
+    // 保存二维码
+    @RequestMapping(value = "/saveQrCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Object saveQrCode(QrCodeVo vo, HttpServletRequest request) {
+        logger.info("Enter saveQrCode Method. and request parameters is " + JsonUtil.bean2Json(vo));
+        QrCodeResponse response = null;
+        if (CommonUtil.isNull(vo)) {
+            response = new QrCodeResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+
+        try {
+            QrCode qrCode = new QrCode(vo);
+
+            // 保存QRCode
+            int row = qrCodeService.update(qrCode);
+            if (row>0) {
+                logger.info(String.format("保存二维码【%s】成功！", qrCode.getTitle()));
+            } else {
+                logger.info(String.format("保存二维码【%s】未成功！", qrCode.getTitle()));
+            }
+            response = new QrCodeResponse(StateResponse.SUCCESS);
+            response.setRspMsg("保存成功！");
+        } catch (Exception e) {
+            logger.error("保存二维码时发生异常: ", e);
+        } finally {
+            logger.info("Exit saveQrCode Method");
         }
         return JsonUtil.toJson(response);
     }
@@ -291,9 +374,9 @@ public class QrCodeController {
     @RequestMapping(value = "/delQrCode",method = RequestMethod.POST)
     @ResponseBody
     public Object delQrCode(@RequestParam String ids) {
-        UserInfoResponse response = null;
+        QrCodeResponse response = null;
         if (CommonUtil.isNull(ids)) {
-            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            response = new QrCodeResponse(StateResponse.ERROR_PARAM);
             return JsonUtil.toJson(response);
         }
 
@@ -303,11 +386,11 @@ public class QrCodeController {
             int result = qrCodeService.deleteByIds(ids);
             logger.info(String.format("===》》》二维码删除操作，预期删除 %d条记录，实际删除 %d条记录。", idArray.length, result));
 
-            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response = new QrCodeResponse(StateResponse.SUCCESS);
             response.setRspMsg("删除成功！");
         } catch (Exception e) {
-            logger.error("手动删除角色记录失败！异常：{}", e);
-            response = new UserInfoResponse(StateResponse.ERROR_SYS);
+            logger.error("手动删除二维码记录失败！异常：{}", e);
+            response = new QrCodeResponse(StateResponse.ERROR_SYS);
         }
 
         return JsonUtil.toJson(response);
@@ -338,7 +421,7 @@ public class QrCodeController {
             response.reset();// 清空输出流
             response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
             response.setContentType("application/msexcel");// 定义输出类型
-            ExportExcelUtil.exportExcel("补偿记录", headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
+            ExportExcelUtil.exportExcel("二维码信息", headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
 
         } catch (IOException e) {
             logger.error("导出数据IO异常：{}", e);
@@ -367,11 +450,12 @@ public class QrCodeController {
 
     /**
      * 去QRCode编辑页面
+     * @param qrCodeId 二维码ID
      * @param model
      * @return
      */
     @RequestMapping("/toQrEdit")
-    public String toQrEdit(Model model, String qrCodeId) {
+    public String toQrEdit(@RequestParam String qrCodeId, Model model) {
         try {
             QrCode qrCode = qrCodeService.findOne(qrCodeId);
             String json = JsonUtil.bean2Json(qrCode);

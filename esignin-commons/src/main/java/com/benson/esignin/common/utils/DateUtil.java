@@ -86,6 +86,9 @@ public class DateUtil {
 	 * @return 日期对象
 	 */
 	public static Date converToDatetime(String dateString) {
+		if (CommonUtil.isNull(dateString)) {
+			return null;
+		}
 		SimpleDateFormat sdf = new SimpleDateFormat(CommonCons.D_FMT_NORMAL);
 		Date date = null;
 		try {

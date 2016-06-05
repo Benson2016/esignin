@@ -18,20 +18,37 @@ import java.util.List;
 public class UserSqlProvider {
 
     public String update(UserInfo entity) {
-        StringBuffer sql = new StringBuffer("update t_sys_user set user_name=#{userName} ");
+        StringBuffer sql = new StringBuffer("update "+ IUserInfoDao.TABLE_NAME +" set is_valid=" + entity.getIsValid());
+
         if (CommonUtil.isNotNull(entity.getFullName())) {
             sql.append(", full_name='"+ entity.getFullName() +"'");
         }
         if (CommonUtil.isNotNull(entity.getUpdateTime())) {
             sql.append(", update_time='"+ entity.getUpdateTime() +"'");
         }
-        if (CommonUtil.isNotNull(entity.getIsValid())) {
-            sql.append(", is_valid=" + entity.getIsValid());
+        if (CommonUtil.isNotNull(entity.getPassword())) {
+            sql.append(", password=" + entity.getPassword());
         }
         if (CommonUtil.isNotNull(entity.getMobile())) {
             sql.append(", mobile='"+ entity.getMobile() +"'");
         }
-        sql.append("where id = #{id}");
+        if (CommonUtil.isNotNull(entity.getEmail())) {
+            sql.append(", email='"+ entity.getEmail() +"'");
+        }
+        if (CommonUtil.isNotNull(entity.getSex())) {
+            sql.append(", sex=").append(entity.getSex());
+        }
+        if (CommonUtil.isNotNull(entity.getAge())) {
+            sql.append(", age=").append(entity.getAge());
+        }
+        if (CommonUtil.isNotNull(entity.getFlag())) {
+            sql.append(", flag=").append(entity.getFlag());
+        }
+
+
+        sql.append(String.format(" where id = '%s'", entity.getId()));
+
+        System.out.println("--->>>update-UserInfo-SQL：" + sql.toString());
         return sql.toString();
     }
 
