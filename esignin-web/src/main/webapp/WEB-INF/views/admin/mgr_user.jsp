@@ -36,7 +36,7 @@
         <div class="blank3"></div>
         <div class="configureBox">
             <!-- 查询与导出 -->
-            <form id="searchForm" action="${root}/admin/exportDataToExcel.bs" method="post">
+            <form id="searchForm" action="${root}/admin/exportUserDataToExcel.bs" method="post">
                 <div style="margin:13px 0;">
                     <label class="g-label l">手机号码 &nbsp;</label>
                     <input type="text" name="mobile" id="sMobile" class="g-input l w-180" value=""
@@ -48,14 +48,14 @@
                     <input type="text" name="userName" id="sUserName" class="g-input l w-180" value=""
                            style="margin-right:50px">
                     <a href="javascript:;" class="g-searchBtn r" id="searchBtn">查询</a>
+                    <a href="javascript:;" class="g-searchBtn r" id="clearBtn">清除</a>&nbsp;&nbsp;
                     <div class="clear"></div>
-                    <input type="hidden" id="exportType" name="exportType" value="1">
                 </div>
             </form>
 
             <div class="tableTopBtn">
                 <a class="delSelectBtn" href="javascript:void(0)">删除选中</a>
-                <a class="exportDataBtn" href="javascript:void(0)">导出所有数据</a>
+                <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value=""/>
             <input id="direction" type="hidden" name="direction" value="desc"/>
@@ -104,6 +104,13 @@
         // 查询记录
         $("#searchBtn").click(function () {
             getDataHtml(1, 10);
+        });
+
+        // 清除查询条件
+        $("#clearBtn").click(function(){
+            $('#sMobile').val("");
+            $('#sFullName').val("");
+            $('#sUserName').val("");
         });
 
         //导出数据

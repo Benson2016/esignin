@@ -49,7 +49,6 @@
                     <a href="javascript:;" class="g-searchBtn r" id="searchBtn">查询</a>
                     <a href="javascript:;" class="g-searchBtn r" id="clearBtn">清除</a>&nbsp;&nbsp;
                     <div class="clear"></div>
-                    <input type="hidden" id="exportType" name="exportType" value="4">
                 </div>
             </form>
 

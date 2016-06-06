@@ -3,6 +3,7 @@ package com.benson.esignin.web.controller;
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.utils.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,12 +39,11 @@ public class PageController {
      * @return
      */
     @RequestMapping("/index")
-    public String index(HttpSession session) {
-        UserInfo authUserInfo = (UserInfo) session.getAttribute("userInfo");
-        if (CommonUtil.isNull(authUserInfo))
-            return "login";
-        else
+    public String index(HttpServletRequest request) {
+        if (UserUtil.isLogin(request))
             return "admin/index";
+        else
+            return "login";
     }
 
     /**

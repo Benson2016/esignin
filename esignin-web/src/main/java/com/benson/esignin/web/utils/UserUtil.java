@@ -1,6 +1,7 @@
 package com.benson.esignin.web.utils;
 
 import com.benson.esignin.common.cons.SysCons;
+import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.domain.entity.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,16 @@ public class UserUtil {
     public static UserInfo getLoginUser(HttpServletRequest request) {
         UserInfo logerUser = (UserInfo) request.getSession().getAttribute(SysCons.LOGIN_USER);
         return logerUser;
+    }
+
+    /**
+     * 判断当前用户是否已登录
+     * @param request
+     * @return
+     */
+    public static boolean isLogin(HttpServletRequest request) {
+        UserInfo logerUser = getLoginUser(request);
+        return CommonUtil.isNotNull(logerUser);
     }
 
 }

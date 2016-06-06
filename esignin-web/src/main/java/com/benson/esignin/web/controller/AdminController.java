@@ -7,6 +7,7 @@ import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.web.domain.entity.*;
 import com.benson.esignin.web.domain.vo.*;
 import com.benson.esignin.web.service.*;
+import com.benson.esignin.web.utils.UserUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,10 +51,10 @@ public class AdminController {
     // 后台管理页
     @RequestMapping(value = "toAdmin")
     public String toAdmin(Model model, HttpServletRequest request, HttpServletResponse response) {
-        /*logger.info("enter to toAdmin Method.");
-
-        logger.info("leave to toAdmin Method.");*/
-        return "admin/index";
+        if (UserUtil.isLogin(request))
+            return "admin/index";
+        else
+            return "login";
     }
     // 用户管理页
     @RequestMapping(value = "mgrUser")
@@ -217,51 +218,112 @@ public class AdminController {
 
 
     /**
-     * 导出数据到Excel文档中
-     * @param exportType 导出类型：1.用户；2.角色；3.权限
+     * 导出用户数据到Excel文档中
+     * @param query 查询条件
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/exportDataToExcel",method = RequestMethod.POST)
-    public void exportDataToExcel(@RequestParam Integer exportType, HttpServletRequest request, HttpServletResponse response) {
-        //System.out.println("\n当前导出类型："+exportType+"\n");
-
+    @RequestMapping(value = "/exportUserDataToExcel", method = RequestMethod.POST)
+    public void exportUserDataToExcel(UserInfoQuery query, HttpServletRequest request, HttpServletResponse response) {
         List<? extends Serializable> records = null;
         Field[] fields = null;
         String[] headers = null;
         String fileName = "records.xls";
-        String sheelName = "信息列表";
+        String sheelName = null;
         try {
-            // 根据导出类型导出业务相应数据：1.用户；2.角色；3.权限
-            switch (exportType) {
-                case 1:
-                    records = userInfoService.findAll();
-                    fields = new UserInfo().getClass().getDeclaredFields();
-                    fileName = "user_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
-                    sheelName = "用户列表";
-                    logger.info("即将导出所有用户信息数据。");
-                    break;
-                case 2:
-                    records = roleInfoService.findAll();
-                    fields = new RoleInfo().getClass().getDeclaredFields();
-                    fileName = "role_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
-                    sheelName = "角色列表";
-                    logger.info("即将导出所有角色信息数据。");
-                    break;
-                case 3:
-                    records = permissionInfoService.findAll();
-                    fields = new PermissionInfo().getClass().getDeclaredFields();
-                    fileName = "permission_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
-                    sheelName = "权限列表";
-                    logger.info("即将导出所有权限信息数据。");
-                    break;
-                default:
-                    logger.info("【exportType="+ exportType +"】导出类型不存在！");
-                    break;
+            // 获取导出数据
+            records = userInfoService.findAllByQuery(query);
+            fields = new UserInfo().getClass().getDeclaredFields();
+            fileName = "user_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+            sheelName = "用户列表";
+            logger.info("即将导出所有用户信息数据。");
+
+            if (null != fields) {
+                headers = new String[fields.length];
+                for (int i=0; i<fields.length; i++) {
+                    headers[i] = fields[i].getName();
+                }
             }
 
-            logger.info("fields长度：" + fields.length);
+            response.reset();// 清空输出流
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
+            response.setContentType("application/msexcel");// 定义输出类型
+            ExportExcelUtil.exportExcel(sheelName, headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
+
+        } catch (IOException e) {
+            logger.error("导出数据IO异常：{}", e);
+        } catch (Exception e) {
+            logger.error("导出数据异常：{}", e);
+        } finally {
+            logger.info("数据导出完毕！文件名：" + fileName);
+        }
+    }
+
+
+    /**
+     * 导出角色数据到Excel文档中
+     * @param query 查询条件
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/exportRoleDataToExcel", method = RequestMethod.POST)
+    public void exportRoleDataToExcel(RoleInfoQuery query, HttpServletRequest request, HttpServletResponse response) {
+        List<? extends Serializable> records = null;
+        Field[] fields = null;
+        String[] headers = null;
+        String fileName = "records.xls";
+        String sheelName = "角色列表";
+        try {
+            // 获取导出数据
+            records = roleInfoService.findAllByQuery(query);
+            fields = new RoleInfo().getClass().getDeclaredFields();
+            fileName = "role_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+            logger.info("即将导出所有角色信息数据。");
+
+            if (null != fields) {
+                headers = new String[fields.length];
+                for (int i=0; i<fields.length; i++) {
+                    headers[i] = fields[i].getName();
+                }
+            }
+
+            response.reset();// 清空输出流
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName);// 设定输出文件头
+            response.setContentType("application/msexcel");// 定义输出类型
+            ExportExcelUtil.exportExcel(sheelName, headers, records, response.getOutputStream(), CommonCons.D_FMT_NORMAL);
+
+        } catch (IOException e) {
+            logger.error("导出数据IO异常：{}", e);
+        } catch (Exception e) {
+            logger.error("导出数据异常：{}", e);
+        } finally {
+            logger.info("数据导出完毕！文件名：" + fileName);
+        }
+    }
+
+    /**
+     * 导出权限数据到Excel文档中
+     * @param query 查询条件
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/exportPermDataToExcel", method = RequestMethod.POST)
+    public void exportPermDataToExcel(PermissionInfoQuery query, HttpServletRequest request, HttpServletResponse response) {
+        List<? extends Serializable> records = null;
+        Field[] fields = null;
+        String[] headers = null;
+        String fileName = "records.xls";
+        String sheelName = "权限列表";
+        try {
+            // 获取导出数据
+            records = permissionInfoService.findAllByQuery(query);
+            fields = new PermissionInfo().getClass().getDeclaredFields();
+            fileName = "permission_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+            logger.info("即将导出所有权限信息数据。");
+
             if (null != fields) {
                 headers = new String[fields.length];
                 for (int i=0; i<fields.length; i++) {
