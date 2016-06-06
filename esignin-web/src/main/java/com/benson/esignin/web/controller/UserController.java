@@ -6,6 +6,7 @@ import com.benson.esignin.common.utils.*;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IUserInfoService;
+import com.benson.esignin.web.utils.SysLogUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,6 +167,9 @@ public class UserController {
 
             // 验证成功在Session中保存用户信息
             storyUserToSession(request, authUserInfo, SysCons.LOGIN_USER);
+
+            // 添加登录日志
+            SysLogUtil.addLoginLog(authUserInfo, request);
 
         } catch (AuthenticationException e) {
             // 身份验证失败

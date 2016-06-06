@@ -642,13 +642,10 @@
                 </a>
                 <ul class="sub-menu">
                     <li >
-                        <a href="ui_general.html"><i class="icon-file-alt"></i>后台操作日志</a>
+                        <a href="javascript:0" onclick="openMenuItem(8)"><i class="icon-file-alt"></i>系统日志</a>
                     </li>
                     <li >
-                        <a href="ui_buttons.html"><i class="icon-file-alt"></i>用户注册日志</a>
-                    </li>
-                    <li >
-                        <a href="ui_modals.html"><i class="icon-file-alt"></i>系统异常日志</a>
+                        <a href="javascript:0" onclick="openMenuItem(9)"><i class="icon-file-alt"></i>系统异常日志</a>
                     </li>
 
                 </ul>
@@ -911,6 +908,14 @@
                 break;
             case 7:
                 $("#mainContent").attr("src", "${root}/admin/mgrSignInRecord.bs");
+                $("#mainPanel").show();
+                break;
+            case 8:
+                $("#mainContent").attr("src", "${root}/log/mgrSysLog.bs");
+                $("#mainPanel").show();
+                break;
+            case 9:
+                $("#mainContent").attr("src", "${root}/log/mgrSysExceptionLog.bs");
                 $("#mainPanel").show();
                 break;
             default:
