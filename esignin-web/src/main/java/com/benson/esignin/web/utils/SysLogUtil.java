@@ -86,7 +86,7 @@ public class SysLogUtil {
      * @param request
      */
     public static void addLoginLog(UserInfo loginUser, HttpServletRequest request) {
-        String ip = "192.168.0.127";
+        String ip = IPUtil.getIpAddr(request);
         SysLog log = new SysLog(ip, loginUser.getUserName(), "login", "用户登录系统。", DateUtil.getCurrentDateTime(), "100");
         addSysLog(log);
     }

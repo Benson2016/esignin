@@ -36,6 +36,7 @@ public class SysLog extends IdEntity {
      */
     public SysLog(String ip, String userName, String moduleName, String operContent, Date operTime, String consumeTime) {
         this.ip = ip;
+        this.userName = userName;
         this.moduleName = moduleName;
         this.operContent = operContent;
         this.operTime = operTime;

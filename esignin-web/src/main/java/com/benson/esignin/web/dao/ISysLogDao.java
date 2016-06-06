@@ -22,7 +22,7 @@ public interface ISysLogDao extends IBaseDao<SysLog, String> {
 
     final String TABLE_NAME = "t_sys_log";
 
-    final String BASE_COLUMN_LIST = "id, ip, user_name as userName, module_name as moduleName, oper_content as opeContent, oper_time as operTime, consume_time as consumeTime";
+    final String BASE_COLUMN_LIST = "id, ip, user_name as userName, module_name as moduleName, oper_content as operContent, oper_time as operTime, consume_time as consumeTime";
 
     final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, ip, user_name, module_name, oper_content, oper_time, consume_time) VALUES(#{id},#{ip},#{userName},#{moduleName},#{operContent},#{operTime},#{consumeTime})";
 
