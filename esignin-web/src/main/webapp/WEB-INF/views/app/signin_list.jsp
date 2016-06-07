@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="${root}/commons/img/favicon.ico"/>
     <style>
         .list-group {
-            width: 600px; height: auto; text-align: left;
+            width: 610px; height: auto; text-align: left;
         }
         .col_space {
             margin-left: 80px;
