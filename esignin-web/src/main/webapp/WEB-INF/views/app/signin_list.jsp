@@ -13,18 +13,28 @@
     <title>E SIGN IN</title>
     <link href="${root}/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="${root}/commons/img/favicon.ico"/>
+    <style>
+        .list-group {
+            width: 600px; height: auto; text-align: left;
+        }
+        .col_space {
+            margin-left: 80px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-    <div class="signin-list">
-        <h1 align="center">签到情况:</h1>
-        <ul class="list-group">
+    <div class="signin-list" align="center">
+        <h1 align="center">签到情况</h1>
+        <ul class="list-group" >
         <c:choose>
             <c:when test="${records.size()>0}">
                 <c:forEach var="record" items="${records}" varStatus="status">
                     <li class="list-group-item">
-                        <span class="list-inline">${status.count}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            ${record.mobile} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            ${record.createTimeStr}
+                        <span class="badge">${status.count}</span>
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="col_space">${record.mobile}</span>
+                        <span class="col_space">${record.createTimeStr}</span>
                     </li>
                 </c:forEach>
             </c:when>
