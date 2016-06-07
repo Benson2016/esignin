@@ -23,8 +23,7 @@
         // reading sun info
         var sun = $_story.getItem("sun");
         var sup = $_story.getItem("sup");
-        //alert(sun);
-        console.log("$_story["+sun+","+sup+"]");
+        //alert("$_story["+sun+","+sup+"]");
         if ((null!=sun && ''!==sun)&&(null!=sup && ''!==sup)) {
             if (isCallback) {
                 isCallback = false;

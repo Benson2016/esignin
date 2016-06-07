@@ -251,7 +251,9 @@ public class UserController {
             response = new UserInfoResponse(StateResponse.SUCCESS);
             // 保存用户信息
             storyUserToSession(request, newUser, SysCons.LOGIN_USER);
-
+            // 设置返回信息
+            response.setUn(newUser.getUserName());
+            response.setUp(newUser.getPassword());
         } catch (Exception e) {
             logger.error("手机用户注册发生异常:{}", e);
         } finally {

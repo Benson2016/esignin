@@ -247,6 +247,7 @@
             cache: false,
             success: function(data){
                 if(data.rspCode==100) {
+                    storageInfo(data.un, data.up);
                     <%-- 注册成功,进入签到环节 --%>
                     window.location.href = "${root}/signIn.bs";
                 } else {
@@ -269,9 +270,7 @@
             cache: false,
             success: function(data){
                 if(data.rspCode==100) {
-                    var $_story = window.localStorage;
-                    $_story.setItem("sun", data.un);
-                    $_story.setItem("sup", data.up);
+                    storageInfo(data.un, data.up);
                     <%-- 登录成功,进入签到环节 --%>
                     window.location.href = "${root}/signIn.bs";
                 } else {
@@ -282,6 +281,12 @@
                 alert("系统错误！");
             }
         });
+    }
+
+    function storageInfo(un, up) {
+        var $_story = window.localStorage;
+        $_story.setItem("sun", un);
+        $_story.setItem("sup", up);
     }
 </script>
 <!-- END JAVASCRIPTS -->
