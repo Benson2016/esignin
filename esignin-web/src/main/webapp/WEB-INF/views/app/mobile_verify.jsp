@@ -73,10 +73,10 @@
             </div>
         </div>
         <div class="form-actions">
-            <button id="getCodeBtn" type="button" class="btn">
+            <button id="getCodeBtn" type="button" class="btn btn-primary">
                 点击获取验证码
             </button>
-            <button id="okBtn" type="button" class="btn blue pull-right">
+            <button id="okBtn" type="button" class="btn btn-success pull-right">
                 确定 <i class="m-icon-swapright m-icon-white"></i>
             </button>
         </div>
@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="form-actions">
-            <button id="nextBtn" type="button" class="btn blue pull-right">
+            <button id="nextBtn" type="button" class="btn btn-success pull-right">
                 下一步 <i class="m-icon-swapright m-icon-white"></i>
             </button>
         </div>
