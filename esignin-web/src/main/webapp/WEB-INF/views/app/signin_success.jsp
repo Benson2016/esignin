@@ -23,7 +23,7 @@
             window.location.href = "${root}/getSignInList.bs?businessId=${businessId}";
         </script>
     </c:when>
-    <c:when test="${alreadySign}==false">
+    <c:when test="${!alreadySign}">
         <div class="content">
             <h1>&nbsp;</h1>
             <h3 align="center">恭喜${userName},您已签到成功!</h3>

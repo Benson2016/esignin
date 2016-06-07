@@ -52,7 +52,7 @@
       <div class="field">
         <label class="g-label l">签到类型 &nbsp;</label>
         <select name="signInType" id="signInType" class="g-input l w-250" style="margin-right:30px">
-          <option value="">不限</option>
+          <option value="">请选择</option>
           <c:if test="${null!=signInTypeList}">
             <c:forEach var="sitype" items="${signInTypeList}">
               <option value="${sitype.id}">${sitype.typeName}</option>

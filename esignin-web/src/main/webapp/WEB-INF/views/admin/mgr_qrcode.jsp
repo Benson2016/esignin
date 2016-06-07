@@ -74,7 +74,7 @@
                     <thead>
                     <tr>
                         <th width="3%">序号</th>
-                        <th width="7%"><input type="checkbox" name="checkAllOrNot" id="checkAllOrNot" onclick="checkAllEvent()">选项</th>
+                        <th width="5%"><input type="checkbox" name="checkAllOrNot" id="checkAllOrNot" onclick="checkAllEvent()">选项</th>
                         <th width="10%">业务主题</th>
                         <th width="15%">业务描述</th>
                         <th width="10%">签到类型</th>
@@ -82,7 +82,7 @@
                         <th width="10%">开始时间</th>
                         <th width="10%">到期时间</th>
                         <th width="7%">是否有效</th>
-                        <th width="8%">操 作</th>
+                        <th width="10%">操 作</th>
                     </tr>
                     </thead>
                     <tbody id="data_body"></tbody>

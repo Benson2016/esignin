@@ -109,6 +109,7 @@
 <script src="${root}/resources/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script src="${root}/resources/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script>
+    var isCallback = true;
     function submitOK() {
         var vc = $("#verifyCode").val();
         if(vc==null || vc==''){
@@ -123,28 +124,33 @@
         // 再次验证手机号
         if(checkPhone()) {
             var phone = $("#mobile").val();
-            $.ajax({
-                url: "${root}/checkCode.bs",
-                dataType: "json",
-                type: "POST",
-                data: {mobile: phone, code: vc, cid: cid},
-                cache: false,
-                success: function(data){
-                    if(data.rspCode==100) {
-                        if (1==data.isUser||'1'==data.isUser) { //do login
-                            doLogin();
-                        } else { //do register
-                            $(".login-form").hide();
-                            $(".register-form").show();
+            if(isCallback) {
+                isCallback = false;
+                $.ajax({
+                    url: "${root}/checkCode.bs",
+                    dataType: "json",
+                    type: "POST",
+                    data: {mobile: phone, code: vc, cid: cid},
+                    cache: false,
+                    success: function(data){
+                        isCallback = true;
+                        if(data.rspCode==100) {
+                            if (1==data.isUser||'1'==data.isUser) { //do login
+                                doLogin();
+                            } else { //do register
+                                $(".login-form").hide();
+                                $(".register-form").show();
+                            }
+                        } else {
+                            alert(data.rspMsg);
                         }
-                    } else {
-                        alert(data.rspMsg);
+                    },
+                    error: function(e) {
+                        isCallback = true;
+                        alert("系统错误！");
                     }
-                },
-                error: function(e) {
-                    alert("系统错误！");
-                }
-            });
+                }); // end ajax
+            }   // end if
         }
 
     }

@@ -16,36 +16,41 @@
 <body>
 
 <script>
-
+    var isCallback = true;
     var av = navigator.appVersion;
     var $_story = window.localStorage;
     if ($_story){
         // reading sun info
         var sun = $_story.getItem("sun");
+        var sup = $_story.getItem("sup");
         //alert(sun);
-        if (null!=sun && ''!==sun) {
-            var sup = $_story.getItem("sup");
-            $.ajax({
-                url: "${root}/code/loginByQR.bs",
-                dataType: "json",
-                type: "POST",
-                data: {un: sun, up: sup},
-                cache: false,
-                success: function(data){
-                    if(data.rspCode==100) {
-                        $_story.setItem("sun", data.un);
-                        $_story.setItem("sup", data.up);
-                        // 业务处理
-                        window.location.href = "${root}/signIn.bs";
-                    } else {
-                        alert(data.rspMsg);
+        console.log("$_story["+sun+","+sup+"]");
+        if ((null!=sun && ''!==sun)&&(null!=sup && ''!==sup)) {
+            if (isCallback) {
+                isCallback = false;
+                $.ajax({
+                    url: "${root}/code/loginByQR.bs",
+                    dataType: "json",
+                    type: "POST",
+                    data: {un: sun, up: sup},
+                    cache: false,
+                    success: function(data){
+                        isCallback = true;
+                        if(data.rspCode==100) {
+                            $_story.setItem("sun", data.un);
+                            $_story.setItem("sup", data.up);
+                            // 业务处理
+                            window.location.href = "${root}/signIn.bs";
+                        } else {
+                            alert(data.rspMsg);
+                        }
+                    },
+                    error: function(e) {
+                        isCallback = true;
+                        alert("系统错误！");
                     }
-                },
-                error: function(e) {
-                    alert("系统错误！");
-                }
-            });
-
+                });
+            }
         } else {
             gotoMobileVerify();
         }
