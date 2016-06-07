@@ -7,9 +7,11 @@ import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.common.utils.RandomCodeUtil;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.entity.VerifyCode;
+import com.benson.esignin.web.domain.vo.SmsResponse;
 import com.benson.esignin.web.domain.vo.VerifyCodeResponse;
 import com.benson.esignin.web.service.IUserInfoService;
 import com.benson.esignin.web.service.IVerifyCodeService;
+import com.benson.esignin.web.utils.SmsUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,20 +72,21 @@ public class VerifyCodeController {
             verifyCode.setVerifyCode(RandomCodeUtil.getRandomCode());
             verifyCode.setMobile(mobile);
             verifyCode.setIsValid(1);
+            verifyCode.setSendStatus(0);
             verifyCode.setCreateTime(DateUtil.getCurrentDateTime());
             verifyCode.setEffectiveTimeEnd(DateUtil.addMinuteToDate(verifyCode.getCreateTime(), 5)); //5分钟有效期
             // 保存验证码
             verifyCodeService.add(verifyCode);
-
-            // 调用发送短信接口
-            logger.info("即将发送:" + JsonUtil.bean2Json(verifyCode));
-            // 接口测试......
 
             // 计算倒计时
             Integer countdown = DateUtil.getDifferenceSeconds(new Date(), verifyCode.getEffectiveTimeEnd());
             response.setCountDown(countdown);
             response.setVcid(verifyCode.getId());
 
+            // 发送短信验证码
+            sendVerifyCode(verifyCode.getMobile(), verifyCode.getVerifyCode(), verifyCode.getId());
+            // 调用发送短信接口
+            logger.info("即将发送:" + JsonUtil.bean2Json(verifyCode));
 
         } catch (Exception e) {
             logger.error("获取手机验证码异常:{}", e);
@@ -95,6 +98,13 @@ public class VerifyCodeController {
     }
 
 
+    /**
+     * 校验验证码
+     * @param mobile
+     * @param code
+     * @param cid
+     * @return
+     */
     @RequestMapping(value = "/checkCode", method = RequestMethod.POST)
     @ResponseBody
     public Object checkCode(@RequestParam String mobile, @RequestParam String code, @RequestParam String cid) {
@@ -134,5 +144,50 @@ public class VerifyCodeController {
         return JsonUtil.toJson(response);
     }
 
+
+    /**
+     * 发送短信验证码
+     * @param mobile 手机号码
+     * @param verifyCode 验证码
+     * @param vcid 验证码ID
+     */
+    private void sendVerifyCode(final String mobile, String verifyCode, final String vcid) {
+        final String mobiles = mobile;
+        final String code = verifyCode;
+        final String id = vcid;
+
+        // 以新线程去发送
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                SmsResponse smsResponse = SmsUtil.send(mobiles, code);
+                if ("Success".equals(smsResponse.getReturnstatus())) {
+                    logger.info(String.format("[%s][%s]短信验证码发送成功!", mobile, code));
+                    // 更新发送状态
+                    modifySendStatus(vcid, 1);
+                } else {
+                    modifySendStatus(vcid, 2);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    /**
+     * 更新发送状态
+     * @param vcid
+     * @param status
+     */
+    private void modifySendStatus(String vcid, Integer status) {
+
+        VerifyCode verifyCode = new VerifyCode();
+        verifyCode.setId(vcid);
+        verifyCode.setSendStatus(status);
+
+        try {
+            verifyCodeService.update(verifyCode);
+        } catch (Exception e) {
+            logger.error("更新短信发送状态发生异常:" , e);
+        }
+    }
 
 }

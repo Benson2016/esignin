@@ -17,4 +17,7 @@ public class SysCons {
     // 默认密码
     public final static String DEFAULT_PASSWORD = "666666";
 
+    // API秘钥
+    public final static String API_KEY = "d084fdce96759a5bcb3f80dbebf829ef";
+
 }

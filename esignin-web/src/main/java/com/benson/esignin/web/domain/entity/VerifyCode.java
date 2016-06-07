@@ -17,11 +17,13 @@ public class VerifyCode extends IdEntity {
 
     private String verifyCode;  //验证码
 
-    private Date createTime;//创建时间
+    private Date createTime;    //创建时间
 
     private Date effectiveTimeEnd;  //时效时间
 
-    private Integer isValid;//是否有效
+    private Integer isValid;    //是否有效
+
+    private Integer sendStatus; //短信发送状态：0.未发送，1.已发送，2.发送失败
 
     public String getMobile() {
         return mobile;
@@ -61,5 +63,13 @@ public class VerifyCode extends IdEntity {
 
     public void setIsValid(Integer isValid) {
         this.isValid = isValid;
+    }
+
+    public Integer getSendStatus() {
+        return sendStatus;
+    }
+
+    public void setSendStatus(Integer sendStatus) {
+        this.sendStatus = sendStatus;
     }
 }

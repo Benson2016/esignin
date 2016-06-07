@@ -21,9 +21,9 @@ public interface IVerifyCodeDao extends IBaseDao<VerifyCode, String> {
 
     final String TABLE_NAME = "t_verify_code";
 
-    final String BASE_COLUMN_LIST = "id, mobile, verify_code as verifyCode, create_time as createTime, effective_time_end as effectiveTimeEnd, is_valid as isValid ";
+    final String BASE_COLUMN_LIST = "id, mobile, verify_code as verifyCode, create_time as createTime, effective_time_end as effectiveTimeEnd, is_valid as isValid, send_status as sendStatus ";
 
-    final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, mobile, verify_code, create_time, effective_time_end, is_valid) VALUES(#{id},#{mobile},#{verifyCode},#{createTime},#{effectiveTimeEnd},#{isValid})";
+    final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, mobile, verify_code, create_time, effective_time_end, is_valid, send_status) VALUES(#{id},#{mobile},#{verifyCode},#{createTime},#{effectiveTimeEnd},#{isValid},#{sendStatus})";
 
 
     @Insert(INSERT_SQL)
@@ -32,7 +32,7 @@ public interface IVerifyCodeDao extends IBaseDao<VerifyCode, String> {
     @Delete("DELETE FROM "+TABLE_NAME+" where id = #{id}")
     int delete(String id);
 
-    @Update("UPDATE " + TABLE_NAME + " set is_valid=#{isValid} WHERE id = #{id}")
+    @Update("UPDATE " + TABLE_NAME + " set send_status=#{sendStatus} WHERE id = #{id}")
     int update(VerifyCode entity);
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" WHERE id = #{id}")

@@ -1,0 +1,1 @@
+alter table t_verify_code add column send_status tinyint(1) default 0 comment '短信发送状态：0.未发送，1.已发送，2.发送失败';

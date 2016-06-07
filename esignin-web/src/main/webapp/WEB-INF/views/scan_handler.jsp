@@ -40,6 +40,9 @@
                             $_story.setItem("sup", data.up);
                             // 业务处理
                             window.location.href = "${root}/signIn.bs";
+                        } else if(101==data.rspCode) {
+                            // 用户尚未注册,需要进行注册
+                            window.location.href = "${root}/page/mobileVerify.bs";
                         } else {
                             alert(data.rspMsg);
                         }
