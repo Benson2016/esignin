@@ -25,7 +25,7 @@
 </head>
 <body>
     <div class="signin-list" align="center">
-        <h1 align="center">签到情况</h1>
+        <h1 align="center"><c:if test="${null!=businessName}">【${businessName}】</c:if>签到情况</h1>
         <ul class="list-group" >
         <c:choose>
             <c:when test="${records.size()>0}">

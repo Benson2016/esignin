@@ -5,8 +5,10 @@ import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.service.IQrCodeService;
 import com.benson.esignin.web.service.ISignInRecordService;
 import org.apache.ibatis.annotations.Param;
 import org.apache.log4j.Logger;
@@ -34,8 +36,15 @@ public class SignInController {
 
     @Autowired
     private ISignInRecordService signInRecordService;
+    @Autowired
+    private IQrCodeService qrCodeService;
 
-
+    /**
+     * 用户签到
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/signIn")
     public String signIn(Model model, HttpServletRequest request) {
         logger.info("signIn Method Begin......");
@@ -91,7 +100,12 @@ public class SignInController {
         return "app/signin_success";
     }
 
-
+    /**
+     * 获取签到列表
+     * @param model
+     * @param businessId 业务ID
+     * @return
+     */
     @RequestMapping(value = "/getSignInList")
     public String getSignInList(Model model, @RequestParam String businessId) {
         logger.info("getSignInList Method Begin......");
@@ -104,23 +118,29 @@ public class SignInController {
             logger.error(msg);
 
         } else {
+            try {
+                QrCode qrCode = qrCodeService.findOne(businessId);
+                String businessName = CommonUtil.isNull(qrCode)?null:qrCode.getTitle();
 
-            List<SignInRecord> records = signInRecordService.findAllByBusinessId(businessId);
+                List<SignInRecord> records = signInRecordService.findAllByBusinessId(businessId);
 
-            if (CommonUtil.isNull(records)) records = new ArrayList<SignInRecord>();
+                if (CommonUtil.isNull(records)) records = new ArrayList<SignInRecord>();
 
-            // 手机号码部分隐藏处理
-            for (SignInRecord record : records) {
-                record.setMobile(CommonUtil.replaceChar(record.getMobile()));
+                // 手机号码部分隐藏处理
+                for (SignInRecord record : records) {
+                    record.setMobile(CommonUtil.replaceChar(record.getMobile()));
+                }
+
+                model.addAttribute("records", records);
+                model.addAttribute("businessName", businessName);
+
+                StateResponse sr = StateResponse.SUCCESS;
+                model.addAttribute("rspMsg", sr.getMsg());
+                model.addAttribute("rspCode", sr.getCode());
+            } catch (Exception e) {
+                logger.error("获取签到列表时，发生异常：", e);
             }
-
-            model.addAttribute("records", records);
-
-            StateResponse sr = StateResponse.SUCCESS;
-            model.addAttribute("rspMsg", sr.getMsg());
-            model.addAttribute("rspCode", sr.getCode());
         }
-
 
         logger.info("End The Of getSignInList Method.");
 
