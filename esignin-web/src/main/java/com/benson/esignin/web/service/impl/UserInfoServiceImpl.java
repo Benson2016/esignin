@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.IUserInfoDao;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.BensonPage;
@@ -38,7 +39,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param userInfo 需验证的用户
      * @return
      */
-    public UserInfo authentication(UserInfo userInfo) {
+    public UserInfo authentication(UserInfo userInfo) throws Exception {
 
         return userInfoDao.authentication(userInfo);
     }
@@ -48,7 +49,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param userName 用户名
      * @return
      */
-    public UserInfo findByUserName(String userName) {
+    public UserInfo findByUserName(String userName) throws Exception {
 
         return userInfoDao.findByUserName(userName);
     }
@@ -58,7 +59,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param mobile
      * @return
      */
-    public UserInfo findByMobile(String mobile) {
+    public UserInfo findByMobile(String mobile) throws Exception {
         return userInfoDao.findByMobile(mobile);
     }
 
@@ -67,7 +68,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param query
      * @return
      */
-    public List<UserInfo> findAllByQuery(UserInfoQuery query) {
+    @SysServiceLog(content = "按条件查询用户信息列表")
+    public List<UserInfo> findAllByQuery(UserInfoQuery query) throws Exception {
+
         return userInfoDao.findAllByQuery(query);
     }
 
@@ -76,7 +79,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param query 查询条件
      * @return
      */
-    public BensonPage<UserInfo> findByPage(UserInfoQuery query) {
+    public BensonPage<UserInfo> findByPage(UserInfoQuery query) throws Exception {
 
         int total = userInfoDao.count(query);
 
@@ -92,7 +95,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    public int deleteByIds(String ids) {
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }

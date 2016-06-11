@@ -1,5 +1,8 @@
 package com.benson.esignin.web.utils;
 
+import com.benson.esignin.common.cons.CommonCons;
+import com.benson.esignin.common.utils.CommonUtil;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -18,6 +21,10 @@ public class IPUtil {
      * @return
      */
     public static String getIpAddr(HttpServletRequest request) {
+        if (CommonUtil.isNull(request)) {
+            return CommonCons.NOT_FOUND;
+        }
+
         String ip = request.getHeader("x-forwarded-for");
         if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

@@ -3,10 +3,10 @@ package com.benson.esignin.web.controller;
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.*;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IUserInfoService;
-import com.benson.esignin.web.utils.SysLogUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +67,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @SysControllerLog(content = "用户注册")
     public String register(@Valid UserInfo userInfo, BindingResult result, Model model, HttpServletRequest request) {
         logger.info("*** 进入 register method ***");
         model.addAttribute("operType", "2"); //操作类型：1登录，2注册
@@ -127,6 +128,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @SysControllerLog(content = "用户登录")
     public String login(@Valid UserInfo user, BindingResult result, Model model, HttpServletRequest request) {
         try {
             /*Subject subject = SecurityUtils.getSubject();
@@ -168,9 +170,6 @@ public class UserController {
             // 验证成功在Session中保存用户信息
             storyUserToSession(request, authUserInfo, SysCons.LOGIN_USER);
 
-            // 添加登录日志
-            SysLogUtil.addLoginLog(authUserInfo, request);
-
         } catch (AuthenticationException e) {
             // 身份验证失败
             model.addAttribute("rspMsg", "用户名或密码错误 ！");
@@ -191,6 +190,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @SysControllerLog(content = "用户退出登录")
     public String logout(HttpServletRequest request) {
         UserInfo authUserInfo = (UserInfo) request.getSession().getAttribute("userInfo");
         if (null != authUserInfo)
@@ -213,6 +213,7 @@ public class UserController {
      */
     @RequestMapping(value = "/regByMobile", method = RequestMethod.POST)
     @ResponseBody
+    @SysControllerLog(content = "手机用户注册")
     public Object regByMobile(@RequestParam String mobile, @RequestParam String fullName, HttpServletRequest request) {
         logger.info("regByMobile Begin......");
         UserInfoResponse response = null;
@@ -272,6 +273,7 @@ public class UserController {
      */
     @RequestMapping(value = "/loginByMobile", method = RequestMethod.POST)
     @ResponseBody
+    @SysControllerLog(content = "手机用户登录")
     public Object loginByMobile(@RequestParam String mobile, HttpServletRequest request) {
         logger.info("loginByMobile Begin......");
         UserInfoResponse response = null;
@@ -328,6 +330,7 @@ public class UserController {
 
     @RequestMapping(value = "/delUser",method = RequestMethod.POST)
     @ResponseBody
+    @SysControllerLog(content = "删除用户操作")
     public Object delUser(@RequestParam String ids) {
         UserInfoResponse response = null;
         if (CommonUtil.isNull(ids)) {

@@ -3,6 +3,7 @@ package com.benson.esignin.web.utils;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.SpringUtil;
+import com.benson.esignin.common.utils.StringUtil;
 import com.benson.esignin.web.domain.entity.SysExceptionLog;
 import com.benson.esignin.web.domain.entity.SysLog;
 import com.benson.esignin.web.domain.entity.UserInfo;
@@ -11,6 +12,10 @@ import com.benson.esignin.web.service.ISysLogService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Arrays;
 
 /**
  * 系统日志工具类
@@ -80,15 +85,40 @@ public class SysLogUtil {
         }
     }
 
+
     /**
-     * 添加登录日志
-     * @param loginUser
-     * @param request
+     * 将异常信息转化成字符串
+     * @param t
+     * @return
      */
-    public static void addLoginLog(UserInfo loginUser, HttpServletRequest request) {
-        String ip = IPUtil.getIpAddr(request);
-        SysLog log = new SysLog(ip, loginUser.getUserName(), "login", "用户登录系统。", DateUtil.getCurrentDateTime(), "100");
-        addSysLog(log);
+    public static String getExceptionMsg(Throwable t) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try{
+            t.printStackTrace(new PrintStream(baos));
+        } finally{
+            try {
+                baos.close();
+            } catch (IOException e) {
+            }
+        }
+        return baos.toString();
     }
+
+    /**
+     * 获取部分异常信息
+     * @param content 异常信息
+     * @param rows 需要截取的行数
+     * @return
+     */
+    public static String getPartForException(String content, int rows) {
+        if (!StringUtil.isNullString(content)) {
+            // 关于异常信息,只取前面十行数据
+            String[] contents = content.split("\r\n");
+            String[] newArray = Arrays.copyOf(contents, rows);
+            content = Arrays.toString(newArray);
+        }
+        return content;
+    }
+
 
 }

@@ -4,6 +4,7 @@ import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.*;
 import com.benson.esignin.web.domain.vo.*;
 import com.benson.esignin.web.service.*;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -225,6 +225,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/exportUserDataToExcel", method = RequestMethod.POST)
+    @SysControllerLog(content = "导出用户数据到Excel文档中")
     public void exportUserDataToExcel(UserInfoQuery query, HttpServletRequest request, HttpServletResponse response) {
         List<? extends Serializable> records = null;
         Field[] fields = null;
@@ -269,6 +270,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/exportRoleDataToExcel", method = RequestMethod.POST)
+    @SysControllerLog(content = "导出角色数据到Excel文档中")
     public void exportRoleDataToExcel(RoleInfoQuery query, HttpServletRequest request, HttpServletResponse response) {
         List<? extends Serializable> records = null;
         Field[] fields = null;
@@ -311,6 +313,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/exportPermDataToExcel", method = RequestMethod.POST)
+    @SysControllerLog(content = "导出权限数据到Excel文档中")
     public void exportPermDataToExcel(PermissionInfoQuery query, HttpServletRequest request, HttpServletResponse response) {
         List<? extends Serializable> records = null;
         Field[] fields = null;

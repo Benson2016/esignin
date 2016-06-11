@@ -3,6 +3,7 @@ package com.benson.esignin.web.controller;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IRoleInfoService;
 import org.apache.log4j.Logger;
@@ -31,6 +32,7 @@ public class RoleController {
     private IRoleInfoService roleInfoService;
 
     @RequestMapping(value = "/delRole",method = RequestMethod.POST)
+    @SysControllerLog(content = "删除角色信息.")
     @ResponseBody
     public Object delRole(@RequestParam String ids) {
         UserInfoResponse response = null;

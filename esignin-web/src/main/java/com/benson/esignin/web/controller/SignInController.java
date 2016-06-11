@@ -5,18 +5,17 @@ import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.service.IQrCodeService;
 import com.benson.esignin.web.service.ISignInRecordService;
-import org.apache.ibatis.annotations.Param;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +45,7 @@ public class SignInController {
      * @return
      */
     @RequestMapping(value = "/signIn")
+    @SysControllerLog(content = "用户签到.")
     public String signIn(Model model, HttpServletRequest request) {
         logger.info("signIn Method Begin......");
         try {

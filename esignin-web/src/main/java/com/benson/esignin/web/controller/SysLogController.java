@@ -6,7 +6,7 @@ import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
-import com.benson.esignin.web.domain.entity.QrCode;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.SysExceptionLog;
 import com.benson.esignin.web.domain.entity.SysLog;
 import com.benson.esignin.web.domain.vo.*;
@@ -103,6 +103,7 @@ public class SysLogController {
      * @return
      */
     @RequestMapping(value = "/delSysLog",method = RequestMethod.POST)
+    @SysControllerLog(content = "删除系统日志信息.")
     @ResponseBody
     public Object delSysLog(@RequestParam String ids) {
         SysLogResponse response = null;
@@ -132,6 +133,7 @@ public class SysLogController {
      * @return
      */
     @RequestMapping(value = "/delSysExceptionLog",method = RequestMethod.POST)
+    @SysControllerLog(content = "删除系统异常日志信息.")
     @ResponseBody
     public Object delSysExceptionLog(@RequestParam String ids) {
         SysLogResponse response = null;
@@ -158,6 +160,7 @@ public class SysLogController {
 
     // 导出系统日志
     @RequestMapping(value = "/exportSysLogData",method = RequestMethod.POST)
+    @SysControllerLog(content = "导出系统日志信息.")
     public void exportSysLogData(SysLogQuery query, HttpServletRequest request, HttpServletResponse response) {
 
         List<? extends Serializable> records = null;

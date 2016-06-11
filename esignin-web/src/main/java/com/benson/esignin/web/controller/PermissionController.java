@@ -3,9 +3,9 @@ package com.benson.esignin.web.controller;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IPermissionInfoService;
-import com.benson.esignin.web.service.IRoleInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +32,7 @@ public class PermissionController {
     private IPermissionInfoService permissionInfoService;
 
     @RequestMapping(value = "/delPermission",method = RequestMethod.POST)
+    @SysControllerLog(content = "删除权限记录.")
     @ResponseBody
     public Object delPermission(@RequestParam String ids) {
         UserInfoResponse response = null;

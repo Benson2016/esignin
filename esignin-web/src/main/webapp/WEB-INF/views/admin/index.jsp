@@ -574,7 +574,7 @@
             <li class="">
                 <a href="javascript:;">
                     <i class="icon-barcode"></i>
-                    <span class="title">QR Code管理</span>
+                    <span class="title">二维码管理</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
@@ -655,7 +655,7 @@
             <li class="">
                 <a href="javascript:;">
                     <i class="icon-bar-chart"></i>
-                    <span class="title">统计管理</span>
+                    <span class="title">统计分析</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">

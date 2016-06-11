@@ -6,6 +6,7 @@ import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.vo.BensonPage;
@@ -69,6 +70,7 @@ public class SignInRecordController {
      * @return
      */
     @RequestMapping(value = "/delRecord",method = RequestMethod.POST)
+    @SysControllerLog(content = "删除签到记录.")
     @ResponseBody
     public Object delRecord(@RequestParam String ids) {
         UserInfoResponse response = null;
@@ -94,6 +96,7 @@ public class SignInRecordController {
 
 
     @RequestMapping(value = "/exportRecordData",method = RequestMethod.POST)
+    @SysControllerLog(content = "导出签到记录数据.")
     public void exportRecordData(SignInRecordQuery query, HttpServletRequest request, HttpServletResponse response) {
 
         List<? extends Serializable> records = null;

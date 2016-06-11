@@ -4,6 +4,7 @@ import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.*;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.SignInType;
 import com.benson.esignin.web.domain.entity.UserInfo;
@@ -76,6 +77,7 @@ public class QrCodeController {
      * @param response
      */
     @RequestMapping(value = "/getQrCode")
+    @SysControllerLog(content = "获取二维码.")
     public void getQrCode(@RequestParam String businessId, HttpServletRequest request, HttpServletResponse response) {
         logger.info("getQrCode Start......");
         try {
@@ -150,6 +152,7 @@ public class QrCodeController {
      * @param response
      */
     @RequestMapping(value = "/download")
+    @SysControllerLog(content = "下载二维码.")
     public void download(@RequestParam String businessId, HttpServletRequest request, HttpServletResponse response) {
 
         if (CommonUtil.isNull(businessId)) {
@@ -188,43 +191,9 @@ public class QrCodeController {
     }
 
 
-    /**
-     * 构建二维码记录
-     * @param response
-     */
-    @RequestMapping(value = "/createCode")
-    public void createCode(HttpServletResponse response) {
-        logger.info("createCode Start......");
-        try {
-            QrCode qrCode = new QrCode();
-            qrCode.generateUUId();
-            qrCode.setCreateUser("88888888");
-            qrCode.setTitle("一起嗨皮");
-            qrCode.setDescription("一起嗨皮,一起玩耍!");
-            qrCode.setSignInType(4);
-            qrCode.setIsValid(1);
-            // 设置5分钟有效时间
-            qrCode.setEffectiveTimeStart(DateUtil.getCurrentDateTime());
-            qrCode.setEffectiveTimeEnd(DateUtil.addMinuteToDate(qrCode.getEffectiveTimeStart(), 5));
-            // 设置图片内容
-            String content = "http://192.168.31.135:8080/esignin/page/handler.bs?" + SysCons.BUSINESS_ID + "=" + qrCode.getId();
-            qrCode.setImage(content);
-            // 保存QR记录
-            qrCodeService.add(qrCode);
-
-            // 打印提示信息
-            response.setContentType("text/html; charset=UTF-8");
-            response.getWriter().print("业务二维码构建成功! 业务ID为" + qrCode.getId());
-
-        } catch (Exception e) {
-            logger.error("获取二维码时发生异常: ", e);
-        } finally {
-            logger.info("The End Of createCode.");
-        }
-    }
-
     // 添加二维码
     @RequestMapping(value = "/addQrCode", method = RequestMethod.POST)
+    @SysControllerLog(content = "添加二维码信息.")
     @ResponseBody
     public Object addQrCode(QrCodeVo qrCodeVo, HttpServletRequest request) {
         logger.info("Enter addQrCode Method. and request parameters is " + JsonUtil.bean2Json(qrCodeVo));
@@ -286,8 +255,9 @@ public class QrCodeController {
         return JsonUtil.toJson(response);
     }
 
-    // 保存二维码
+    // 修改并保存二维码
     @RequestMapping(value = "/saveQrCode", method = RequestMethod.POST)
+    @SysControllerLog(content = "修改二维码信息.")
     @ResponseBody
     public Object saveQrCode(QrCodeVo vo, HttpServletRequest request) {
         logger.info("Enter saveQrCode Method. and request parameters is " + JsonUtil.bean2Json(vo));
@@ -325,6 +295,7 @@ public class QrCodeController {
      * @return
      */
     @RequestMapping(value = "/loginByQR")
+    @SysControllerLog(content = "扫二维码登录.")
     @ResponseBody
     public Object loginByQR(@RequestParam String un, @RequestParam String up, HttpServletRequest request) {
         QrCodeResponse response = null;
@@ -372,6 +343,7 @@ public class QrCodeController {
      * @return
      */
     @RequestMapping(value = "/delQrCode",method = RequestMethod.POST)
+    @SysControllerLog(content = "删除二维码信息.")
     @ResponseBody
     public Object delQrCode(@RequestParam String ids) {
         QrCodeResponse response = null;
@@ -398,6 +370,7 @@ public class QrCodeController {
 
     // 导出QrCode数据
     @RequestMapping(value = "/exportQrCodeData",method = RequestMethod.POST)
+    @SysControllerLog(content = "导出二维码信息.")
     public void exportQrCodeData(QrCodeQuery query, HttpServletRequest request, HttpServletResponse response) {
 
         List<? extends Serializable> records = null;

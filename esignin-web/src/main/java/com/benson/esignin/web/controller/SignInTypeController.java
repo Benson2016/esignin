@@ -6,6 +6,7 @@ import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.SignInType;
 import com.benson.esignin.web.domain.vo.SignInTypeQuery;
 import com.benson.esignin.web.domain.vo.SignInTypeResponse;
@@ -48,6 +49,7 @@ public class SignInTypeController {
      * @return
      */
     @RequestMapping(value = "/addType", method = RequestMethod.POST)
+    @SysControllerLog(content = "添加签到类别.")
     @ResponseBody
     public Object addType(SignInType type) {
         SignInTypeResponse response = null;
@@ -81,6 +83,7 @@ public class SignInTypeController {
      * @return
      */
     @RequestMapping(value = "/saveType", method = RequestMethod.POST)
+    @SysControllerLog(content = "修改签到类别信息.")
     @ResponseBody
     public Object saveType(SignInType type) {
         SignInTypeResponse response = null;
@@ -112,6 +115,7 @@ public class SignInTypeController {
      * @return
      */
     @RequestMapping(value = "/delType", method = RequestMethod.POST)
+    @SysControllerLog(content = "删除签到类别信息.")
     @ResponseBody
     public Object delType(@RequestParam String ids) {
         SignInTypeResponse response = null;
@@ -173,6 +177,7 @@ public class SignInTypeController {
 
     // 导出数据
     @RequestMapping(value = "/exportTypeData",method = RequestMethod.POST)
+    @SysControllerLog(content = "导出签到类别信息数据.")
     public void exportTypeData(SignInTypeQuery query, HttpServletRequest request, HttpServletResponse response) {
 
         List<? extends Serializable> records = null;

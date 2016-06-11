@@ -65,10 +65,20 @@ public class CommonCons {
     /**
      * 用户不存在
      */
-    public final static String NOT_EXISTS_USER = "not_exists_user";
+    public final static String NOT_EXISTS_USER = "not exists user";
     /**
      * 部门不存在
      */
-    public final static String NOT_EXISTS_DEPT = "not_exists_dept";
+    public final static String NOT_EXISTS_DEPT = "not exists dept";
+
+    /**
+     * 找不到
+     */
+    public final static String NOT_FOUND = "not found!";
+
+    /**
+     * 错误英文名（Action中用得比较多）
+     */
+    public final static String ERROR = "error";
 
 }

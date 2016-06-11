@@ -2,11 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"     
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:p="http://www.springframework.org/schema/p" 
-	xmlns:context="http://www.springframework.org/schema/context" 
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop
+    	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<!-- 修改StringHttpMessageConverter的默认字符配置,处理@ResponseBody返回中文乱码问题 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
@@ -25,7 +28,10 @@
 
 	<!-- 启用SpringMVC注解 -->
 	<context:annotation-config />
-	
+
+	<!-- 启动对@AspectJ注解的支持 -->
+	<aop:aspectj-autoproxy />
+
 	<!-- 设置使用注解的类所在的jar包 -->
 	<context:component-scan base-package="com.benson.esignin.web.controller" />
 

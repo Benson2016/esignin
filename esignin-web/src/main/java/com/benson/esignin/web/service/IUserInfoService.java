@@ -21,41 +21,41 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
      * @param userInfo
      * @return
      */
-    UserInfo authentication(UserInfo userInfo);
+    UserInfo authentication(UserInfo userInfo) throws Exception;
 
     /**
      * 根据用户名查询用户信息
      * @param userName
      * @return
      */
-    UserInfo findByUserName(String userName);
+    UserInfo findByUserName(String userName) throws Exception;
 
     /**
      * 根据手机号码查询用户信息
      * @param mobile
      * @return
      */
-    UserInfo findByMobile(String mobile);
+    UserInfo findByMobile(String mobile) throws Exception;
 
     /**
      * 根据条件查询
      * @param query 查询条件
      * @return
      */
-    List<UserInfo> findAllByQuery(UserInfoQuery query);
+    List<UserInfo> findAllByQuery(UserInfoQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<UserInfo> findByPage(UserInfoQuery query);
+    BensonPage<UserInfo> findByPage(UserInfoQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
 
 }

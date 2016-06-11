@@ -78,7 +78,7 @@ CREATE TABLE `t_sys_user` (
   `sex` tinyint(1) DEFAULT NULL COMMENT '用户性别',
   `mobile` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户手机号码',
   `email` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户邮箱',
-  `age` int(11) DEFAULT NULL COMMENT '用户年龄',
+  `age` int(4) DEFAULT NULL COMMENT '用户年龄',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL COMMENT '最近修改时间',
   `flag` tinyint(1) DEFAULT NULL COMMENT '用户标识：1.普通用户，2.普通管理员，3.超级管理员',

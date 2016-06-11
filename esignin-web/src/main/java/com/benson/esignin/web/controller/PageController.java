@@ -2,7 +2,6 @@ package com.benson.esignin.web.controller;
 
 import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.utils.CommonUtil;
-import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.utils.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * 页面控制类

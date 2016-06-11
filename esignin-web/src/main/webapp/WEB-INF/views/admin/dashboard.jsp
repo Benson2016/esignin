@@ -14,10 +14,10 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        1349
+                        5
                     </div>
                     <div class="desc">
-                        New Feedbacks
+                        New Notifications
                     </div>
                 </div>
                 <a class="more" href="#">
@@ -29,11 +29,11 @@
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
             <div class="dashboard-stat green">
                 <div class="visual">
-                    <i class="icon-shopping-cart"></i>
+                    <i class="icon-user"></i>
                 </div>
                 <div class="details">
-                    <div class="number">549</div>
-                    <div class="desc">New Orders</div>
+                    <div class="number">1</div>
+                    <div class="desc">New Users</div>
                 </div>
                 <a class="more" href="#">
                     View more <i class="m-icon-swapright m-icon-white"></i>
@@ -47,8 +47,8 @@
                     <i class="icon-globe"></i>
                 </div>
                 <div class="details">
-                    <div class="number">+89%</div>
-                    <div class="desc">Brand Popularity</div>
+                    <div class="number">+30%</div>
+                    <div class="desc">ESignIn Popularity</div>
                 </div>
                 <a class="more" href="#">
                     View more <i class="m-icon-swapright m-icon-white"></i>
@@ -59,11 +59,11 @@
         <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
             <div class="dashboard-stat yellow">
                 <div class="visual">
-                    <i class="icon-bar-chart"></i>
+                    <i class="icon-bell"></i>
                 </div>
                 <div class="details">
-                    <div class="number">12,5M$</div>
-                    <div class="desc">Total Profit</div>
+                    <div class="number">0</div>
+                    <div class="desc">System Exception</div>
                 </div>
                 <a class="more" href="#">
                     View more <i class="m-icon-swapright m-icon-white"></i>

@@ -83,10 +83,10 @@
     <tx:annotation-driven transaction-manager="myTransactionManager" />
 
 
-	<!-- 设置AOP代理 -->
-	<aop:aspectj-autoproxy />
-	   
-	<!-- Spring工具类：主要是操作ApplicationContext -->
+	<!-- 设置AOP代理,通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <!-- Spring工具类：主要是操作ApplicationContext -->
 	<bean id="springUtil" class="com.benson.esignin.common.utils.SpringUtil" />
 
 </beans>

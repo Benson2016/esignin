@@ -22,9 +22,9 @@ public interface ISysExceptionLogDao extends IBaseDao<SysExceptionLog, String> {
 
     final String TABLE_NAME = "t_sys_exception_log";
 
-    final String BASE_COLUMN_LIST = "id, ip, user_name as userName, module_name as moduleName, oper_content as opeContent, exception, oper_time as operTime, consume_time as consumeTime";
+    final String BASE_COLUMN_LIST = "id, ip, user_name as userName, module_name as moduleName, oper_content as operContent, exception, oper_time as operTime, consume_time as consumeTime";
 
-    final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, ip, user_name, module_name, oper_content, exception, oper_time, consume_time) VALUES(#{id},#{ip},#{userName},#{moduleName},#{opeContent},#{exception},#{operTime},#{consumeTime})";
+    final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, ip, user_name, module_name, oper_content, exception, oper_time, consume_time) VALUES(#{id},#{ip},#{userName},#{moduleName},#{operContent},#{exception},#{operTime},#{consumeTime})";
 
 
     @Insert(INSERT_SQL)
