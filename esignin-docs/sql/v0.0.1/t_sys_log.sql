@@ -30,7 +30,7 @@ CREATE TABLE `t_sys_exception_log` (
   `user_name` varchar(128) DEFAULT NULL COMMENT '用户名称',
   `module_name` varchar(255) DEFAULT NULL COMMENT '模块名称',
   `oper_content` varchar(512) DEFAULT NULL COMMENT '操作内容',
-  `exception` text(65535) DEFAULT NULL COMMENT '异常信息',
+  `exception` text DEFAULT NULL COMMENT '异常信息',
   `oper_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   `consume_time` varchar(64) DEFAULT NULL COMMENT '消耗时间（单位毫秒）',
   PRIMARY KEY (`id`)
