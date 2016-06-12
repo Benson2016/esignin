@@ -174,13 +174,13 @@ public class SysLogController {
                 fields = new SysLog().getClass().getDeclaredFields();
                 // 设置Excel文件名称
                 fileName = "syslog_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
-                logger.info("即将导出系统日志信息数据。");
+                logger.info("即将导出系统操作日志数据。");
             } else if (2 == query.getLogType()) {
                 records = sysExceptionLogService.findAllByQuery(query);
                 fields = new SysExceptionLog().getClass().getDeclaredFields();
                 // 设置Excel文件名称
-                fileName = "syslog_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
-                logger.info("即将导出系统日志信息数据。");
+                fileName = "exception_log_records_" + DateUtil.getCurrDate(CommonCons.D_FMT_DATE_SEQ) + ".xls";
+                logger.info("即将导出系统异常日志数据。");
             }
 
             // 设置列头文字

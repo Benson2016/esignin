@@ -40,7 +40,7 @@ public class SysExceptionLogSqlProvider {
         int index = (query.getPage()-1) * query.getSize();
         sql.append(" order by oper_time DESC LIMIT ").append(index).append(",").append(query.getSize());
 
-        System.out.println("--->>>系统日志分页查询SQL：" + sql.toString());
+        System.out.println("--->>>系统异常日志分页查询SQL：" + sql.toString());
 
         return sql.toString();
     }
@@ -48,7 +48,7 @@ public class SysExceptionLogSqlProvider {
     public String count(SysLogQuery query) {
         StringBuffer sql = new StringBuffer("SELECT count(id) FROM "+ ISysExceptionLogDao.TABLE_NAME +" where 1=1 ");
         addCondition(query, sql);
-        System.out.println("--->>>系统日志COUNT查询SQL：" + sql.toString());
+        System.out.println("--->>>系统异常日志COUNT查询SQL：" + sql.toString());
 
         return sql.toString();
     }
@@ -63,10 +63,10 @@ public class SysExceptionLogSqlProvider {
             sql.append("and user_name like '%"+ query.getUserName() +"%'");
         }
         if (CommonUtil.isNotNull(query.getModuleName())) {
-            sql.append(" and module_name = "+ query.getModuleName());
+            sql.append(" and module_name like '%"+ query.getModuleName() +"%'");
         }
         if (CommonUtil.isNotNull(query.getOperContent())) {
-            sql.append(" and oper_content = "+ query.getOperContent());
+            sql.append(" and oper_content like '%"+ query.getOperContent() +"%'");
         }
         // 日期逻辑判断
         if (CommonUtil.isNotNull(query.getStartTime(), query.getEndTime())) {

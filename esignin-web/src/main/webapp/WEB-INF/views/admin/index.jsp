@@ -574,7 +574,7 @@
             <li class="">
                 <a href="javascript:;">
                     <i class="icon-barcode"></i>
-                    <span class="title">二维码管理</span>
+                    <span class="title">QRCode管理</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
@@ -642,10 +642,10 @@
                 </a>
                 <ul class="sub-menu">
                     <li >
-                        <a href="javascript:0" onclick="openMenuItem(8)"><i class="icon-file-alt"></i>系统日志</a>
+                        <a href="javascript:0" onclick="openMenuItem(8)"><i class="icon-file-alt"></i>操作日志</a>
                     </li>
                     <li >
-                        <a href="javascript:0" onclick="openMenuItem(9)"><i class="icon-file-alt"></i>系统异常日志</a>
+                        <a href="javascript:0" onclick="openMenuItem(9)"><i class="icon-file-alt"></i>异常日志</a>
                     </li>
 
                 </ul>

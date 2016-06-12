@@ -30,7 +30,7 @@
   <div class="headBox">
     <div class="topBox">
       <span class="childicon"><img src="${root}/commons/img/icon.jpg"></span>
-      <span class="childtetle">系统操作日志列表</span>
+      <span class="childtetle">系统异常日志列表</span>
     </div>
   </div>
   <div class="contentBox">
@@ -54,7 +54,7 @@
           <a href="javascript:;" class="g-searchBtn r" id="searchBtn">查询</a>
           <a href="javascript:;" class="g-searchBtn r" id="clearBtn">清除</a>&nbsp;&nbsp;
           <div class="clear"></div>
-          <input type="hidden" name="logType" value="1">
+          <input type="hidden" name="logType" value="2">
         </div>
       </form>
 
@@ -74,9 +74,9 @@
             <th width="10%">IP地址</th>
             <th width="15%">用户名称</th>
             <th width="10%">模块名称</th>
-            <th width="30%">操作内容</th>
+            <th width="15%">操作内容</th>
+            <th width="25%">异常信息</th>
             <th width="10%">操作的时间</th>
-            <th width="10%">消耗时间</th>
             <th width="5%">操 作</th>
           </tr>
           </thead>
@@ -141,7 +141,7 @@
         showConfirm("确定删除选中记录？", function() {
           $('#loading').show();
           $.ajax({
-            url: "${root}/log/delSysLog.bs",
+            url: "${root}/log/delSysExceptionLog.bs",
             dataType: "json",
             type: "POST",
             data: {ids: arr.toString()},
@@ -180,7 +180,7 @@
       $('#loading').show();
       isCallBack = false;
       $.ajax({
-        url: "${root}/log/sysLogListData.bs",
+        url: "${root}/log/sysExceptionLogListData.bs",
         dataType: "json",
         type: "POST",
         cache: false,
@@ -195,8 +195,8 @@
             '<td>' + v.userName + '</td>' +
             '<td>' + v.moduleName + '</td>' +
             '<td>' + v.operContent + '</td>' +
+            '<td>' + fmtExceptionMsg(v.exception) + '</td>' +
             '<td>' + v.operTimeStr + '</td>' +
-            '<td>' + v.consumeTime + '</td>' +
             '<td><a class="showViewBtn" href="javascript:void(0)" onclick="showView(\'' + v.id + '\')">查看详情</a></td>' +
             '</tr>';
           })
@@ -241,6 +241,13 @@
     //showFormDialog("${root}/log/showView.bs?logId="+id, "showLog", "日志详情", 610, 560);
   }
 
+  // 格式化异常信息的显示
+  function fmtExceptionMsg(eMsg) {
+    if(null!=eMsg && ''!=eMsg) {
+      var v = eMsg.substr(0, 130) + "......";
+      return v;
+    }
+  }
 </script>
 </body>
 

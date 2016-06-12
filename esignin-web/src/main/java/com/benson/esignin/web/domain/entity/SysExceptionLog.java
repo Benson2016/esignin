@@ -1,6 +1,8 @@
 package com.benson.esignin.web.domain.entity;
 
+import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.entity.IdEntity;
+import com.benson.esignin.common.utils.DateUtil;
 
 import java.util.Date;
 
@@ -42,6 +44,14 @@ public class SysExceptionLog extends IdEntity {
         this.exception = exception;
         this.operTime = operTime;
         this.consumeTime = consumeTime;
+    }
+
+    /**
+     * 获取操作时间
+     * @return 字符串格式
+     */
+    public String getOperTimeStr() {
+        return DateUtil.converToString(this.operTime, CommonCons.D_FMT_NORMAL);
     }
 
     public String getIp() {
