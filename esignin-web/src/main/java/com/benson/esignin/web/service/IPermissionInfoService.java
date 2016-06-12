@@ -38,4 +38,11 @@ public interface IPermissionInfoService extends IBaseService<PermissionInfo, Str
      */
     int deleteByIds(String ids);
 
+    /**
+     * 查询角色拥有的权限
+     * @param roleId 角色ID
+     * @return
+     * @throws Exception
+     */
+    List<PermissionInfo> findAllByRoleId(String roleId) throws Exception;
 }

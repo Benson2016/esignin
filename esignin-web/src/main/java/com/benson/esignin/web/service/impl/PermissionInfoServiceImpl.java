@@ -78,4 +78,15 @@ public class PermissionInfoServiceImpl extends BaseServiceImpl<PermissionInfo, S
         return result;
     }
 
+    /**
+     * 查询角色拥有的权限
+     * @param roleId 角色ID
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<PermissionInfo> findAllByRoleId(String roleId) throws Exception {
+        return permissionInfoDao.findAllByRoleId(roleId);
+    }
+
 }

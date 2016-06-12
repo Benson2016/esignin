@@ -38,4 +38,12 @@ public interface IRoleInfoService extends IBaseService<RoleInfo, String> {
      */
     int deleteByIds(String ids);
 
+    /**
+     * 查询用户拥有的角色
+     * @param userId 用户ID
+     * @return
+     * @throws Exception
+     */
+    List<RoleInfo> findAllByUserId(String userId) throws Exception;
+
 }

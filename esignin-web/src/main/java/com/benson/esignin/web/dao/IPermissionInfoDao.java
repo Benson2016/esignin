@@ -44,6 +44,9 @@ public interface IPermissionInfoDao extends IBaseDao<PermissionInfo, String> {
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME)
     List<PermissionInfo> findAll();
 
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" where id in (SELECT permission_id FROM t_sys_role_permission WHERE role_id=#{roleId})")
+    List<PermissionInfo> findAllByRoleId(String roleId);
+
 
     /**
      * 根据条件查询

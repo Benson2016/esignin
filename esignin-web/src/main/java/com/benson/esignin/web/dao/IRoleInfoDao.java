@@ -42,6 +42,9 @@ public interface IRoleInfoDao extends IBaseDao<RoleInfo, String> {
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME)
     List<RoleInfo> findAll();
 
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" where id in (SELECT role_id FROM t_sys_user_role WHERE user_id=#{userId})")
+    List<RoleInfo> findAllByUserId(String userId);
+
     /**
      * 根据条件查询
      * @param query 查询条件

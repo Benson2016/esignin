@@ -79,4 +79,14 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfo, String> imple
         return result;
     }
 
+    /**
+     * 查询用户拥有的角色
+     * @param userId 用户ID
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<RoleInfo> findAllByUserId(String userId) throws Exception {
+        return roleInfoDao.findAllByUserId(userId);
+    }
 }
