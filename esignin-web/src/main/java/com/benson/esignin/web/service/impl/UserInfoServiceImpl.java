@@ -70,8 +70,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      */
     @SysServiceLog(content = "按条件查询用户信息列表")
     public List<UserInfo> findAllByQuery(UserInfoQuery query) throws Exception {
+        /*// 手动添加空指针异常--测试
         UserInfo user = null;
-        String fullName = user.getFullName();
+        String fullName = user.getFullName();*/
 
         return userInfoDao.findAllByQuery(query);
     }

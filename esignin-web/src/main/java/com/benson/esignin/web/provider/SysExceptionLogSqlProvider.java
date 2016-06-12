@@ -4,6 +4,7 @@ import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.dao.ISysExceptionLogDao;
 import com.benson.esignin.web.domain.entity.SysExceptionLog;
 import com.benson.esignin.web.domain.vo.SysLogQuery;
+import static org.apache.ibatis.jdbc.SqlBuilder.*;
 
 /**
  * 系统异常日志SQL提供者
@@ -14,6 +15,24 @@ import com.benson.esignin.web.domain.vo.SysLogQuery;
  * @since 2016年06月06日 14:56
  */
 public class SysExceptionLogSqlProvider {
+
+    /**
+     * get insert sql script
+     * @return
+     */
+    public String insert() {
+        BEGIN();
+        INSERT_INTO(ISysExceptionLogDao.TABLE_NAME);
+        VALUES("id", "#{id,javaType=string,jdbcType=VARCHAR}");
+        VALUES("ip", "#{ip,javaType=string,jdbcType=VARCHAR}");
+        VALUES("user_name", "#{userName,javaType=string,jdbcType=VARCHAR}");
+        VALUES("module_name", "#{moduleName,javaType=string,jdbcType=VARCHAR}");
+        VALUES("oper_content", "#{operContent,javaType=string,jdbcType=VARCHAR}");
+        VALUES("exception", "#{exception,javaType=string,jdbcType=LONGVARCHAR}");
+        VALUES("oper_time", "#{operTime,javaType=java.util.Date,jdbcType=TIMESTAMP}");
+        VALUES("consume_time", "#{consumeTime,javaType=string,jdbcType=VARCHAR}");
+        return SQL();
+    }
 
     /**
      * 根据条件查询

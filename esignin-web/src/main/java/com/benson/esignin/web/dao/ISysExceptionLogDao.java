@@ -27,7 +27,8 @@ public interface ISysExceptionLogDao extends IBaseDao<SysExceptionLog, String> {
     final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, ip, user_name, module_name, oper_content, exception, oper_time, consume_time) VALUES(#{id},#{ip},#{userName},#{moduleName},#{operContent},#{exception},#{operTime},#{consumeTime})";
 
 
-    @Insert(INSERT_SQL)
+    /*@Insert(INSERT_SQL)*/
+    @InsertProvider(type = SysExceptionLogSqlProvider.class, method = "insert")
     int add(SysExceptionLog entity);
 
     @Delete("DELETE FROM "+TABLE_NAME+" where id = #{id}")
