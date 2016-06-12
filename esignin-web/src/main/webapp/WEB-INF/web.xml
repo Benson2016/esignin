@@ -27,7 +27,10 @@
   <!--配置spring配置文件加载的位置 -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring-init.xml</param-value>
+    <param-value>
+      classpath:spring-init.xml
+      classpath:spring-shiro.xml
+    </param-value>
   </context-param>
   <!--加载Spring的配置文件 -->
   <listener>
@@ -100,6 +103,10 @@
   </error-page>
   <error-page>
     <exception-type>org.apache.shiro.authz.AuthorizationException</exception-type>
+    <location>/401.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>401</error-code>
     <location>/401.jsp</location>
   </error-page>
 

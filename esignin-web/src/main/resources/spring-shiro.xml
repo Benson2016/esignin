@@ -1,26 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
 
     <description>apache shiro配置</description>
 
+    <!-- 配置权限管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="securityRealm" />
+        <!-- 设置缓存管理器 -->
+        <property name="cacheManager" ref="cacheManager" />
+        <!-- 设置会话管理器
+        <property name="sessionManager" ref="sessionManager" />
+        -->
+    </bean>
+
+    <!-- 配置Shiro过滤器工厂类,id值需要与web.xml中配置的过滤器名称一致 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/rest/page/login"/>
-        <property name="successUrl" value="/rest/index"/>
-        <property name="unauthorizedUrl" value="/rest/page/401"/>
+        <!-- 配置我们登录所请求的地址 -->
+        <property name="loginUrl" value="/user/login.bs"/>
+        <!-- 配置我们登录成功后的跳转地址 -->
+        <property name="successUrl" value="/admin/toAdmin.bs"/>
+        <!-- 配置所请求资源未授权时的显示页面 -->
+        <property name="unauthorizedUrl" value="/401"/>
+        <!-- 权限配置 -->
         <property name="filterChainDefinitions">
             <value>
+                /logout = anon
                 <!-- 静态资源允许访问 -->
                 /commons/** = anon
                 /resources/** = anon
-                <!-- 登录页允许访问 -->
-                /user/login = anon
+                <!-- 获取和检查验证码允许访问 -->
+                /getVerifyCode.bs = anon
+                /checkCode.bs = anon
+                <!-- 登录请求允许访问 -->
+                /user/loginByMobile.bs = anon
+                /code/loginByQR.bs = anon
+                <!-- 注册请求允许访问 -->
+                /user/regByMobile = anon
                 <!-- 页面允许访问 -->
                 /page/** = anon
+                /admin/** = authc,roles[super]
                 <!-- 其他资源需要认证 -->
                 /** = authc
             </value>
@@ -28,30 +54,16 @@
     </bean>
 
     <!-- 缓存管理器 使用Ehcache实现 -->
-    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
-    </bean>
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
 
-    <!-- 会话DAO -->
+    <!-- 会话DAO
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/>
-
-    <!-- 会话管理器 -->
+    -->
+    <!-- 会话管理器
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionDAO" ref="sessionDAO"/>
     </bean>
-
-    <!-- 安全管理器 -->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realms">
-            <list>
-                <ref bean="securityRealm"/>
-            </list>
-        </property>
-        <!-- cacheManager,集合spring缓存工厂 -->
-        <!-- <property name="cacheManager" ref="shiroEhcacheManager" /> -->
-        <!-- <property name="sessionManager" ref="sessionManager" /> -->
-    </bean>
-
+    -->
     <!-- Shiro生命周期处理器 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 

@@ -502,7 +502,7 @@
 
                         <img alt="" src="${root}/skin/media/image/avatar1_small.jpg" />
 
-                        <span class="username"><%=userName%></span>
+                        <span class="username"><%=userName%><shiro:hasRole name="super">超级管理员</shiro:hasRole></span>
 
                         <i class="icon-angle-down"></i>
 
