@@ -16,6 +16,7 @@
 <body>
 
 <script>
+    // 回调标识,防止在同一时间,重复请求后台
     var isCallback = true;
     var av = navigator.appVersion;
     var $_story = window.localStorage;
@@ -23,7 +24,6 @@
         // reading sun info
         var sun = $_story.getItem("sun");
         var sup = $_story.getItem("sup");
-        //alert("$_story["+sun+","+sup+"]");
         if ((null!=sun && ''!==sun)&&(null!=sup && ''!==sup)) {
             if (isCallback) {
                 isCallback = false;
@@ -66,9 +66,6 @@
         window.location.href = "${root}/page/mobileVerify.bs";
     }
 
-    /*$(function(){
-
-     });*/
 </script>
 </body>
 </html>

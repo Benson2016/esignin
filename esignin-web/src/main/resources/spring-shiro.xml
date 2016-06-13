@@ -41,8 +41,10 @@
                 <!-- 登录请求允许访问 -->
                 /user/loginByMobile.bs = anon
                 /code/loginByQR.bs = anon
-                <!-- 注册请求允许访问 -->
-                /user/regByMobile = anon
+                <!-- 手机注册和签到请求允许访问 -->
+                /user/regByMobile.bs = anon
+                /signIn.bs = anon
+                /getSignInList.bs = anon
                 <!-- 页面允许访问 -->
                 /page/** = anon
                 <!-- 后台需要权限访问 -->

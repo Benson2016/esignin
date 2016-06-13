@@ -94,7 +94,7 @@ public class SignInController {
             logger.error("用户签到时发生异常:{}", e);
         } finally {
 
-            logger.info("End The Of signIn Method.");
+            logger.info("The End Of signIn Method.");
         }
 
         return "app/signin_success";

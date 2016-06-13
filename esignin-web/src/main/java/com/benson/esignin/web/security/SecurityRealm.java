@@ -101,9 +101,10 @@ public class SecurityRealm extends AuthorizingRealm {
                 throw new AuthenticationException("用户名或密码错误!");
             }
 
-            //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            logger.info(null==request?"request is null.":"request is not null.");
             // 存储用户信息
-            //UserUtil.storedUserToSession(request, authUser, SysCons.LOGIN_USER);
+            UserUtil.storedUserToSession(request, authUser, SysCons.LOGIN_USER);
 
             SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, getName());
             return authenticationInfo;
