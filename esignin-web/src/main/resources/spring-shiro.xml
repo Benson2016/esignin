@@ -32,7 +32,6 @@
         <!-- 权限配置 -->
         <property name="filterChainDefinitions">
             <value>
-                /logout = anon
                 <!-- 静态资源允许访问 -->
                 /commons/** = anon
                 /resources/** = anon
@@ -46,7 +45,10 @@
                 /user/regByMobile = anon
                 <!-- 页面允许访问 -->
                 /page/** = anon
+                <!-- 后台需要权限访问 -->
                 /admin/** = authc,roles[super]
+                <!-- 退出登录允许访问 -->
+                /user/logout.bs = anon
                 <!-- 其他资源需要认证 -->
                 /** = authc
             </value>

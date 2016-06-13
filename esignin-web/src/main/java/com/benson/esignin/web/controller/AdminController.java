@@ -10,6 +10,8 @@ import com.benson.esignin.web.domain.vo.*;
 import com.benson.esignin.web.service.*;
 import com.benson.esignin.web.utils.UserUtil;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,30 +51,32 @@ public class AdminController {
     private ISignInTypeService signInTypeService;
 
     // 后台管理页
-    @RequestMapping(value = "toAdmin")
+    @RequestMapping(value = "/toAdmin")
     public String toAdmin(Model model, HttpServletRequest request, HttpServletResponse response) {
-        if (UserUtil.isLogin(request))
+        Subject subject = SecurityUtils.getSubject();
+        // 已登录则跳转到后台首页，否则跳转至登录页
+        if (subject.isAuthenticated())
             return "admin/index";
         else
             return "login";
     }
     // 用户管理页
-    @RequestMapping(value = "mgrUser")
+    @RequestMapping(value = "/mgrUser")
     public String mgrUser(Model model, HttpServletRequest request, HttpServletResponse response) {
         return "admin/mgr_user";
     }
     // 角色管理页
-    @RequestMapping(value = "mgrRole")
+    @RequestMapping(value = "/mgrRole")
     public String mgrRole(Model model, HttpServletRequest request, HttpServletResponse response) {
         return "admin/mgr_role";
     }
     // 权限管理页
-    @RequestMapping(value = "mgrPermission")
+    @RequestMapping(value = "/mgrPermission")
     public String mgrPermission(Model model, HttpServletRequest request, HttpServletResponse response) {
         return "admin/mgr_permission";
     }
     // 菜单管理页
-    @RequestMapping(value = "mgrMenu")
+    @RequestMapping(value = "/mgrMenu")
     public String mgrMenu(Model model, HttpServletRequest request, HttpServletResponse response) {
         logger.info("enter to mgrMenu Method.");
 
@@ -80,7 +84,7 @@ public class AdminController {
         return "admin/mgr_permission";
     }
     // QrCode管理页
-    @RequestMapping(value = "mgrQrCode")
+    @RequestMapping(value = "/mgrQrCode")
     public String mgrQrCode(Model model, HttpServletRequest request, HttpServletResponse response) {
         try {
             // 获取所有业务类型
@@ -97,21 +101,21 @@ public class AdminController {
     }
 
     // 签到类别管理
-    @RequestMapping(value = "mgrSignInType")
+    @RequestMapping(value = "/mgrSignInType")
     public String mgrSignInType(Model model) {
 
         return "admin/mgr_signin_type";
     }
 
     // 签到记录管理
-    @RequestMapping(value = "mgrSignInRecord")
+    @RequestMapping(value = "/mgrSignInRecord")
     public String mgrSignInRecord(Model model) {
 
         return "admin/mgr_signin_record";
     }
 
     // 后台欢迎页
-    @RequestMapping(value = "welcome")
+    @RequestMapping(value = "/welcome")
     public String welcome(Model model) {
         return "admin/welcome";
     }

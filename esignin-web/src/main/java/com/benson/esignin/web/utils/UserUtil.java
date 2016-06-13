@@ -17,6 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 public class UserUtil {
 
     /**
+     * 将用户信息保存到Session中
+     * @param request
+     * @param userInfo
+     * @param name 存储的Key
+     */
+    public static void storedUserToSession(HttpServletRequest request, UserInfo userInfo, String name) {
+        request.getSession().setAttribute(name, userInfo);
+    }
+
+    /**
      * 获取当前登录用户信息
      * @param request
      * @return

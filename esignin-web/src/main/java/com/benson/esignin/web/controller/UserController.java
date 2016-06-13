@@ -7,8 +7,12 @@ import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IUserInfoService;
+import com.benson.esignin.web.utils.UserUtil;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -123,52 +127,42 @@ public class UserController {
     /**
      * 用户登录
      *
-     * @param user
+     * @param username
+     * @param password
      * @param result
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @SysControllerLog(content = "用户登录")
-    public String login(@Valid UserInfo user, BindingResult result, Model model, HttpServletRequest request) {
+    public String login(@Valid String username, @Valid String password, BindingResult result, Model model, HttpServletRequest request) {
+        logger.info("-------->>>进入登录环节<<<--------");
         try {
-            /*Subject subject = SecurityUtils.getSubject();
-            // 已登陆则 跳到首页
-            if (subject.isAuthenticated()) {
-                logger.info(String.format("用户【%s】已登录，即将转到后台首页。", user.getUserName()));
-                return "admin/index";
-            }
-            if (result.hasErrors()) {
-                logger.info("登录参数错误！");
-                model.addAttribute("rspMsg", "参数错误！");
-                model.addAttribute("rspCode", "101");
-                model.addAttribute("operType", "1");
-                return "login";
-            }
-            // 身份验证
-            subject.login(new UsernamePasswordToken(user.getUserName(), user.getPassword()));
-            // 验证成功在Session中保存用户信息
-            final UserInfo authUserInfo = userInfoService.findByUserName(user.getUserName());
-            request.getSession().setAttribute("userInfo", authUserInfo);
-            */
             // 验证用户信息
-            if (CommonUtil.isNull(user.getUserName(), user.getPassword())) {
+            if (CommonUtil.isNull(username, password)) {
                 model.addAttribute("operType", "1");
                 model.addAttribute("rspMsg", "用户名或密码不能为空！");
                 model.addAttribute("rspCode", "101");
                 return "login";
             }
-            logger.info(String.format("*** 验证用户：%s ***", JsonUtil.bean2Json(user)));
-            final UserInfo authUserInfo = userInfoService.authentication(user);
+
+            Subject subject = SecurityUtils.getSubject();
+            // 已登陆则 跳到首页
+            if (subject.isAuthenticated()) {
+                logger.info(String.format("用户【%s】已登录，即将转到后台首页。", username));
+                return "admin/index";
+            }
+
+            final UserInfo authUserInfo = userInfoService.authentication(new UserInfo(username, password));
             if (CommonUtil.isNull(authUserInfo)) {
                 model.addAttribute("operType", "1");
                 model.addAttribute("rspMsg", "用户名或密码错误！");
                 model.addAttribute("rspCode", "101");
                 return "login";
             }
-            logger.info(String.format("***用户【%s】验证通过！***", authUserInfo.getUserName()));
-
+            // 身份验证
+            subject.login(new UsernamePasswordToken(authUserInfo.getUserName(), authUserInfo.getPassword()));
             // 验证成功在Session中保存用户信息
-            storyUserToSession(request, authUserInfo, SysCons.LOGIN_USER);
+            UserUtil.storedUserToSession(request, authUserInfo, SysCons.LOGIN_USER);
 
         } catch (AuthenticationException e) {
             // 身份验证失败
@@ -178,6 +172,7 @@ public class UserController {
             model.addAttribute("rspMsg", "系统错误 ！");
             return "login";
         }
+        logger.info("-------->>>退出登录环节<<<--------");
 
         // 登录成功跳转至首页
         return "redirect:/admin/toAdmin.bs";
@@ -199,8 +194,8 @@ public class UserController {
         // 移除用户信息
         removeUserFromSession(request, SysCons.LOGIN_USER);
         // 登出操作
-        /*Subject subject = SecurityUtils.getSubject();
-        subject.logout();*/
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return "login";
     }
 
@@ -222,7 +217,6 @@ public class UserController {
             response = new UserInfoResponse(StateResponse.ERROR_PARAM);
             return JsonUtil.toJson(response);
         }
-
 
         // 手机用户注册
         try {
@@ -251,7 +245,7 @@ public class UserController {
 
             response = new UserInfoResponse(StateResponse.SUCCESS);
             // 保存用户信息
-            storyUserToSession(request, newUser, SysCons.LOGIN_USER);
+            UserUtil.storedUserToSession(request, newUser, SysCons.LOGIN_USER);
             // 设置返回信息
             response.setUn(newUser.getUserName());
             response.setUp(newUser.getPassword());
@@ -293,7 +287,7 @@ public class UserController {
             }
 
             // 登录成功,存储信息
-            storyUserToSession(request, loginUser, SysCons.LOGIN_USER);
+            UserUtil.storedUserToSession(request, loginUser, SysCons.LOGIN_USER);
             // 返回成功提示
             response = new UserInfoResponse(StateResponse.SUCCESS);
             response.setUn(loginUser.getUserName());
@@ -308,16 +302,6 @@ public class UserController {
         return JsonUtil.toJson(response);
     }
 
-
-    /**
-     * Session中保存用户信息
-     * @param request
-     * @param userInfo
-     * @param name
-     */
-    private void storyUserToSession(HttpServletRequest request, UserInfo userInfo, String name) {
-        request.getSession().setAttribute(name, userInfo);
-    }
 
     /**
      * 从Session中移除用户信息

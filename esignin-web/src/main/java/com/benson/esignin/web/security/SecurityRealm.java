@@ -1,5 +1,6 @@
 package com.benson.esignin.web.security;
 
+import com.benson.esignin.common.cons.SysCons;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.RoleInfo;
@@ -7,6 +8,7 @@ import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.service.IPermissionInfoService;
 import com.benson.esignin.web.service.IRoleInfoService;
 import com.benson.esignin.web.service.IUserInfoService;
+import com.benson.esignin.web.utils.UserUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -15,7 +17,10 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -96,12 +101,17 @@ public class SecurityRealm extends AuthorizingRealm {
                 throw new AuthenticationException("用户名或密码错误!");
             }
 
+            //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            // 存储用户信息
+            //UserUtil.storedUserToSession(request, authUser, SysCons.LOGIN_USER);
+
             SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, getName());
             return authenticationInfo;
         } catch (Exception e) {
             logger.error("身份安全验证操作异常：", e);
+        } finally {
+            logger.info("-------->>> Exit doGetAuthenticationInfo Method <<<--------");
         }
-        logger.info("-------->>> Exit doGetAuthenticationInfo Method <<<--------");
         return null;
     }
 }
