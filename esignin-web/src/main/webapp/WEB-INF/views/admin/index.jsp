@@ -609,30 +609,6 @@
                 </ul>
             </li>
 
-            <!-- Sys Manager -->
-            <li class="">
-                <a href="javascript:(0);">
-                    <i class="icon-cogs"></i>
-                    <span class="title">系统管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(1)"><i class="icon-user"></i>用户管理</a>
-                    </li>
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(2)"><i class="icon-user-md"></i>角色管理</a>
-                    </li>
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(3)"><i class="icon-unlock"></i>权限管理</a>
-                    </li>
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(4)"><i class="icon-tasks"></i>菜单管理</a>
-                    </li>
-
-                </ul>
-            </li>
-
             <!-- Log Manager -->
             <li class="">
                 <a href="javascript:;">
@@ -667,6 +643,30 @@
                         <a href="extra_lock.html">
                             <i class="icon-bar-chart"></i>签到统计</a>
                     </li>
+                </ul>
+            </li>
+
+            <!-- Sys Manager -->
+            <li class="">
+                <a href="javascript:(0);">
+                    <i class="icon-cogs"></i>
+                    <span class="title">系统管理</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(1)"><i class="icon-user"></i>用户管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(2)"><i class="icon-user-md"></i>角色管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(3)"><i class="icon-unlock"></i>权限管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript:0" onclick="openMenuItem(4)"><i class="icon-tasks"></i>菜单管理</a>
+                    </li>
+
                 </ul>
             </li>
 

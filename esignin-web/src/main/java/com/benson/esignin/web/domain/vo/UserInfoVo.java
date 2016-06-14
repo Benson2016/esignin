@@ -1,12 +1,17 @@
-package com.benson.esignin.web.domain.entity;
+package com.benson.esignin.web.domain.vo;
 
-import com.benson.esignin.common.cons.CommonCons;
-import com.benson.esignin.common.entity.IdEntity;
-import com.benson.esignin.common.utils.DateUtil;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class UserInfo extends IdEntity {
+/**
+ * 用户信息VO类
+ *
+ * @author: Benson Xu
+ * @date: 2016年06月15日 01:21
+ */
+public class UserInfoVo implements Serializable {
+
+    private String id;    //ID
 
     private String userName;    //用户名
 
@@ -22,29 +27,29 @@ public class UserInfo extends IdEntity {
 
     private Integer age;        //年龄
 
-    private Date createTime;    //创建时间
+    private String createTime;    //创建时间
 
-    private Date updateTime;    //更新时间
+    private String updateTime;    //更新时间
 
     private Integer flag;       //用户标识：1.普通用户，2.普通管理员，3.超级管理员
 
     private Integer isValid;    //是否有效：0无效，1有效（默认）
 
 
-    public UserInfo() {}
-
-    public UserInfo(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
+    public String getId() {
+        return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+        this.userName = userName;
     }
 
     public String getFullName() {
@@ -52,7 +57,7 @@ public class UserInfo extends IdEntity {
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName == null ? null : fullName.trim();
+        this.fullName = fullName;
     }
 
     public String getPassword() {
@@ -60,7 +65,7 @@ public class UserInfo extends IdEntity {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public Integer getSex() {
@@ -76,7 +81,7 @@ public class UserInfo extends IdEntity {
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
+        this.mobile = mobile;
     }
 
     public String getEmail() {
@@ -84,7 +89,7 @@ public class UserInfo extends IdEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public Integer getAge() {
@@ -95,19 +100,19 @@ public class UserInfo extends IdEntity {
         this.age = age;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -126,9 +131,4 @@ public class UserInfo extends IdEntity {
     public void setIsValid(Integer isValid) {
         this.isValid = isValid;
     }
-
-    public String getCreateTimeStr() {
-        return DateUtil.converToString(this.createTime, CommonCons.D_FMT_NORMAL);
-    }
-
 }

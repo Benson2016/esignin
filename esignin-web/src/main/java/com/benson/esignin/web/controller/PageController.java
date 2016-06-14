@@ -84,6 +84,15 @@ public class PageController {
         return "admin/qrcode_edit";
     }
 
+    /**
+     * 去用户添加页面
+     */
+    @RequestMapping("/toUserAdd")
+    public String toUserAdd() {
+        return "admin/user_add";
+    }
+
+
 
     @RequestMapping("/handler")
     public String handler(@RequestParam String businessId, HttpServletRequest request) {

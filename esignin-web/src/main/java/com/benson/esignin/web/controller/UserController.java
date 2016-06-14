@@ -6,6 +6,7 @@ import com.benson.esignin.common.utils.*;
 import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
+import com.benson.esignin.web.domain.vo.UserInfoVo;
 import com.benson.esignin.web.service.IUserInfoService;
 import com.benson.esignin.web.utils.UserUtil;
 import org.apache.log4j.Logger;
@@ -107,7 +108,7 @@ public class UserController {
             userInfo.setUpdateTime(currTime);
 
             int rs = userInfoService.add(userInfo);
-            logger.info(rs>1?"执行成功！" :"执行失败！");
+            logger.info(rs>0?"执行成功！" :"执行失败！");
             model.addAttribute("rspMsg", "注册成功！");
             model.addAttribute("rspCode", "100");
             model.addAttribute("operType", "1");
@@ -122,6 +123,42 @@ public class UserController {
 
         // 注册成功跳转至登录页面
         return "login";
+    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    @SysControllerLog(content = "添加用户信息.")
+    @ResponseBody
+    public Object addUser(UserInfo userInfo, HttpServletRequest request) {
+
+        UserInfoResponse response = null;
+
+        if (CommonUtil.isNull(userInfo)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+
+
+        try {
+            // 初始化值
+            userInfo.generateUUId();
+            userInfo.setIsValid(1);
+            Timestamp currTime = TimestampUtil.getCurrentTimestampWithFormat();
+            userInfo.setCreateTime(currTime); //设置创建时间
+            userInfo.setUpdateTime(currTime);
+            // 默认密码
+            userInfo.setPassword(EncryptionUtil.sha256Encode(SysCons.DEFAULT_PASSWORD));
+
+            int rs = userInfoService.add(userInfo);
+            logger.info(rs>0?"后台添加用户成功！" :"后台添加用户失败！");
+
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response.setRspMsg("添加成功！");
+        } catch (Exception e) {
+            response = new UserInfoResponse(StateResponse.ERROR_SYS);
+            logger.error("添加用户异常:", e);
+        }
+
+        return JsonUtil.toJson(response);
     }
 
     /**
@@ -315,7 +352,7 @@ public class UserController {
     @RequestMapping(value = "/delUser",method = RequestMethod.POST)
     @ResponseBody
     @SysControllerLog(content = "删除用户操作")
-    public Object delUser(@RequestParam String ids) {
+    public Object delUser(@RequestParam String ids, HttpServletRequest request) {
         UserInfoResponse response = null;
         if (CommonUtil.isNull(ids)) {
             response = new UserInfoResponse(StateResponse.ERROR_PARAM);
@@ -323,6 +360,14 @@ public class UserController {
         }
 
         try {
+            // 用户不能删除自己
+            UserInfo loginUser = UserUtil.getLoginUser(request);
+            if (ids.contains(loginUser.getId())) {
+                response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+                response.setRspMsg("用户无权删除自己!");
+                return JsonUtil.toJson(response);
+            }
+
             // 删除给定id的记录
             String[] idArray = ids.split(",");
             int result = 0;
@@ -341,5 +386,83 @@ public class UserController {
 
         return JsonUtil.toJson(response);
     }
+
+
+    /**
+     * 去用户信息编辑页面
+     * @param uid 二维码ID
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toUserEdit")
+    public String toUserEdit(@RequestParam String uid, Model model) {
+        if (CommonUtil.isNull(uid)) {
+            logger.error("uid为空,非法进入,无权进入用户编辑页面.");
+            return "404";
+        }
+
+        try {
+            UserInfo userInfo = userInfoService.findOne(uid);
+            String json = JsonUtil.bean2Json(userInfo);
+            model.addAttribute("user", json);
+        } catch (Exception e) {
+            logger.error("去用户信息编辑页面之前发生异常：", e);
+        }
+        return "admin/user_edit";
+    }
+
+
+    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+    @SysControllerLog(content = "修改用户信息.")
+    @ResponseBody
+    public Object saveUser(UserInfoVo vo) {
+
+        UserInfoResponse response = null;
+
+        if (CommonUtil.isNull(vo)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+
+        try {
+            UserInfo userInfo = userInfoService.findOne(vo.getId());
+            if (CommonUtil.isNull(userInfo)) {
+                response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+                response.setRspMsg("找不到目标用户信息.");
+                return JsonUtil.toJson(response);
+            }
+
+            // 设置密码
+            if (!userInfo.getPassword().equals(vo.getPassword())) { // SHA256-64bit
+                if (vo.getPassword().length()<64)
+                    userInfo.setPassword(EncryptionUtil.sha256Encode(vo.getPassword()));
+                else
+                    userInfo.setPassword(vo.getPassword());
+            }
+            // 用户名唯一,不能修改
+            userInfo.setFullName(vo.getFullName());
+            userInfo.setEmail(vo.getEmail());
+            userInfo.setAge(vo.getAge());
+            userInfo.setSex(vo.getSex());
+            userInfo.setFlag(vo.getFlag());
+            userInfo.setMobile(vo.getMobile());
+            userInfo.setIsValid(vo.getIsValid());
+
+            // 设置修改时间
+            userInfo.setUpdateTime(TimestampUtil.getCurrentTimestampWithFormat());
+
+            int rs = userInfoService.update(userInfo);
+            logger.info(rs>0?"后台修改用户成功！" :"后台修改用户失败！");
+
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response.setRspMsg("修改成功！");
+        } catch (Exception e) {
+            response = new UserInfoResponse(StateResponse.ERROR_SYS);
+            logger.error("修改用户异常:", e);
+        }
+
+        return JsonUtil.toJson(response);
+    }
+
 
 }

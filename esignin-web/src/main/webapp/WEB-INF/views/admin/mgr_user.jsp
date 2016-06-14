@@ -16,11 +16,11 @@
 
     <meta name="keywords" content="E签到,ESignIn,easy to sign in"/>
     <meta name="description" content="全球最流行最简便的签到系统"/>
-    <!-- <link rel="shortcut icon" href="" type="image/x-icon"/> -->
-    <link href="${root}/resources/css/global.css" rel="stylesheet" type="text/css"/>
-    <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css"/>
-    <link href="${root}/resources/css/discount.css" rel="stylesheet" type="text/css"/>
-    <link href="${root}/resources/css/page.css" rel="stylesheet" type="text/css"/>
+    <link href="${root}/resources/css/global.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/css/discount.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/css/page.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <%@ include file="/commons/style.jsp" %>
 
 </head>
@@ -54,6 +54,7 @@
             </form>
 
             <div class="tableTopBtn">
+                <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
                 <a class="delSelectBtn" href="javascript:void(0)">删除选中</a>
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
@@ -65,14 +66,15 @@
                     <thead>
                     <tr>
                         <th width="5%">序号</th>
-                        <th width="10%"><input type="checkbox" name="checkAllOrNot" id="checkAllOrNot"
-                                               onclick="checkAllEvent()">选项
+                        <th width="10%">
+                            <input type="checkbox" name="checkAllOrNot" id="checkAllOrNot"onclick="checkAllEvent()">选项
                         </th>
                         <th width="15%">用户名称</th>
                         <th width="15%">用户姓名</th>
                         <th width="15%">手机号码</th>
-                        <th width="25%">创建时间</th>
-                        <th width="15%">有效状态</th>
+                        <th width="20%">创建时间</th>
+                        <th width="10%">有效状态</th>
+                        <th width="10%">操 作</th>
                     </tr>
                     </thead>
                     <tbody id="data_body"></tbody>
@@ -87,12 +89,13 @@
 <div id="loading"></div>
 
 <script src="${root}/resources/js/jquery.min.js"></script>
-<script src="${root}/resources/js/plus/date/WdatePicker.js"></script>
 <script src="${root}/resources/js/plus/placeholder.min.js"></script>
 <script src="${root}/resources/js/plus/graphic/highcharts.js"></script>
 <script src="${root}/resources/js/hyxt.js"></script>
 <script src="${root}/resources/js/dialog.js"></script>
 <script src="${root}/resources/js/PageBarNumList.js"></script>
+<script src="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+<script src="${root}/commons/js/esignInDialog.js"></script>
 
 <script>
     // 是否已回调
@@ -158,7 +161,162 @@
         });
 
 
+        // 显示添加Dialog
+        $('.tableTopBtn').delegate('.addBtn', 'click', function(){
+            showFormDialog("${root}/page/toUserAdd.bs", "addForm", "添加用户", 610, 560, {yes: "保 存", yes_before_close:checkAddForm, yes_after_close: null});
+        });
+
+
     });
+
+    function checkPhone(phone){
+        if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){
+            showMsg("请输入正确的手机号！");
+            return false;
+        }
+        return true;
+    }
+
+    var reg = /^(0|([1-9]\d?)|(1[01]\d)|(120))(\.\d*)?$/;
+    function checkAge(age) {
+        if (!reg.test(age)) {
+            showMsg("请输入年龄范围0~120");
+            return false;
+        }
+        return true;
+    }
+
+    // 检查Form元素
+    function checkAddForm() {
+        console.log("enter checkAddForm()");
+        var userName = $('#addForm').contents().find("#userName").val();
+        if(''==userName) {
+            showMsg("请填写用户名！");
+            return false;
+        }
+        var fullName = $('#addForm').contents().find("#fullName").val();
+        if(''==fullName) {
+            showMsg("请填写姓名！");
+            return false;
+        }
+        var mobile = $('#addForm').contents().find("#mobile").val();
+        if(''==mobile) {
+            showMsg("请填写手机号码！");
+            return false;
+        }
+        if (!checkPhone(mobile)) {
+            return false;
+        }
+        var age = $('#addForm').contents().find("#age").val();
+        if (!checkAge(age)) {
+            return false;
+        }
+
+        // 输入有效后提交表单保存数据
+        if(isCallbacked) {
+            isCallbacked = false;
+            $.ajax({
+                url: "${root}/user/addUser.bs",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    userName: userName,
+                    fullName: fullName,
+                    mobile: mobile,
+                    age: age,
+                    sex: $('#addForm').contents().find("#sex").val(),
+                    email: $('#addForm').contents().find("#email").val(),
+                    flag: $('#addForm').contents().find("#flag").val()
+                },
+                cache: false,
+                success: function(data){
+                    isCallbacked = true;
+                    if(data.rspCode==100){ //success
+                        getDataHtml(1); //重新加载数据
+                        showMsg(data.rspMsg);
+                        return true;
+                    } else{
+                        showMsg(data.rspMsg);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    isCallbacked = true;
+                    showMsg("系统错误！");
+                    return false;
+                }
+            });
+        } //end of if
+    } // end of checkAddForm
+
+    function openEdit(id) {
+        showFormDialog("${root}/user/toUserEdit.bs?uid="+id, "editForm", "编辑用户信息", 610, 560, {yes: "保 存", yes_before_close:checkFormForEdit, yes_after_close: null});
+    }
+
+    function checkFormForEdit() {
+        var userName = $('#editForm').contents().find("#userName").val();
+        if(''==userName) {
+            showMsg("请填写用户名！");
+            return false;
+        }
+        var fullName = $('#editForm').contents().find("#fullName").val();
+        if(''==fullName) {
+            showMsg("请填写姓名！");
+            return false;
+        }
+        var mobile = $('#editForm').contents().find("#mobile").val();
+        if(''==mobile) {
+            showMsg("请填写手机号码！");
+            return false;
+        }
+        if (!checkPhone(mobile)) {
+            return false;
+        }
+        var age = $('#editForm').contents().find("#age").val();
+        if (!checkAge(age)) {
+            return false;
+        }
+
+        // 输入有效后提交表单保存数据
+        if(isCallbacked) {
+            isCallbacked = false;
+            $.ajax({
+                url: "${root}/user/saveUser.bs",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    userName: userName,
+                    fullName: fullName,
+                    mobile: mobile,
+                    age: age,
+                    sex: $('#editForm').contents().find("#sex").val(),
+                    email: $('#editForm').contents().find("#email").val(),
+                    flag: $('#editForm').contents().find("#flag").val(),
+                    id: $('#editForm').contents().find("#id").val(),
+                    isValid: $('#editForm').contents().find("#isValid").val(),
+                    createTime: $('#editForm').contents().find("#createTime").val(),
+                    password: $('#editForm').contents().find("#password").val()
+                },
+                cache: false,
+                success: function(data){
+                    isCallbacked = true;
+                    if(data.rspCode==100){ //success
+                        getDataHtml(1); //重新加载数据
+                        showMsg(data.rspMsg);
+                        return true;
+                    } else{
+                        showMsg(data.rspMsg);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    isCallbacked = true;
+                    showMsg("系统错误！");
+                    return false;
+                }
+            });
+        }
+    }
 
 
     var isCallBack = true;
@@ -189,7 +347,8 @@
                                 '<td>' + v.fullName + '</td>' +
                                 '<td>' + v.mobile + '</td>' +
                                 '<td>' + v.createTimeStr + '</td>' +
-                                '<td>' + v.isValid + '</td>';
+                                '<td>' + v.isValid + '</td>' +
+                        '<td><a class="editBtn" href="javascript:void(0)" onclick="openEdit(\'' + v.id + '\')">编辑</a></td>' +
                         '</tr>';
                     })
 

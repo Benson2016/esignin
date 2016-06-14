@@ -27,7 +27,7 @@ public class UserSqlProvider {
             sql.append(", update_time='"+ entity.getUpdateTime() +"'");
         }
         if (CommonUtil.isNotNull(entity.getPassword())) {
-            sql.append(", password=" + entity.getPassword());
+            sql.append(", password='" + entity.getPassword()+"'");
         }
         if (CommonUtil.isNotNull(entity.getMobile())) {
             sql.append(", mobile='"+ entity.getMobile() +"'");
