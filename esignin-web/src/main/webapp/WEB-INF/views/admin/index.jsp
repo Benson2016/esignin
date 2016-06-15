@@ -636,11 +636,11 @@
                 </a>
                 <ul class="sub-menu">
                     <li >
-                        <a href="extra_profile.html">
+                        <a href="javascript:0" onclick="openMenuItem(10)">
                             <i class="icon-bar-chart"></i>用户统计</a>
                     </li>
                     <li >
-                        <a href="extra_lock.html">
+                        <a href="javascript:0" onclick="openMenuItem(11)">
                             <i class="icon-bar-chart"></i>签到统计</a>
                     </li>
                 </ul>
@@ -916,6 +916,14 @@
                 break;
             case 9:
                 $("#mainContent").attr("src", "${root}/log/mgrSysExceptionLog.bs");
+                $("#mainPanel").show();
+                break;
+            case 10:
+                $("#mainContent").attr("src", "${root}/statistics/user.bs");
+                $("#mainPanel").show();
+                break;
+            case 11:
+                $("#mainContent").attr("src", "${root}/statistics/signIn.bs");
                 $("#mainPanel").show();
                 break;
             default:
