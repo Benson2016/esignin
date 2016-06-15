@@ -390,7 +390,7 @@ public class UserController {
 
     /**
      * 去用户信息编辑页面
-     * @param uid 二维码ID
+     * @param uid 用户ID
      * @param model
      * @return
      */
@@ -410,7 +410,6 @@ public class UserController {
         }
         return "admin/user_edit";
     }
-
 
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     @SysControllerLog(content = "修改用户信息.")

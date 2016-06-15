@@ -18,6 +18,10 @@
     <meta name="MobileOptimized" content="320">
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="${root}/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="${root}/resources/css/global.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/css/discount.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/css/page.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <link rel="shortcut icon" href="${root}/commons/img/favicon.ico"/>
     <style>
@@ -108,17 +112,19 @@
 <!-- END COPYRIGHT -->
 <script src="${root}/resources/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script src="${root}/resources/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="${root}/resources/js/hyxt.js"></script>
+<script src="${root}/resources/js/dialog.js"></script>
 <script>
     var isCallback = true;
     function submitOK() {
         var vc = $("#verifyCode").val();
         if(vc==null || vc==''){
-            alert("请输入验证码!");
+            showMsg("请输入验证码!");
             return;
         }
         var cid = $("#cid").val();
         if(cid==null || cid==''){
-            alert("请点击获取验证码,并输入正确的验证码!");
+            showMsg("请点击获取验证码,并输入正确的验证码!");
             return;
         }
         // 再次验证手机号
@@ -142,12 +148,12 @@
                                 $(".register-form").show();
                             }
                         } else {
-                            alert(data.rspMsg);
+                            showMsg(data.rspMsg);
                         }
                     },
                     error: function(e) {
                         isCallback = true;
-                        alert("系统错误！");
+                        showMsg("系统错误！");
                     }
                 }); // end ajax
             }   // end if
@@ -187,7 +193,7 @@
     function checkPhone(){
         var phone = $("#mobile").val();
         if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){
-            alert("请输入正确的手机号！");
+            showMsg("请输入正确的手机号！");
             return false;
         }
         return true;
@@ -210,11 +216,11 @@
                     //$("#getCodeBtn").attr("disabled", true);
                     disabledOkBtn(false);
                 } else {
-                    alert(data.rspMsg);
+                    showMsg(data.rspMsg);
                 }
             },
             error: function(e) {
-                alert("系统错误！");
+                showMsg("系统错误！");
             }
         });
     }
@@ -234,7 +240,7 @@
     function nextStep() {
         var fullName = $("#fullName").val();
         if(null==fullName || ''==fullName){
-            alert("请输入您的姓名!");
+            showMsg("请输入您的姓名!");
             return;
         }
 
@@ -251,11 +257,11 @@
                     <%-- 注册成功,进入签到环节 --%>
                     window.location.href = "${root}/signIn.bs";
                 } else {
-                    alert(data.rspMsg);
+                    showMsg(data.rspMsg);
                 }
             },
             error: function(e) {
-                alert("系统错误！");
+                showMsg("系统错误！");
             }
         });
     }
@@ -274,11 +280,11 @@
                     <%-- 登录成功,进入签到环节 --%>
                     window.location.href = "${root}/signIn.bs";
                 } else {
-                    alert(data.rspMsg);
+                    showMsg(data.rspMsg);
                 }
             },
             error: function(e) {
-                alert("系统错误！");
+                showMsg("系统错误！");
             }
         });
     }

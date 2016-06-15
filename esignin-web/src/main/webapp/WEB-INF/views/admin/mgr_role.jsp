@@ -21,6 +21,7 @@
     <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/css/discount.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/css/page.css" rel="stylesheet" type="text/css" />
+    <link href="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <%@ include file="/commons/style.jsp" %>
 
 </head>
@@ -47,7 +48,8 @@
             </form>
 
             <div class="tableTopBtn">
-                <a class="delSelectBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+                <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
+                <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />
@@ -60,9 +62,10 @@
                         <th width="5%">序号</th>
                         <th width="10%"><input type="checkbox" name="checkAllOrNot" id="checkAllOrNot" onclick="checkAllEvent()">选项</th>
                         <th width="15%">角色名称</th>
-                        <th width="25%">角色标识</th>
-                        <th width="25%">角色描述</th>
+                        <th width="20%">角色标识</th>
+                        <th width="20%">角色描述</th>
                         <th width="20%">创建时间</th>
+                        <th width="10%">操 作</th>
                     </tr>
                     </thead>
                     <tbody id="data_body"></tbody>
@@ -83,6 +86,8 @@
 <script src="${root}/resources/js/hyxt.js"></script>
 <script src="${root}/resources/js/dialog.js"></script>
 <script src="${root}/resources/js/PageBarNumList.js"></script>
+<script src="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.js"></script>
+<script src="${root}/commons/js/esignInDialog.js"></script>
 
 <script>
     // 是否已回调
@@ -145,11 +150,122 @@
             }
         });
 
+        // 显示添加Dialog
+        $('.tableTopBtn').delegate('.addBtn', 'click', function(){
+            showFormDialog("${root}/page/toRoleAdd.bs", "addForm", "添加角色", 610, 560, {yes: "保 存", yes_before_close:checkAddForm, yes_after_close: null});
+        });
+
     });
+
+    // 检查Form元素
+    function checkAddForm() {
+        console.log("enter checkAddForm()");
+        var name = $('#addForm').contents().find("#name").val();
+        if(''==name) {
+            showMsg("请填写角色名称！");
+            return false;
+        }
+        var flag = $('#addForm').contents().find("#flag").val();
+        if(''==flag) {
+            showMsg("请填写角色标识！");
+            return false;
+        }
+        var description = $('#addForm').contents().find("#description").val();
+        if(''==description) {
+            showMsg("请填写角色描述！");
+            return false;
+        }
+
+        // 输入有效后提交表单保存数据
+        if(isCallbacked) {
+            isCallbacked = false;
+            $.ajax({
+                url: "${root}/role/addRole.bs",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    name: name,
+                    flag: flag,
+                    description: description
+                },
+                cache: false,
+                success: function(data){
+                    isCallbacked = true;
+                    if(data.rspCode==100){ //success
+                        getDataHtml(1); //重新加载数据
+                        showMsg(data.rspMsg);
+                        return true;
+                    } else{
+                        showMsg(data.rspMsg);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    isCallbacked = true;
+                    showMsg("系统错误！");
+                    return false;
+                }
+            });
+        } //end of if
+    } // end of checkAddForm
+
+    function openEdit(id) {
+        showFormDialog("${root}/role/toRoleEdit.bs?rid="+id, "editForm", "编辑角色信息", 610, 560, {yes: "保 存", yes_before_close:checkFormForEdit, yes_after_close: null});
+    }
+
+    function checkFormForEdit() {
+        var name = $('#editForm').contents().find("#name").val();
+        if(''==name) {
+            showMsg("请填写角色名称！");
+            return false;
+        }
+        var flag = $('#editForm').contents().find("#flag").val();
+        if(''==flag) {
+            showMsg("请填写角色标识！");
+            return false;
+        }
+        var description = $('#editForm').contents().find("#description").val();
+        if(''==description) {
+            showMsg("请填写角色描述！");
+            return false;
+        }
+
+        // 输入有效后提交表单保存数据
+        if(isCallbacked) {
+            isCallbacked = false;
+            $.ajax({
+                url: "${root}/role/saveRole.bs",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    id: $('#editForm').contents().find("#id").val(),
+                    name: name,
+                    flag: flag,
+                    description: description
+                },
+                cache: false,
+                success: function(data){
+                    isCallbacked = true;
+                    if(data.rspCode==100){ //success
+                        getDataHtml(1); //重新加载数据
+                        showMsg(data.rspMsg);
+                        return true;
+                    } else{
+                        showMsg(data.rspMsg);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    isCallbacked = true;
+                    showMsg("系统错误！");
+                    return false;
+                }
+            });
+        }
+    }
 
 
     var isCallBack = true;
-
     function getDataHtml(pageNo,pagesize) {
         if (isCallBack) {
             $('#loading').show();
@@ -170,8 +286,9 @@
                         '<td>' + v.flag + '</td>' +
                         '<td>' + v.description + '</td>' +
                         '<td>' + v.createTimeStr + '</td>' +
+                        '<td><a class="editBtn" href="javascript:void(0)" onclick="openEdit(\'' + v.id + '\')">编辑</a></td>' +
                         '</tr>';
-                    })
+                    });
 
                     $('#loading').hide();
                     $("#data_body").html(html);

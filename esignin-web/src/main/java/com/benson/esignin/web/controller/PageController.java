@@ -92,6 +92,22 @@ public class PageController {
         return "admin/user_add";
     }
 
+    /**
+     * 去角色添加页面
+     */
+    @RequestMapping("/toRoleAdd")
+    public String toRoleAdd() {
+        return "admin/role_add";
+    }
+
+    /**
+     * 去权限添加页面
+     */
+    @RequestMapping("/toPermAdd")
+    public String toPermAdd() {
+        return "admin/permission_add";
+    }
+
 
 
     @RequestMapping("/handler")
