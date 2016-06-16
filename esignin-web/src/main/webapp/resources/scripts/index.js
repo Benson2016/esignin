@@ -710,9 +710,9 @@ var Index = function () {
             setTimeout(function () {
                 var unique_id = $.gritter.add({
                     // (string | mandatory) the heading of the notification
-                    title: 'Meet Metronic!',
+                    title: 'Hi!',
                     // (string | mandatory) the text inside the notification
-                    text: 'Metronic is a brand new Responsive Admin Dashboard Template you have always been looking for!',
+                    text: 'Welcome to ESignIn Admin Console!',
                     // (string | optional) the image to display on the left
                     image: '../img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
@@ -735,9 +735,9 @@ var Index = function () {
             setTimeout(function () {
                 var unique_id = $.gritter.add({
                     // (string | mandatory) the heading of the notification
-                    title: 'Buy Metronic!',
+                    title: 'Hi!',
                     // (string | mandatory) the text inside the notification
-                    text: 'Metronic comes with a huge collection of reusable and easy customizable UI components and plugins. Buy Metronic today!',
+                    text: 'Welcome to ESignIn Admin Console! It was developed by Benson.',
                     // (string | optional) the image to display on the left
                     image: '../img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there

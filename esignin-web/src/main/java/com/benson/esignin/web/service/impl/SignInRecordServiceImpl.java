@@ -7,6 +7,7 @@ import com.benson.esignin.web.dao.ISignInRecordDao;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.vo.BensonPage;
 import com.benson.esignin.web.domain.vo.SignInRecordQuery;
+import com.benson.esignin.web.domain.vo.SignInRecordStatisticsVo;
 import com.benson.esignin.web.service.ISignInRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,5 +80,13 @@ public class SignInRecordServiceImpl extends BaseServiceImpl<SignInRecord, Strin
             result += signInRecordDao.delete(id);
         }
         return result;
+    }
+
+    /**
+     * 统计签到记录
+     * @return
+     */
+    public List<SignInRecordStatisticsVo> statisticsSignIn() throws Exception {
+        return signInRecordDao.statisticsSignIn();
     }
 }

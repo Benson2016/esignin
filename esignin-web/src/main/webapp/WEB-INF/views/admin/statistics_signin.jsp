@@ -46,12 +46,13 @@
   </style>
 </head>
 <body>
-  <div id="canvas-holder" style="width: 300px;">
-    <canvas id="chart-area" width="300" height="300" />
+<div style="width:100%; height:100%; padding-top: 80px; background-color: white" align="center">
+  <div id="canvas-holder" style="width: 500px;">
+    <canvas id="chart-area" width="500" height="500" />
   </div>
 
   <div id="chartjs-tooltip"></div>
-
+</div>
 <script>
   Chart.defaults.global.tooltips.custom = function(tooltip) {
 
@@ -104,7 +105,7 @@
       }
     }
 
-    var position = $(this._chart.canvas)[0].getBoundingClientRect();
+    /*var position = $(this._chart.canvas)[0].getBoundingClientRect();
 
     // Display, position, and set styles for font
     tooltipEl.css({
@@ -116,31 +117,33 @@
       fontSize: tooltip.fontSize,
       fontStyle: tooltip._fontStyle,
       padding: tooltip.yPadding + 'px ' + tooltip.xPadding + 'px'
-    });
+    });*/
   };
 
+
+  var randomColorFactor = function() {
+    return Math.round(Math.random() * 255);
+  };
+  var randomColor = function(opacity) {
+    return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+  };
+
+  var data1 = eval(${data1});
+  var names = eval(${names});
   var config = {
     type: 'pie',
     data: {
       datasets: [{
-        data: [300, 50, 100, 40, 10, 90],
+        data: data1,
         backgroundColor: [
           "#F7464A",
           "#46BFBD",
           "#FDB45C",
-          "#949FB1",
-          "#4D5360",
-          "blue"
+          "#3BE2E2",
+          "rgb(232, 67, 205)"
         ]
       }],
-      labels: [
-        "Red",
-        "Green",
-        "Yellow",
-        "Grey",
-        "Dark Grey",
-        "Blue"
-      ]
+      labels: names
     },
     options: {
       responsive: true,

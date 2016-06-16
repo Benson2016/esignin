@@ -3,9 +3,9 @@ package com.benson.esignin.web.provider;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.web.dao.IUserInfoDao;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.StatisticsQuery;
 import com.benson.esignin.web.domain.vo.UserInfoQuery;
 
-import java.util.List;
 
 /**
  * 用户SQL提供者
@@ -119,5 +119,18 @@ public class UserSqlProvider {
 
         return sql.toString();
     }
+
+    /**
+     * 统计用户注册
+     * @param query
+     * @return
+     */
+    public String statisticsRegister(StatisticsQuery query) {
+
+        String sql = "select DATE_FORMAT(t.create_time, '%Y-%m') as month,count(t.id) as counts from "+IUserInfoDao.TABLE_NAME+" t where t.create_time like '"+query.getYear()+"%' and t.origin="+query.getOrigin()+" group by month";
+
+        return sql;
+    }
+
 
 }

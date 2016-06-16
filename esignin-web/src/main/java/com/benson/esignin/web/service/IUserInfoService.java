@@ -3,9 +3,12 @@ package com.benson.esignin.web.service;
 import com.benson.esignin.common.base.IBaseService;
 import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.BensonPage;
+import com.benson.esignin.web.domain.vo.StatisticsQuery;
 import com.benson.esignin.web.domain.vo.UserInfoQuery;
+import com.benson.esignin.web.domain.vo.UserStatisticsVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户信息Service接口
@@ -57,5 +60,12 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
      * @return
      */
     int deleteByIds(String ids) throws Exception;
+
+    /**
+     * 统计用户注册
+     * @param query
+     * @return
+     */
+    Map<String, Integer> statisticsRegister(StatisticsQuery query) throws Exception;
 
 }

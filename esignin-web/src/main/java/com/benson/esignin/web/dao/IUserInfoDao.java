@@ -3,7 +3,9 @@ package com.benson.esignin.web.dao;
 
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.UserInfo;
+import com.benson.esignin.web.domain.vo.StatisticsQuery;
 import com.benson.esignin.web.domain.vo.UserInfoQuery;
+import com.benson.esignin.web.domain.vo.UserStatisticsVo;
 import com.benson.esignin.web.provider.UserSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -16,9 +18,9 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
 
     final String TABLE_NAME = "t_sys_user";
 
-    final String BASE_COLUMN_LIST = "id, user_name as userName, full_name as fullName, password, sex, mobile, email, age, create_time as createTime, update_time as updateTime, flag, is_valid as isValid";
+    final String BASE_COLUMN_LIST = "id, user_name as userName, full_name as fullName, password, sex, mobile, email, age, create_time as createTime, update_time as updateTime, flag, is_valid as isValid, origin";
 
-    final String INSERT_SQL = "INSERT into t_sys_user(id, user_name, full_name, password, sex, mobile, email, age, create_time, update_time, flag, is_valid) VALUES(#{id},#{userName},#{fullName},#{password},#{sex},#{mobile},#{email},#{age},#{createTime},#{updateTime},#{flag},#{isValid})";
+    final String INSERT_SQL = "INSERT into t_sys_user(id, user_name, full_name, password, sex, mobile, email, age, create_time, update_time, flag, is_valid, origin) VALUES(#{id},#{userName},#{fullName},#{password},#{sex},#{mobile},#{email},#{age},#{createTime},#{updateTime},#{flag},#{isValid},#{origin})";
 
     @Insert(INSERT_SQL)
     int add(UserInfo entity);
@@ -77,5 +79,13 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
     @DeleteProvider(type = UserSqlProvider.class, method = "deleteByBatch")
     @Options(flushCache =true, timeout =20000)
     int deleteByIds(@Param("ids") String ids);
+
+    /**
+     * 统计用户注册
+     * @param query
+     * @return
+     */
+    @SelectProvider(type = UserSqlProvider.class, method = "statisticsRegister")
+    List<UserStatisticsVo> statisticsRegister(StatisticsQuery query);
 
 }

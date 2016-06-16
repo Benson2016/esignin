@@ -103,6 +103,7 @@ public class UserController {
             userInfo.setSex(3);     //默认未知
             userInfo.setFlag(1);    //默认普通会员
             userInfo.setIsValid(1); //默认有效
+            userInfo.setOrigin(2);  //来源:后台注册
             Timestamp currTime = TimestampUtil.getCurrentTimestampWithFormat();
             userInfo.setCreateTime(currTime); //设置创建时间
             userInfo.setUpdateTime(currTime);
@@ -142,6 +143,7 @@ public class UserController {
             // 初始化值
             userInfo.generateUUId();
             userInfo.setIsValid(1);
+            userInfo.setOrigin(1); // 来源:后台添加
             Timestamp currTime = TimestampUtil.getCurrentTimestampWithFormat();
             userInfo.setCreateTime(currTime); //设置创建时间
             userInfo.setUpdateTime(currTime);
@@ -268,6 +270,7 @@ public class UserController {
             newUser.setSex(3);
             newUser.setFlag(1);
             newUser.setIsValid(1);
+            newUser.setOrigin(3); // 来源:手机注册
             newUser.setCreateTime(DateUtil.getCurrentDateTime());
             newUser.setUpdateTime(newUser.getCreateTime());
             newUser.generateUUId();

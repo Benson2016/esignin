@@ -66,15 +66,16 @@
                     <thead>
                     <tr>
                         <th width="5%">序号</th>
-                        <th width="10%">
+                        <th width="8%">
                             <input type="checkbox" name="checkAllOrNot" id="checkAllOrNot"onclick="checkAllEvent()">选项
                         </th>
                         <th width="15%">用户名称</th>
-                        <th width="15%">用户姓名</th>
-                        <th width="15%">手机号码</th>
-                        <th width="20%">创建时间</th>
-                        <th width="10%">有效状态</th>
-                        <th width="10%">操 作</th>
+                        <th width="17%">用户姓名</th>
+                        <th width="12%">手机号码</th>
+                        <th width="17%">创建时间</th>
+                        <th width="8%">有效状态</th>
+                        <th width="10%">来源</th>
+                        <th width="8%">操 作</th>
                     </tr>
                     </thead>
                     <tbody id="data_body"></tbody>
@@ -347,7 +348,8 @@
                                 '<td>' + v.fullName + '</td>' +
                                 '<td>' + v.mobile + '</td>' +
                                 '<td>' + v.createTimeStr + '</td>' +
-                                '<td>' + v.isValid + '</td>' +
+                                '<td>' + fmtIsValid(v.isValid) + '</td>' +
+                                '<td>' + fmtOrigin(v.origin) + '</td>' +
                         '<td><a class="editBtn" href="javascript:void(0)" onclick="openEdit(\'' + v.id + '\')">编辑</a></td>' +
                         '</tr>';
                     })
@@ -384,6 +386,30 @@
         } else {
             $("[name='checkbox']").removeAttr("checked");//取消全选
         }
+    }
+
+    // format valid value
+    function fmtIsValid(v) {
+        return 1==v ? "<font color='green'>是</font>" : "<font color='red'>否</font>";
+    }
+    // format origin
+    function fmtOrigin(v) {
+        var ret = '';
+        switch (v) {
+            case 1:
+                ret = '后台添加';
+                break;
+            case 2:
+                ret = '<font color="orange">后台注册</font>';
+                break;
+            case 3:
+                ret = '<font color="blue">手机注册</font>';
+                break;
+            default:
+                ret = '未知';
+                break;
+        }
+        return ret;
     }
 
 </script>

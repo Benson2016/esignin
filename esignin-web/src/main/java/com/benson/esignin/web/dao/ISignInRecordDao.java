@@ -3,6 +3,7 @@ package com.benson.esignin.web.dao;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.vo.SignInRecordQuery;
+import com.benson.esignin.web.domain.vo.SignInRecordStatisticsVo;
 import com.benson.esignin.web.provider.SignInRecordSqlProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * {enter your description}
+ * 签到记录DAO接口
  *
  * @author: Benson Xu
  * @date: 2016年05月29日 09:26
@@ -82,5 +83,13 @@ public interface ISignInRecordDao extends IBaseDao<SignInRecord, String> {
      */
     @SelectProvider(type = SignInRecordSqlProvider.class, method = "count")
     int count(SignInRecordQuery query);
+
+
+    /**
+     * 统计签到记录
+     * @return
+     */
+    @SelectProvider(type = SignInRecordSqlProvider.class, method = "statisticsSignIn")
+    List<SignInRecordStatisticsVo> statisticsSignIn();
 
 }

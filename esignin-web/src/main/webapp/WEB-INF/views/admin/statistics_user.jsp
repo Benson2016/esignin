@@ -29,10 +29,12 @@
     </style>
 </head>
 <body>
-<div style="width:75%;">
-    <canvas id="canvas"></canvas>
-</div>
 
+<div style="width:100%; height:100%; padding-top: 100px; background-color: white" align="center">
+    <div style="width:80%;">
+        <canvas id="canvas"></canvas>
+    </div>
+</div>
 
 <script src="${root}/resources/js/jquery.min.js"></script>
 <script src="${root}/resources/chart/Chart.js"></script>
@@ -52,22 +54,25 @@
         return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
     };
 
+    var data1 = eval(${data1});
+    var data2 = eval(${data2});
+    var data3 = eval(${data3});
     var config = {
         type: 'line',
         data: {
             labels: MONTHS,
             datasets: [{
-                label: "Register Summery",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), 8, 5, 3, 1, 0],
+                label: "Console Add",
+                data: data1,
                 fill: false,
                 borderDash: [5, 5]
             }, {
-                label: "Register By Phone",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), 8, 5, 3, 1, 0],
+                label: "Register By Console",
+                data: data2,
                 borderDash: [2, 2]
             }, {
-                label: "Register By Console",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), 8, 5, 3, 1, 0],
+                label: "Register By Cellphone",
+                data: data3,
                 borderDash: [1, 1]
             }]
         },
@@ -75,7 +80,7 @@
             responsive: true,
             title:{
                 display:true,
-                text:"User Register Summery"
+                text:"User Register Statistics"
             },
             scales: {
                 xAxes: [{

@@ -30,6 +30,8 @@ public class UserInfo extends IdEntity {
 
     private Integer isValid;    //是否有效：0无效，1有效（默认）
 
+    private Integer origin;     //来源：1.后台添加;2.后台注册;3.手机注册
+
 
     public UserInfo() {}
 
@@ -131,4 +133,11 @@ public class UserInfo extends IdEntity {
         return DateUtil.converToString(this.createTime, CommonCons.D_FMT_NORMAL);
     }
 
+    public Integer getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Integer origin) {
+        this.origin = origin;
+    }
 }

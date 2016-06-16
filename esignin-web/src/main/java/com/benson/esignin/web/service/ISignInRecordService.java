@@ -4,6 +4,7 @@ import com.benson.esignin.common.base.IBaseService;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.vo.BensonPage;
 import com.benson.esignin.web.domain.vo.SignInRecordQuery;
+import com.benson.esignin.web.domain.vo.SignInRecordStatisticsVo;
 
 import java.util.List;
 
@@ -40,5 +41,12 @@ public interface ISignInRecordService extends IBaseService<SignInRecord, String>
      * @return
      */
     int deleteByIds(String ids);
+
+
+    /**
+     * 统计签到记录
+     * @return
+     */
+    List<SignInRecordStatisticsVo> statisticsSignIn() throws Exception;
 
 }
