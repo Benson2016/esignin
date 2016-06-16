@@ -5,7 +5,7 @@
   Time: 17:38
   To change this template use File | Settings | File Templates.
 --%>
-<!DOCTYPE html>
+<!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglibs.jsp" %>
 <html>
@@ -21,18 +21,16 @@
     <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
 
     <style>
-        .mainContent {
-            background-color: #FFFFFF;
-            text-align: center;
-            width: 100%;
-            height:100%;
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
     </style>
 </head>
 <body>
-<div class="mainContent" align="center">
-
-    <canvas id="myChart" width="400" height="400"></canvas>
+<div style="width:75%;">
+    <canvas id="canvas"></canvas>
 </div>
 
 
@@ -42,119 +40,72 @@
 <script src="${root}/resources/chart/Chart.bundle.js"></script>
 <script src="${root}/resources/chart/Chart.bundle.min.js"></script>
 <script>
-    // show data
-    var data = {
-        labels : ["January","February","March","April","May","June","July"],
-        datasets : [
-            {
-                fillColor : "rgba(220,220,220,0.5)",
-                strokeColor : "rgba(220,220,220,1)",
-                pointColor : "rgba(220,220,220,1)",
-                pointStrokeColor : "#fff",
-                data : [65,59,90,81,56,55,40]
+    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var randomScalingFactor = function() {
+        return Math.round(Math.random() * 50 * (Math.random() > 0.5 ? 1 : 1)) + 50;
+    };
+    var randomColorFactor = function() {
+        return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+        return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+    };
+
+    var config = {
+        type: 'line',
+        data: {
+            labels: MONTHS,
+            datasets: [{
+                label: "Register Summery",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), 8, 5, 3, 1, 0],
+                fill: false,
+                borderDash: [5, 5]
+            }, {
+                label: "Register By Phone",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), 8, 5, 3, 1, 0],
+                borderDash: [2, 2]
+            }, {
+                label: "Register By Console",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), 8, 5, 3, 1, 0],
+                borderDash: [1, 1]
+            }]
+        },
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                text:"User Register Summery"
             },
-            {
-                fillColor : "rgba(151,187,205,0.5)",
-                strokeColor : "rgba(151,187,205,1)",
-                pointColor : "rgba(151,187,205,1)",
-                pointStrokeColor : "#fff",
-                data : [28,48,40,19,96,27,100]
+            scales: {
+                xAxes: [{
+                    display: true,
+                    ticks: {
+                        userCallback: function(dataLabel, index) {
+                            return index % 2 === 0 ? dataLabel : '';
+                        }
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    beginAtZero: false
+                }]
             }
-        ]
+        }
     };
 
-    Line.defaults = {
-
-        //Boolean - If we show the scale above the chart data
-        scaleOverlay : false,
-
-        //Boolean - If we want to override with a hard coded scale
-        scaleOverride : false,
-
-        //** Required if scaleOverride is true **
-        //Number - The number of steps in a hard coded scale
-        scaleSteps : null,
-        //Number - The value jump in the hard coded scale
-        scaleStepWidth : null,
-        //Number - The scale starting value
-        scaleStartValue : null,
-
-        //String - Colour of the scale line
-        scaleLineColor : "rgba(0,0,0,.1)",
-
-        //Number - Pixel width of the scale line
-        scaleLineWidth : 1,
-
-        //Boolean - Whether to show labels on the scale
-        scaleShowLabels : false,
-
-        //Interpolated JS string - can access value
-        scaleLabel : "<%=value%>",
-
-        //String - Scale label font declaration for the scale label
-        scaleFontFamily : "'Arial'",
-
-        //Number - Scale label font size in pixels
-        scaleFontSize : 12,
-
-        //String - Scale label font weight style
-        scaleFontStyle : "normal",
-
-        //String - Scale label font colour
-        scaleFontColor : "#666",
-
-        ///Boolean - Whether grid lines are shown across the chart
-        scaleShowGridLines : true,
-
-        //String - Colour of the grid lines
-        scaleGridLineColor : "rgba(0,0,0,.05)",
-
-        //Number - Width of the grid lines
-        scaleGridLineWidth : 1,
-
-        //Boolean - Whether the line is curved between points
-        bezierCurve : true,
-
-        //Boolean - Whether to show a dot for each point
-        pointDot : true,
-
-        //Number - Radius of each point dot in pixels
-        pointDotRadius : 3,
-
-        //Number - Pixel width of point dot stroke
-        pointDotStrokeWidth : 1,
-
-        //Boolean - Whether to show a stroke for datasets
-        datasetStroke : true,
-
-        //Number - Pixel width of dataset stroke
-        datasetStrokeWidth : 2,
-
-        //Boolean - Whether to fill the dataset with a colour
-        datasetFill : true,
-
-        //Boolean - Whether to animate the chart
-        animation : true,
-
-        //Number - Number of animation steps
-        animationSteps : 60,
-
-        //String - Animation easing effect
-        animationEasing : "easeOutQuart",
-
-        //Function - Fires when the animation is complete
-        onAnimationComplete : null
-
-    };
+    // 动态修改图形颜色
+    $.each(config.data.datasets, function(i, dataset) {
+        dataset.borderColor = randomColor(0.4);
+        dataset.backgroundColor = randomColor(0.5);
+        dataset.pointBorderColor = randomColor(0.7);
+        dataset.pointBackgroundColor = randomColor(0.5);
+        dataset.pointBorderWidth = 1;
+    });
 
     $(function () {
-
-        //Get context with jQuery - using jQuery's .get() method.
-        var ctx = $("#myChart").get(0).getContext("2d");
-        //This will get the first returned node in the jQuery collection.
-        var myNewChart = new Chart(ctx);
-
-        myNewChart.polarArea(data, Line.defaults);
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myLine = new Chart(ctx, config);
 
      });
 
