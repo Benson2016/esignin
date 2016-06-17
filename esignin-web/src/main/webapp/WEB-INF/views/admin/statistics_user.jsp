@@ -19,7 +19,7 @@
     <!-- <link rel="shortcut icon" href="" type="image/x-icon"/> -->
     <link href="${root}/resources/css/global.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
-
+    <link href="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <style>
         canvas {
             -moz-user-select: none;
@@ -29,18 +29,19 @@
     </style>
 </head>
 <body>
-
-<div style="width:100%; height:100%; padding-top: 100px; background-color: white" align="center">
+<div style="width:100%; height:100%; padding-top: 50px; background-color: #FFFFFF;" align="center">
+    <div style="width:100%; height:30px; margin-top: 10px;" align="right">
+        <label class="g-label l" style="display: inline-block;">查询年份:&nbsp;</label>
+        <input type="text" name="year" id="sYear" class="g-input l w-180" value="">
+    </div>
     <div style="width:80%;">
         <canvas id="canvas"></canvas>
     </div>
 </div>
 
 <script src="${root}/resources/js/jquery.min.js"></script>
-<script src="${root}/resources/chart/Chart.js"></script>
-<script src="${root}/resources/chart/Chart.min.js"></script>
 <script src="${root}/resources/chart/Chart.bundle.js"></script>
-<script src="${root}/resources/chart/Chart.bundle.min.js"></script>
+<script src="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.js"></script>
 <script>
     var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -108,12 +109,31 @@
         dataset.pointBorderWidth = 1;
     });
 
+    var currSearchYear = 0;
     $(function () {
         var ctx = document.getElementById("canvas").getContext("2d");
         window.myLine = new Chart(ctx, config);
-
+        // init datetime picker
+        $('#sYear').datetimepicker({lang:'ch',yearEnd:3060,format:"Y",timepicker:false, onChangeDateTime:function(dp,$input){
+                searchByYear($input.val());
+            }
+        });
+        var myDate = new Date();
+        currSearchYear = myDate.getFullYear();
+        $('#sYear').val(currSearchYear);
      });
 
+    function searchByYear(y) {
+        //alert("查询年份：" + y);
+        if(currSearchYear==y){
+            currSearchYear!=y;
+            console.log("Current search condition is " + y + "and don't need searching.");
+            return;
+        }
+        currSearchYear=y;
+        console.log("search year is " + y);
+        $("#sYear").blur();
+    }
 </script>
 </body>
 </html>

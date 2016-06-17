@@ -16,9 +16,10 @@
 
   <meta name="keywords" content="E签到,ESignIn,easy to sign in"/>
   <meta name="description" content="全球最流行最简便的签到系统" />
-  <script src="${root}/resources/js/jquery.min.js"></script>
-  <script src="${root}/resources/chart/Chart.bundle.js"></script>
-  <script src="${root}/resources/chart/Chart.bundle.min.js"></script>
+  <link href="${root}/resources/css/global.css" rel="stylesheet" type="text/css" />
+  <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
+  <link href="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+
   <style>
     #canvas-holder {
       width: 100%;
@@ -46,13 +47,21 @@
   </style>
 </head>
 <body>
-<div style="width:100%; height:100%; padding-top: 80px; background-color: white" align="center">
+<div style="width:100%; height:100%; padding-top: 50px; background-color: #FFFFFF;" align="center">
+  <div style="width:100%; height:30px; margin-top: 10px;" align="right">
+    <label class="g-label l" style="display: inline-block;">查询年份:&nbsp;</label>
+    <input type="text" name="year" id="sYear" class="g-input l w-180" value="">
+  </div>
   <div id="canvas-holder" style="width: 500px;">
     <canvas id="chart-area" width="500" height="500" />
   </div>
 
   <div id="chartjs-tooltip"></div>
 </div>
+
+<script src="${root}/resources/js/jquery.min.js"></script>
+<script src="${root}/resources/chart/Chart.bundle.js"></script>
+<script src="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.js"></script>
 <script>
   Chart.defaults.global.tooltips.custom = function(tooltip) {
 
@@ -156,11 +165,30 @@
     }
   };
 
+  var currSearchYear = 0;
   $(function () {
     var ctx = document.getElementById("chart-area").getContext("2d");
     window.myPie = new Chart(ctx, config);
-
+    // init datetime picker
+    $('#sYear').datetimepicker({lang:'ch',yearEnd:3060,format:"Y",timepicker:false, onChangeDateTime:function(dp,$input){
+      searchByYear($input.val());
+    }});
+    var myDate = new Date();
+    currSearchYear = myDate.getFullYear();
+    $('#sYear').val(currSearchYear);
   });
+
+  function searchByYear(y) {
+    //alert("查询年份：" + y);
+    if(currSearchYear==y){
+      currSearchYear!=y;
+      console.log("Current search condition is " + y + "and don't need searching.");
+      return;
+    }
+    currSearchYear=y;
+    console.log("search year is " + y);
+    $("#sYear").blur();
+  }
 </script>
 </body>
 
