@@ -1,12 +1,16 @@
 package com.benson.esignin.web.controller;
 
+import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.dao.ISignInRecordDao;
 import com.benson.esignin.web.domain.entity.SignInType;
+import com.benson.esignin.web.domain.vo.QrCodeResponse;
 import com.benson.esignin.web.domain.vo.SignInRecordStatisticsVo;
 import com.benson.esignin.web.domain.vo.StatisticsQuery;
+import com.benson.esignin.web.domain.vo.UserStatisticsResponse;
 import com.benson.esignin.web.service.ISignInRecordService;
 import com.benson.esignin.web.service.ISignInTypeService;
 import com.benson.esignin.web.service.IUserInfoService;
@@ -14,7 +18,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -50,8 +57,15 @@ public class StatisticsController {
      */
     @RequestMapping(value = "/user")
     public String user(Model model, HttpServletRequest request) {
+        return "admin/statistics_user";
+    }
 
-        String year = request.getParameter("year");
+    @RequestMapping(value = "/getUserData", method = RequestMethod.POST)
+    @SysControllerLog(content = "统计用户注册数据")
+    @ResponseBody
+    public Object getUserStaticData(String year) {
+        logger.info("Enter getUserStaticData Method. ");
+        UserStatisticsResponse response = null;
         if (CommonUtil.isNull(year)) {
             year = DateUtil.getCurrDate("yyyy");
         }
@@ -72,15 +86,18 @@ public class StatisticsController {
                 data3[i] = map3.get(months.get(i));
             }
 
-            model.addAttribute("data1", JsonUtil.bean2Json(data1));
-            model.addAttribute("data2", JsonUtil.bean2Json(data2));
-            model.addAttribute("data3", JsonUtil.bean2Json(data3));
+            response = new UserStatisticsResponse(StateResponse.SUCCESS);
+            response.setData1(data1);
+            response.setData2(data2);
+            response.setData3(data3);
 
         } catch (Exception e) {
+            response = new UserStatisticsResponse(StateResponse.ERROR_SYS);
             logger.error("用户注册统计异常:", e);
+        } finally {
+            logger.info("Exit getUserStaticData Method. ");
         }
-
-        return "admin/statistics_user";
+        return JsonUtil.toJson(response);
     }
 
     /**
