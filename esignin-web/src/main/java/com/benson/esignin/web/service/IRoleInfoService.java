@@ -22,21 +22,21 @@ public interface IRoleInfoService extends IBaseService<RoleInfo, String> {
      * @param query
      * @return
      */
-    List<RoleInfo> findAllByQuery(RoleInfoQuery query);
+    List<RoleInfo> findAllByQuery(RoleInfoQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<RoleInfo> findByPage(RoleInfoQuery query);
+    BensonPage<RoleInfo> findByPage(RoleInfoQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
 
     /**
      * 查询用户拥有的角色

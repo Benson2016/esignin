@@ -20,19 +20,19 @@ public interface IQrCodeService extends IBaseService<QrCode, String> {
      * @param query
      * @return
      */
-    List<QrCode> findAllByQuery(QrCodeQuery query);
+    List<QrCode> findAllByQuery(QrCodeQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<QrCode> findByPage(QrCodeQuery query);
+    BensonPage<QrCode> findByPage(QrCodeQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
 }

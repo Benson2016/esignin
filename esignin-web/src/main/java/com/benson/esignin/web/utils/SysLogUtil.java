@@ -65,8 +65,8 @@ public class SysLogUtil {
         try {
             if (CommonUtil.isNull(log.getId()))
                 log.generateUUId(); // 如果ID字段值为空，则生成ID
-            int result = getSysLogService().add(log);
-            logger.info("===》》》本次添加操作日志到DB的记录数：" + result);
+            /*int result = */getSysLogService().add(log);
+            //logger.info("===》》》本次添加操作日志到DB的记录数：" + result);
         } catch (Exception e) {
             logger.error("添加系统日志时发生异常：", e);
         }
@@ -80,8 +80,8 @@ public class SysLogUtil {
         try {
             if (CommonUtil.isNull(log.getId()))
                 log.generateUUId(); // 如果ID字段值为空，则生成ID
-            int result = getSysExceptionLogService().add(log);
-            logger.info("===》》》本次添加异常日志到DB的记录数：" + result);
+            /*int result = */getSysExceptionLogService().add(log);
+            //logger.info("===》》》本次添加异常日志到DB的记录数：" + result);
         } catch (Exception e) {
             logger.error("添加系统异常日志时发生异常：", e);
         }

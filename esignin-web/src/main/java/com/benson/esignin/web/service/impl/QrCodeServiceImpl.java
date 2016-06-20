@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.IQrCodeDao;
 import com.benson.esignin.web.domain.entity.QrCode;
 import com.benson.esignin.web.domain.entity.QrCode;
@@ -39,7 +40,7 @@ public class QrCodeServiceImpl extends BaseServiceImpl<QrCode, String> implement
      * @param query 查询条件
      * @return
      */
-    public BensonPage<QrCode> findByPage(QrCodeQuery query) {
+    public BensonPage<QrCode> findByPage(QrCodeQuery query) throws Exception {
         int total = qrCodeDao.count(query);
 
         List<QrCode> list = qrCodeDao.findPage(query);
@@ -54,7 +55,8 @@ public class QrCodeServiceImpl extends BaseServiceImpl<QrCode, String> implement
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    public int deleteByIds(String ids) {
+    @SysServiceLog(content = "根据ID数组批量删除二维码记录")
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }
@@ -73,7 +75,8 @@ public class QrCodeServiceImpl extends BaseServiceImpl<QrCode, String> implement
      * @param query 查询条件
      * @return
      */
-    public List<QrCode> findAllByQuery(QrCodeQuery query) {
+    @SysServiceLog(content = "根据条件查询二维码信息列表")
+    public List<QrCode> findAllByQuery(QrCodeQuery query) throws Exception {
         return qrCodeDao.findAllByQuery(query);
     }
 

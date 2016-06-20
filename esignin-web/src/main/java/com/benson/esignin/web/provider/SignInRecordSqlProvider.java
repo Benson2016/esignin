@@ -66,9 +66,9 @@ public class SignInRecordSqlProvider {
         return sql.toString();
     }
 
-    public String statisticsSignIn() {
+    public String statisticsSignIn(String year) {
 
-        String sql = "select c.sign_in_type as signInType, count(r.id) as counts from t_sign_in_record r, t_qr_code c where r.qrid=c.id group by c.sign_in_type order by c.sign_in_type asc";
+        String sql = "select c.sign_in_type as signInType, count(r.id) as counts from t_sign_in_record r, t_qr_code c where r.qrid=c.id and r.create_time like '"+ year +"%' group by c.sign_in_type order by c.sign_in_type asc";
 
         return sql;
     }

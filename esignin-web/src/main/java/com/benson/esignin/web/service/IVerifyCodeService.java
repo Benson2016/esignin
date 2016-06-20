@@ -11,6 +11,6 @@ import com.benson.esignin.web.domain.entity.VerifyCode;
  */
 public interface IVerifyCodeService extends IBaseService<VerifyCode, String> {
 
-    public VerifyCode findByMobile(String mobile);
+    public VerifyCode findByMobile(String mobile) throws Exception;
 
 }

@@ -33,7 +33,7 @@ public class VerifyCodeServiceImpl extends BaseServiceImpl<VerifyCode, String> i
      * @param mobile
      * @return
      */
-    public VerifyCode findByMobile(String mobile) {
+    public VerifyCode findByMobile(String mobile) throws Exception {
         return verifyCodeDao.findByMobile(mobile);
     }
 

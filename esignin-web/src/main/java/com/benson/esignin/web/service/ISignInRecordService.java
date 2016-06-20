@@ -16,9 +16,9 @@ import java.util.List;
  */
 public interface ISignInRecordService extends IBaseService<SignInRecord, String> {
 
-    public List<SignInRecord> findAllByBusinessId(String businessId);
+    public List<SignInRecord> findAllByBusinessId(String businessId) throws Exception;
 
-    public SignInRecord findByQridAndUserId(String qrid, String userId);
+    public SignInRecord findByQridAndUserId(String qrid, String userId) throws Exception;
 
 
     /**
@@ -26,27 +26,28 @@ public interface ISignInRecordService extends IBaseService<SignInRecord, String>
      * @param query
      * @return
      */
-    List<SignInRecord> findAllByQuery(SignInRecordQuery query);
+    List<SignInRecord> findAllByQuery(SignInRecordQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<SignInRecord> findByPage(SignInRecordQuery query);
+    BensonPage<SignInRecord> findByPage(SignInRecordQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
 
 
     /**
      * 统计签到记录
      * @return
      */
-    List<SignInRecordStatisticsVo> statisticsSignIn() throws Exception;
+    List<SignInRecordStatisticsVo> statisticsSignIn(String year) throws Exception;
+
 
 }

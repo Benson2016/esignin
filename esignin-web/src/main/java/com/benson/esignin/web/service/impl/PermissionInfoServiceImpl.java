@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.IPermissionInfoDao;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.UserInfo;
@@ -41,7 +42,8 @@ public class PermissionInfoServiceImpl extends BaseServiceImpl<PermissionInfo, S
      * @param query
      * @return
      */
-    public List<PermissionInfo> findAllByQuery(PermissionInfoQuery query) {
+    @SysServiceLog(content = "根据条件查询权限信息列表")
+    public List<PermissionInfo> findAllByQuery(PermissionInfoQuery query) throws Exception {
         return permissionInfoDao.findAllByQuery(query);
     }
 
@@ -50,7 +52,7 @@ public class PermissionInfoServiceImpl extends BaseServiceImpl<PermissionInfo, S
      * @param query 查询条件
      * @return
      */
-    public BensonPage<PermissionInfo> findByPage(PermissionInfoQuery query) {
+    public BensonPage<PermissionInfo> findByPage(PermissionInfoQuery query) throws Exception {
         int total = permissionInfoDao.count(query);
 
         List<PermissionInfo> list = permissionInfoDao.findPage(query);
@@ -65,7 +67,8 @@ public class PermissionInfoServiceImpl extends BaseServiceImpl<PermissionInfo, S
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    public int deleteByIds(String ids) {
+    @SysServiceLog(content = "根据ID数组批量删除权限记录")
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }
@@ -84,7 +87,6 @@ public class PermissionInfoServiceImpl extends BaseServiceImpl<PermissionInfo, S
      * @return
      * @throws Exception
      */
-    @Override
     public List<PermissionInfo> findAllByRoleId(String roleId) throws Exception {
         return permissionInfoDao.findAllByRoleId(roleId);
     }

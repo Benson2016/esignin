@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.ISysExceptionLogDao;
 import com.benson.esignin.web.domain.entity.SysExceptionLog;
 import com.benson.esignin.web.domain.vo.BensonPage;
@@ -40,7 +41,7 @@ public class SysExceptionLogServiceImpl extends BaseServiceImpl<SysExceptionLog,
      * @param query 查询条件
      * @return
      */
-    public List<SysExceptionLog> findAllByQuery(SysLogQuery query) {
+    public List<SysExceptionLog> findAllByQuery(SysLogQuery query) throws Exception {
         return SysExceptionLogDao.findAllByQuery(query);
     }
 
@@ -49,7 +50,7 @@ public class SysExceptionLogServiceImpl extends BaseServiceImpl<SysExceptionLog,
      * @param query 查询条件
      * @return
      */
-    public BensonPage<SysExceptionLog> findByPage(SysLogQuery query) {
+    public BensonPage<SysExceptionLog> findByPage(SysLogQuery query) throws Exception {
         int total = SysExceptionLogDao.count(query);
 
         List<SysExceptionLog> list = SysExceptionLogDao.findPage(query);
@@ -64,7 +65,8 @@ public class SysExceptionLogServiceImpl extends BaseServiceImpl<SysExceptionLog,
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    public int deleteByIds(String ids) {
+    @SysServiceLog(content = "批量删除异常日志记录")
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }

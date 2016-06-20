@@ -19,5 +19,5 @@ public interface IRolePermissionInfoService extends IBaseService<RolePermissionI
      * @param roleId
      * @return
      */
-    List<RolePermissionInfo> findAllByRoleId(String roleId);
+    List<RolePermissionInfo> findAllByRoleId(String roleId) throws Exception;
 }

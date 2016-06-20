@@ -20,5 +20,5 @@ public interface IUserRoleInfoService extends IBaseService<UserRoleInfo, String>
      * @param userId
      * @return
      */
-    public List<UserRoleInfo> findAllByUserId(String userId);
+    public List<UserRoleInfo> findAllByUserId(String userId) throws Exception;
 }

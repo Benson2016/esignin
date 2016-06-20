@@ -31,7 +31,7 @@ public class RolePermissionInfoServiceImpl extends BaseServiceImpl<RolePermissio
         return rolePermissionInfoDao;
     }
 
-    public List<RolePermissionInfo> findAllByRoleId(String roleId) {
+    public List<RolePermissionInfo> findAllByRoleId(String roleId) throws Exception {
         return rolePermissionInfoDao.findAllByRoleId(roleId);
     }
 

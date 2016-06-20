@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.ISignInRecordDao;
 import com.benson.esignin.web.domain.entity.SignInRecord;
 import com.benson.esignin.web.domain.vo.BensonPage;
@@ -39,7 +40,7 @@ public class SignInRecordServiceImpl extends BaseServiceImpl<SignInRecord, Strin
      * @param businessId
      * @return
      */
-    public List<SignInRecord> findAllByBusinessId(String businessId) {
+    public List<SignInRecord> findAllByBusinessId(String businessId) throws Exception {
         return signInRecordDao.findAllByRqid(businessId);
     }
 
@@ -49,16 +50,16 @@ public class SignInRecordServiceImpl extends BaseServiceImpl<SignInRecord, Strin
      * @param userId
      * @return
      */
-    public SignInRecord findByQridAndUserId(String qrid, String userId) {
+    public SignInRecord findByQridAndUserId(String qrid, String userId) throws Exception {
         return signInRecordDao.findByQridAndUserId(qrid, userId);
     }
 
-
-    public List<SignInRecord> findAllByQuery(SignInRecordQuery query) {
+    @SysServiceLog(content = "根据条件查询签到记录信息列表")
+    public List<SignInRecord> findAllByQuery(SignInRecordQuery query) throws Exception {
         return signInRecordDao.findAllByQuery(query);
     }
 
-    public BensonPage<SignInRecord> findByPage(SignInRecordQuery query) {
+    public BensonPage<SignInRecord> findByPage(SignInRecordQuery query) throws Exception {
         int total = signInRecordDao.count(query);
 
         List<SignInRecord> list = signInRecordDao.findPage(query);
@@ -68,7 +69,7 @@ public class SignInRecordServiceImpl extends BaseServiceImpl<SignInRecord, Strin
         return page;
     }
 
-    public int deleteByIds(String ids) {
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }
@@ -86,7 +87,7 @@ public class SignInRecordServiceImpl extends BaseServiceImpl<SignInRecord, Strin
      * 统计签到记录
      * @return
      */
-    public List<SignInRecordStatisticsVo> statisticsSignIn() throws Exception {
-        return signInRecordDao.statisticsSignIn();
+    public List<SignInRecordStatisticsVo> statisticsSignIn(String year) throws Exception {
+        return signInRecordDao.statisticsSignIn(year);
     }
 }

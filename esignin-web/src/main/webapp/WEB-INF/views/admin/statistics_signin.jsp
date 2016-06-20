@@ -57,6 +57,7 @@
   </div>
 
   <div id="chartjs-tooltip"></div>
+  <div id="tips" style="display:none;">暂无数据</div>
 </div>
 
 <script src="${root}/resources/js/jquery.min.js"></script>
@@ -113,20 +114,6 @@
         top = tooltip.y + tooltip.caretHeight + tooltip.caretPadding;
       }
     }
-
-    /*var position = $(this._chart.canvas)[0].getBoundingClientRect();
-
-    // Display, position, and set styles for font
-    tooltipEl.css({
-      opacity: 1,
-      width: tooltip.width ? (tooltip.width + 'px') : 'auto',
-      left: position.left + tooltip.x + 'px',
-      top: position.top + top + 'px',
-      fontFamily: tooltip._fontFamily,
-      fontSize: tooltip.fontSize,
-      fontStyle: tooltip._fontStyle,
-      padding: tooltip.yPadding + 'px ' + tooltip.xPadding + 'px'
-    });*/
   };
 
 
@@ -137,22 +124,14 @@
     return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
   };
 
-  var data1 = eval(${data1});
-  var names = eval(${names});
   var config = {
     type: 'pie',
     data: {
       datasets: [{
-        data: data1,
-        backgroundColor: [
-          "#F7464A",
-          "#46BFBD",
-          "#FDB45C",
-          "#3BE2E2",
-          "rgb(232, 67, 205)"
-        ]
+        data: [],
+        backgroundColor: []
       }],
-      labels: names
+      labels: []
     },
     options: {
       responsive: true,
@@ -176,6 +155,7 @@
     var myDate = new Date();
     currSearchYear = myDate.getFullYear();
     $('#sYear').val(currSearchYear);
+    getData(); //loading data
   });
 
   function searchByYear(y) {
@@ -186,8 +166,54 @@
       return;
     }
     currSearchYear=y;
-    console.log("search year is " + y);
+    //console.log("search year is " + y);
     $("#sYear").blur();
+    getData(); //loading data
+  }
+  // 获取数据
+  function getData() {
+    $.ajax({
+      url: "${root}/statistics/getSignInStaticData.bs",
+      dataType: "json",
+      type: "POST",
+      data: {year: currSearchYear},
+      cache: false,
+      success: function(data){
+        if(data.rspCode==100){ //success
+          reloadData(data.data, data.names); // 后重新加载数据
+          if (data.size==0) {
+            $("#tips").show();
+          } else {
+            $("#tips").hide();
+          }
+        } else{
+          alert(data.rspMsg);
+        }
+      },
+      error: function(e) {
+        alert("系统错误！");
+      }
+    });
+  }
+
+  function reloadData(datas, names) {
+    config.data.datasets[0].data = datas;
+    config.data.datasets[0].backgroundColor = getBGColors(names.length);
+    config.data.labels = names;
+    window.myPie.update();
+  }
+
+  var colorArr = ["#F7464A","#46BFBD","#FDB45C","#3BE2E2","rgb(232, 67, 205)"];
+  // 动态获取背景颜色
+  function getBGColors(size) {
+    var colors = colorArr;
+    if (size>colorArr.length) {
+      var len = colorArr.length;
+      for (var i=len; i<size; i++) {
+        colors[i] = randomColor(0.8);
+      }
+    }
+    return colors;
   }
 </script>
 </body>

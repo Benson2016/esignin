@@ -22,21 +22,21 @@ public interface IPermissionInfoService extends IBaseService<PermissionInfo, Str
      * @param query
      * @return
      */
-    List<PermissionInfo> findAllByQuery(PermissionInfoQuery query);
+    List<PermissionInfo> findAllByQuery(PermissionInfoQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<PermissionInfo> findByPage(PermissionInfoQuery query);
+    BensonPage<PermissionInfo> findByPage(PermissionInfoQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
 
     /**
      * 查询角色拥有的权限

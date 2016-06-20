@@ -103,6 +103,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
+    @SysServiceLog(content = "根据ID数组批量删除用户记录")
     public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1

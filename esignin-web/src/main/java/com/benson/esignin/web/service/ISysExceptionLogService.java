@@ -22,20 +22,20 @@ public interface ISysExceptionLogService extends IBaseService<SysExceptionLog, S
      * @param query
      * @return
      */
-    List<SysExceptionLog> findAllByQuery(SysLogQuery query);
+    List<SysExceptionLog> findAllByQuery(SysLogQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<SysExceptionLog> findByPage(SysLogQuery query);
+    BensonPage<SysExceptionLog> findByPage(SysLogQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
     
 }

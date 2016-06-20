@@ -90,6 +90,6 @@ public interface ISignInRecordDao extends IBaseDao<SignInRecord, String> {
      * @return
      */
     @SelectProvider(type = SignInRecordSqlProvider.class, method = "statisticsSignIn")
-    List<SignInRecordStatisticsVo> statisticsSignIn();
+    List<SignInRecordStatisticsVo> statisticsSignIn(String year);
 
 }

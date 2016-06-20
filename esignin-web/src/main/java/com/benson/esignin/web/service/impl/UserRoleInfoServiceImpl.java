@@ -31,7 +31,7 @@ public class UserRoleInfoServiceImpl extends BaseServiceImpl<UserRoleInfo, Strin
         return userRoleInfoDao;
     }
 
-    public List<UserRoleInfo> findAllByUserId(String userId) {
+    public List<UserRoleInfo> findAllByUserId(String userId) throws Exception {
         return userRoleInfoDao.findAllByUserId(userId);
     }
 

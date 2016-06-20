@@ -7,10 +7,7 @@ import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.dao.ISignInRecordDao;
 import com.benson.esignin.web.domain.entity.SignInType;
-import com.benson.esignin.web.domain.vo.QrCodeResponse;
-import com.benson.esignin.web.domain.vo.SignInRecordStatisticsVo;
-import com.benson.esignin.web.domain.vo.StatisticsQuery;
-import com.benson.esignin.web.domain.vo.UserStatisticsResponse;
+import com.benson.esignin.web.domain.vo.*;
 import com.benson.esignin.web.service.ISignInRecordService;
 import com.benson.esignin.web.service.ISignInTypeService;
 import com.benson.esignin.web.service.IUserInfoService;
@@ -56,12 +53,12 @@ public class StatisticsController {
      * @return
      */
     @RequestMapping(value = "/user")
-    public String user(Model model, HttpServletRequest request) {
+    public String user(Model model) {
         return "admin/statistics_user";
     }
 
     @RequestMapping(value = "/getUserData", method = RequestMethod.POST)
-    @SysControllerLog(content = "统计用户注册数据")
+    @SysControllerLog(content = "统计年度用户注册情况.")
     @ResponseBody
     public Object getUserStaticData(String year) {
         logger.info("Enter getUserStaticData Method. ");
@@ -93,7 +90,7 @@ public class StatisticsController {
 
         } catch (Exception e) {
             response = new UserStatisticsResponse(StateResponse.ERROR_SYS);
-            logger.error("用户注册统计异常:", e);
+            logger.error("统计年度用户注册情况时异常:", e);
         } finally {
             logger.info("Exit getUserStaticData Method. ");
         }
@@ -130,16 +127,29 @@ public class StatisticsController {
      */
     @RequestMapping(value = "/signIn")
     public String signIn(Model model) {
+        return "admin/statistics_signin";
+    }
+
+    @RequestMapping(value = "/getSignInStaticData", method = RequestMethod.POST)
+    @SysControllerLog(content = "统计年度签到情况.")
+    @ResponseBody
+    public Object getSignInStaticData(String year) {
+        logger.info("Enter getSignInStaticData Method. ");
+        SignInStatisticsResponse response = null;
+        if (CommonUtil.isNull(year)) {
+            year = DateUtil.getCurrDate("yyyy");
+        }
 
         try {
-            List<SignInRecordStatisticsVo> list = signInRecordService.statisticsSignIn();
+            List<SignInRecordStatisticsVo> list = signInRecordService.statisticsSignIn(year);
 
             List<SignInType> types = signInTypeService.findAll();
 
-            int[] data1 = new int[types.size()];
+            int[] data = new int[types.size()];
             String[] names = new String[types.size()];
 
-            Integer counts = 0;
+            int size = 0;
+            int counts = 0;
             SignInType signInType = null;
             for (int i=0; i<types.size(); i++) {
                 counts = 0;
@@ -147,21 +157,27 @@ public class StatisticsController {
                 for (SignInRecordStatisticsVo vo : list) {
                     if (signInType.getId()==vo.getSignInType()) {
                         counts = vo.getCounts();
+                        ++size;
                         break;
                     }
                 }
-                data1[i] = counts;
+                data[i] = counts;
                 names[i] = signInType.getTypeName();
             }
 
-            model.addAttribute("data1", JsonUtil.bean2Json(data1));
-            model.addAttribute("names", JsonUtil.bean2Json(names));
+            response = new SignInStatisticsResponse(StateResponse.SUCCESS);
+            response.setData(data);
+            response.setNames(names);
+            response.setSize(size);
 
         } catch (Exception e) {
-            logger.error("签到统计异常:", e);
+            response = new SignInStatisticsResponse(StateResponse.ERROR_SYS);
+            logger.error("统计年度签到情况时发生异常:", e);
+        } finally {
+            logger.info("Exit getSignInStaticData Method. ");
         }
-
-        return "admin/statistics_signin";
+        return JsonUtil.toJson(response);
     }
+
 
 }

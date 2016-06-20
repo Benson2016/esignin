@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.ISignInTypeDao;
 import com.benson.esignin.web.domain.entity.SignInType;
 import com.benson.esignin.web.domain.vo.BensonPage;
@@ -32,11 +33,11 @@ public class SignInTypeServiceImpl extends BaseServiceImpl<SignInType, Integer> 
         return signInTypeDao;
     }
 
-    public List<SignInType> findAllByQuery(SignInTypeQuery query) {
+    public List<SignInType> findAllByQuery(SignInTypeQuery query) throws Exception {
         return signInTypeDao.findAllByQuery(query);
     }
 
-    public BensonPage<SignInType> findByPage(SignInTypeQuery query) {
+    public BensonPage<SignInType> findByPage(SignInTypeQuery query) throws Exception {
         int total = signInTypeDao.count(query);
 
         List<SignInType> list = signInTypeDao.findPage(query);
@@ -46,7 +47,8 @@ public class SignInTypeServiceImpl extends BaseServiceImpl<SignInType, Integer> 
         return page;
     }
 
-    public int deleteByIds(String ids) {
+    @SysServiceLog(content = "根据ID数组批量删除签到类型记录")
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }

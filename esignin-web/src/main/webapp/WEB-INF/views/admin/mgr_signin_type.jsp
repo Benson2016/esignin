@@ -62,8 +62,8 @@
                     <tr>
                         <th width="5%">序号</th>
                         <th width="10%"><input type="checkbox" name="checkAllOrNot" id="checkAllOrNot" onclick="checkAllEvent()">选项</th>
-                        <th width="20%">类型ID</th>
-                        <th width="50%">签到名称</th>
+                        <%-- <th width="20%">类型ID</th> --%>
+                        <th width="70%">签到名称</th>
                         <th width="15%">操 作</th>
                     </tr>
                     </thead>
@@ -218,7 +218,7 @@
                         html += '<tr class="' + ((i % 2 == 0) ? 'even' : '') + '">' +
                                 '<td>' + (i+1) + '</td>' +
                                 '<td><input type="checkbox" name="checkbox" value="' + v.id + '"/></td>' +
-                                '<td>' + v.id + '</td>' +
+                                <%-- '<td>' + v.id + '</td>' + --%>
                                 '<td>' + v.typeName + '</td>' +
                                 '<td><a class="editBtn" href="javascript:void(0)" onclick="openEdit(\'' + v.id + '\')">编辑</a></td>' +
                                 '</tr>';

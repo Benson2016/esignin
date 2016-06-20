@@ -3,6 +3,7 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
+import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.IRoleInfoDao;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
 import com.benson.esignin.web.domain.entity.RoleInfo;
@@ -42,7 +43,8 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfo, String> imple
      * @param query
      * @return
      */
-    public List<RoleInfo> findAllByQuery(RoleInfoQuery query) {
+    @SysServiceLog(content = "根据条件查询角色信息列表")
+    public List<RoleInfo> findAllByQuery(RoleInfoQuery query) throws Exception {
         return roleInfoDao.findAllByQuery(query);
     }
 
@@ -51,7 +53,7 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfo, String> imple
      * @param query 查询条件
      * @return
      */
-    public BensonPage<RoleInfo> findByPage(RoleInfoQuery query) {
+    public BensonPage<RoleInfo> findByPage(RoleInfoQuery query) throws Exception {
         int total = roleInfoDao.count(query);
 
         List<RoleInfo> list = roleInfoDao.findPage(query);
@@ -66,7 +68,8 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfo, String> imple
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    public int deleteByIds(String ids) {
+    @SysServiceLog(content = "根据ID数组批量删除角色记录")
+    public int deleteByIds(String ids) throws Exception {
         if (CommonUtil.isNull(ids)) {
             return -1;  // 如果参数为空，则直接返回-1
         }
@@ -85,7 +88,6 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfo, String> imple
      * @return
      * @throws Exception
      */
-    @Override
     public List<RoleInfo> findAllByUserId(String userId) throws Exception {
         return roleInfoDao.findAllByUserId(userId);
     }

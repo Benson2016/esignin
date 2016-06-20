@@ -20,20 +20,20 @@ public interface ISignInTypeService extends IBaseService<SignInType, Integer> {
      * @param query
      * @return
      */
-    List<SignInType> findAllByQuery(SignInTypeQuery query);
+    List<SignInType> findAllByQuery(SignInTypeQuery query) throws Exception;
 
     /**
      * 分页查询
      * @param query 查询条件
      * @return
      */
-    BensonPage<SignInType> findByPage(SignInTypeQuery query);
+    BensonPage<SignInType> findByPage(SignInTypeQuery query) throws Exception;
 
     /**
      * 根据ID数组批量删除记录
      * @param ids ID数组，多个值以逗号分隔
      * @return
      */
-    int deleteByIds(String ids);
+    int deleteByIds(String ids) throws Exception;
 
 }
