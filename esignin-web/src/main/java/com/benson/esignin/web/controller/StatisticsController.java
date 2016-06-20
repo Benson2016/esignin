@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 统计业务控制层
@@ -142,33 +140,23 @@ public class StatisticsController {
 
         try {
             List<SignInRecordStatisticsVo> list = signInRecordService.statisticsSignIn(year);
-
             List<SignInType> types = signInTypeService.findAll();
+            Map<Integer, String> typeMap = getSignInTypeMap(types);
 
-            int[] data = new int[types.size()];
-            String[] names = new String[types.size()];
+            int[] data = new int[list.size()];
+            String[] names = new String[list.size()];
 
-            int size = 0;
-            int counts = 0;
-            SignInType signInType = null;
-            for (int i=0; i<types.size(); i++) {
-                counts = 0;
-                signInType = types.get(i);
-                for (SignInRecordStatisticsVo vo : list) {
-                    if (signInType.getId()==vo.getSignInType()) {
-                        counts = vo.getCounts();
-                        ++size;
-                        break;
-                    }
-                }
-                data[i] = counts;
-                names[i] = signInType.getTypeName();
+            SignInRecordStatisticsVo vo = null;
+            for (int i=0; i<list.size(); i++) {
+                vo = list.get(i);
+                data[i] = vo.getCounts();
+                names[i] = typeMap.get(vo.getSignInType());
             }
-
+            // 设置响应信息
             response = new SignInStatisticsResponse(StateResponse.SUCCESS);
             response.setData(data);
             response.setNames(names);
-            response.setSize(size);
+            response.setSize(list.size());
 
         } catch (Exception e) {
             response = new SignInStatisticsResponse(StateResponse.ERROR_SYS);
@@ -177,6 +165,21 @@ public class StatisticsController {
             logger.info("Exit getSignInStaticData Method. ");
         }
         return JsonUtil.toJson(response);
+    }
+
+    /**
+     * 根据List类型获取Map集合的签到类型数据
+     * @param types
+     * @return
+     */
+    private Map<Integer, String> getSignInTypeMap(List<SignInType> types) {
+        Map<Integer, String> typeMap = new HashMap<Integer, String>(types.size());
+        SignInType signInType = null;
+        for (int i=0; i<types.size(); i++) {
+            signInType = types.get(i);
+            typeMap.put(signInType.getId(), signInType.getTypeName());
+        }
+        return typeMap;
     }
 
 
