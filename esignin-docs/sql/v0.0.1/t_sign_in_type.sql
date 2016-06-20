@@ -32,3 +32,7 @@ INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('1', '会议�
 INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('2', '活动签到');
 INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('3', '考试签到');
 INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('4', '一起嗨皮');
+
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('5', '生日派对');
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('6', '毕业答辩');
+INSERT INTO `esignin`.`t_sign_in_type` (`id`, `type_name`) VALUES ('7', '毕业典礼');
