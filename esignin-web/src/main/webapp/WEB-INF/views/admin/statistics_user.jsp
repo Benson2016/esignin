@@ -55,9 +55,6 @@
         return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
     };
 
-    /*var data1 = eval(${data1});
-    var data2 = eval(${data2});
-    var data3 = eval(${data3});*/
     var config = {
         type: 'line',
         data: {
@@ -146,7 +143,6 @@
             cache: false,
             success: function(data){
                 if(data.rspCode==100){ //success
-                    //removeAllData(); //先删除数据
                     reloadData(data.data1, data.data2, data.data3); // 后重新加载数据
                 } else{
                     alert(data.rspMsg);
@@ -162,13 +158,6 @@
         config.data.datasets[0].data = datas1;
         config.data.datasets[1].data = datas2;
         config.data.datasets[2].data = datas3;
-        window.myLine.update();
-    }
-
-    function removeAllData() {
-        config.data.datasets.forEach(function(dataset, datasetIndex) {
-            dataset.data.pop();
-        });
         window.myLine.update();
     }
 </script>
