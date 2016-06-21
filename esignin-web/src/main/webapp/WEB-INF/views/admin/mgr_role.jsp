@@ -50,6 +50,7 @@
             <div class="tableTopBtn">
                 <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
                 <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+                <a class="grantBtn g-searchBtn" href="javascript:void(0)">角色授权</a>&nbsp;&nbsp;
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />
@@ -154,8 +155,22 @@
         $('.tableTopBtn').delegate('.addBtn', 'click', function(){
             showFormDialog("${root}/page/toRoleAdd.bs", "addForm", "添加角色", 610, 560, {yes: "保 存", yes_before_close:checkAddForm, yes_after_close: null});
         });
+        // 显示授权Dialog
+        $('.tableTopBtn').delegate('.grantBtn', 'click', function(){
+            showFormDialog("${root}/role/toRoleGrant.bs?ids=118", "grantForm", "角色授权", 610, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
+        });
 
     });
+
+    // 检查授权Form
+    function checkGrantForm() {
+        console.log("enter to checkGrantForm.");
+    }
+    // 授权回调函数
+    function grantCallback(data) {
+        console.log("enter to grantCallback.");
+        alert(data);
+    }
 
     // 检查Form元素
     function checkAddForm() {

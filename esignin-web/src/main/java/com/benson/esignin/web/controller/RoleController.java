@@ -153,4 +153,17 @@ public class RoleController {
         return JsonUtil.toJson(response);
     }
 
+
+    // 去角色授权页面
+    @RequestMapping("/toRoleGrant")
+    public String toRoleGrant(@RequestParam String ids, Model model) {
+        if (CommonUtil.isNull(ids)) {
+            logger.error("uid为空,非法进入,无权进入用户编辑页面.");
+            return "404";
+        }
+        model.addAttribute("ids", ids);
+
+        return "admin/role_user_list";
+    }
+
 }
