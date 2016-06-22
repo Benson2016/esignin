@@ -50,7 +50,7 @@
             <div class="tableTopBtn">
                 <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
                 <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
-                <a class="grantBtn g-searchBtn" href="javascript:void(0)">角色授权</a>&nbsp;&nbsp;
+                <a class="grantBtn g-searchBtn" href="javascript:void(0)">角色分配</a>&nbsp;&nbsp;
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />
@@ -157,7 +157,16 @@
         });
         // 显示授权Dialog
         $('.tableTopBtn').delegate('.grantBtn', 'click', function(){
-            showFormDialog("${root}/role/toRoleGrant.bs?ids=118", "grantForm", "角色授权", 610, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
+            var arr = getCheckedValues();
+            if(arr.toString()==null || arr.toString()=='') {
+                showMsg("您尚未选中记录！");
+                return;
+            }
+            if(arr.length>1) {
+                showMsg("每次只允许选一个角色进行分配！");
+                return;
+            }
+            showFormDialog("${root}/role/toRoleGrant.bs?ids=118", "grantForm", "角色分配", 630, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
         });
 
     });
@@ -279,7 +288,7 @@
         }
     }
 
-
+    // 获取分页数据
     var isCallBack = true;
     function getDataHtml(pageNo,pagesize) {
         if (isCallBack) {

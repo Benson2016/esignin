@@ -11,39 +11,58 @@
     <meta name="description" content="全球最流行最简便的签到系统"/>
     <link href="${root}/resources/css/global.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/css/jquery.placeholder.css" rel="stylesheet" type="text/css" />
-    <link href="${root}/resources/css/discount.css" rel="stylesheet" type="text/css" />
+
     <link href="${root}/resources/css/page.css" rel="stylesheet" type="text/css" />
     <link href="${root}/resources/plugins/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-    <%@ include file="/commons/style.jsp" %>
+    <style type="text/css">
+        a:hover { color:#f74e37; }
+        .screen .headBox { padding-bottom:25px; background:#e3e3e3; height:64px; position:fixed; width:100%; left:0; top:0; z-index:8;}
+        .screen .headBox .topBox { overflow:hidden; height:84px; background:#fff; padding:0 40px 0 20px;}
+        .screen .headBox .childicon { float:left; width:45px; height:45px; overflow:hidden; margin-top:20px;}
+        .screen .headBox .childicon img { float:left;  width:45px; height:45px;}
+        .screen .headBox .childtetle{ float:left; height:45px; line-height:45px; overflow:hidden; padding:20px 0 0 24px; font-size:24px; color:#666;}
+        .screen .headBox .childclose { float:right; overflow:hidden; width:34px; height:34px; margin:25px 0 0 28px; background:url(${root}/commons/img/close.png);}
+        .screen .headBox .childclose:hover{ background:url(${root}/commons/img/closehover.png);}
+        .screen .headBox .childbut{ float:right;overflow:hidden; margin-top:20px;margin-right:19px}
 
+        .screen .contentBox{ overflow:hidden; min-height:500px; background:#fff; padding: 10px 20px 20px 20px;}
+
+        .g-tableList{font-size:14px;table-layout:auto;}
+        .g-tableList thead th{font-size:14px;color:#666;border-bottom:1px solid #e5e5e5;}
+        .g-tableList tbody td{font-size:14px;border-bottom:1px solid #e5e5e5;color:#666;line-height:20px;}
+        .g-tableList tbody tr:nth-child(2n-1) td { background:#f7f7f7; }
+        .g-tableList tbody img { border:1px solid #cecece; }
+
+        .g-tableList .thSort { cursor:ns-resize; }
+        .g-tableList .thSort span {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALCAMAAACah1cpAAAAM1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4Ovn3wBAAAAEHRSTlMAJC02P0JOUVpgeIfq8Pb57Ter4AAAAD9JREFUeF5Fy1sKgDAQQ9GMWh9ja+/+VysZBM9XCIns0CdJlR04HdYHmE2Kjo3QbxlYD6lN7za3V33LTepTzQuA3AJblVbHMwAAAABJRU5ErkJggg==) /*${root}/commons/img/toggle-ico.png*/ right 5px no-repeat;_background:url(${root}/commons/img/toggle-ico.png) right 5px no-repeat;display:inline-block;padding-right:16px;}
+        .g-tableList .thSort.desc span{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALBAMAAABfd7ooAAAAJ1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4PIqRqDAAAADHRSTlMA+VrwJEItP2Dqh3i2e/DgAAAAM0lEQVR4XnWKsQ0AIAzDsrDwQJcOPYVf+g6PIXwUFRsDGSJZtn5LWEPNsYJJ1Pd9TbzhAdMxBnYi4KGKAAAAAElFTkSuQmCC);_background-image: url(${root}/commons/img/toggle-ico1.png);}
+        .g-tableList .thSort.asc span{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAALBAMAAABfd7ooAAAAJ1BMVEX///+Dg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4PIqRqDAAAADHRSTlMAJHhRWjb2+UJO6vCS7BriAAAAL0lEQVR4Xm3EsQ0AEBRAwReJXm0KIxjIAIYxjdYbSn7NFcdPi9KOlx3ycELVU3hcwU8G34G0RpYAAAAASUVORK5CYII=);_background-image: url(${root}/commons/img/toggle-ico2.png);}
+
+        .g-dialog .g-dialog_tit{background: #f74e37;}
+        input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus, input[type=number]:focus, input[type=tel]:focus {border: 1px solid #f74e37;}
+        .pagebar_numlist .pagebar_numlist_current,.pagebar_numlist a:hover{background-color:#f74e37;border:1px solid #f74e37}
+        .pagebar_numlist button:hover {background: #f74e37;color: #FFF;}
+        #loading { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:rgba(0, 0, 0, .5) url(${root}/commons/img/loading.gif) no-repeat center; }
+    </style>
 </head>
 <body>
 <div class="screen">
-    <div class="headBox">
-        <div class="topBox">
-            <span class="childicon"><img src="${root}/commons/img/icon.jpg"></span>
-            <span class="childtetle">用户信息列表</span>
-        </div>
-    </div>
     <div class="contentBox">
         <div class="blank3"></div>
         <div class="configureBox">
-            <!-- 查询与导出 -->
-            <form id="searchForm" action="${root}/admin/exportUserDataToExcel.bs" method="post">
-                <div style="margin:13px 0;">
+            <!-- 查询 -->
+            <form id="searchForm" action="/" method="post">
+                <div style="margin:10px 0;">
                     <label class="g-label l">用户名称 &nbsp;</label>
                     <input type="text" name="userName" id="sUserName" class="g-input l w-180" value="" style="margin-right:50px">
+                    <div class="blank3"></div>
+                    <label class="g-label l">用户姓名 &nbsp;</label>
+                    <input type="text" name="fullName" id="sFullName" class="g-input l w-180" value="" style="margin-right:50px">
                     <a href="javascript:;" class="g-searchBtn r" id="searchBtn">查询</a>
                     <a href="javascript:;" class="g-searchBtn r" id="clearBtn">清除</a>&nbsp;&nbsp;
                     <div class="clear"></div>
                 </div>
             </form>
-
-            <div class="tableTopBtn">
-                <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
-                <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>
-                <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
-            </div>
             <input id="orderBy" type="hidden" name="orderBy" value=""/>
             <input id="direction" type="hidden" name="direction" value="desc"/>
             <!-- 列表开始-->
@@ -51,11 +70,12 @@
                 <table class="g-tableList">
                     <thead>
                     <tr>
-                        <th width="5%">序号</th>
-                        <th width="10%">
+                        <th width="10%">序号</th>
+                        <th width="15%">
                             <input type="checkbox" name="checkAllOrNot" id="checkAllOrNot"onclick="checkAllEvent()">选项
                         </th>
-                        <th width="85%">用户名称</th>
+                        <th width="40%">用户名称</th>
+                        <th width="35%">用户姓名</th>
                     </tr>
                     </thead>
                     <tbody id="data_body"></tbody>
@@ -64,7 +84,6 @@
             </div>
 
         </div>
-
     </div>
 </div>
 <div id="loading"></div>
@@ -90,6 +109,7 @@
         // 清除查询条件
         $("#clearBtn").click(function(){
             $('#sUserName').val("");
+            $('#sFullName').val("");
         });
 
     });
@@ -107,6 +127,7 @@
                 cache: false,
                 data: {
                     userName: $("#sUserName").val(),
+                    fullName: $("#sFullName").val(),
                     page: pageNo,
                     size: pagesize || 10
                 },
@@ -117,6 +138,7 @@
                                 '<td>' + (i + 1) + '</td>' +
                                 '<td><input type="checkbox" name="checkbox" value="' + v.id + '"/></td>' +
                                 '<td>' + v.userName + '</td>' +
+                                '<td>' + v.fullName + '</td>' +
                                 '</tr>';
                     })
 
