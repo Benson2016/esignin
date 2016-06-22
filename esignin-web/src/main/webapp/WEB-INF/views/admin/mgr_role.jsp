@@ -166,7 +166,9 @@
                 showMsg("每次只允许选一个角色进行分配！");
                 return;
             }
-            showFormDialog("${root}/role/toRoleGrant.bs?ids=118", "grantForm", "角色分配", 630, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
+            var roleName = $(":checkbox:checked").parents("tr").find("td[name='rn']").text();
+            roleName +="-->角色分配";
+            showFormDialog("${root}/role/toRoleGrant.bs?ids=118", "grantForm", roleName, 630, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
         });
 
     });
@@ -306,7 +308,7 @@
                         html += '<tr class="' + ((i % 2 == 0) ? 'even' : '') + '">' +
                         '<td>' + (i+1) + '</td>' +
                         '<td><input type="checkbox" name="checkbox" value="' + v.id + '"/></td>' +
-                        '<td>' + v.name + '</td>' +
+                        '<td name="rn">' + v.name + '</td>' +
                         '<td>' + v.flag + '</td>' +
                         '<td>' + v.description + '</td>' +
                         '<td>' + v.createTimeStr + '</td>' +
@@ -342,7 +344,7 @@
 
     function checkAllEvent() {
         if($("#checkAllOrNot").is(':checked')) {
-            $("[name='checkbox']").attr("checked",'true');//全选
+            $("[name='checkbox']").prop("checked", true);//全选
         } else {
             $("[name='checkbox']").removeAttr("checked");//取消全选
         }

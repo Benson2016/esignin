@@ -52,7 +52,7 @@
         <div class="configureBox">
             <!-- 查询 -->
             <form id="searchForm" action="/" method="post">
-                <div style="margin:10px 0;">
+                <div style="margin:5px 0;">
                     <label class="g-label l">用户名称 &nbsp;</label>
                     <input type="text" name="userName" id="sUserName" class="g-input l w-180" value="" style="margin-right:50px">
                     <div class="blank3"></div>
@@ -169,7 +169,7 @@
 
     function checkAllEvent() {
         if ($("#checkAllOrNot").is(':checked')) {
-            $("[name='checkbox']").attr("checked", 'true');//全选
+            $("[name='checkbox']").prop("checked", 'true');//全选
         } else {
             $("[name='checkbox']").removeAttr("checked");//取消全选
         }

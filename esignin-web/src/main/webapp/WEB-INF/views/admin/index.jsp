@@ -663,10 +663,11 @@
                     <li>
                         <a href="javascript:0" onclick="openMenuItem(3)"><i class="icon-unlock"></i>权限管理</a>
                     </li>
+                    <%--
                     <li>
                         <a href="javascript:0" onclick="openMenuItem(4)"><i class="icon-tasks"></i>菜单管理</a>
                     </li>
-
+                    --%>
                 </ul>
             </li>
 

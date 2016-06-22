@@ -318,7 +318,7 @@
 
     function checkAllEvent() {
         if($("#checkAllOrNot").is(':checked')) {
-            $("[name='checkbox']").attr("checked",'true');//全选
+            $("[name='checkbox']").prop("checked",'true');//全选
         } else {
             $("[name='checkbox']").removeAttr("checked");//取消全选
         }
