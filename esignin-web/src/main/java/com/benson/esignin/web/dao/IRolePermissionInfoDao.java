@@ -31,6 +31,9 @@ public interface IRolePermissionInfoDao extends IBaseDao<RolePermissionInfo, Str
     @Delete("DELETE FROM "+TABLE_NAME+" where id = #{id}")
     int delete(String id);
 
+    @Delete("DELETE FROM "+TABLE_NAME+" where role_id = #{roleId}")
+    int deleteByRoleId(@Param("roleId") String roleId);
+
     @Update("UPDATE " + TABLE_NAME + " set role_id=#{roleId},permission_id=#{permissionId} WHERE id = #{id}")
     int update(RolePermissionInfo entity);
 

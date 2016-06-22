@@ -647,6 +647,7 @@
             </li>
 
             <!-- Sys Manager -->
+            <shiro:hasPermission name="sysMgr">
             <li class="">
                 <a href="javascript:(0);">
                     <i class="icon-cogs"></i>
@@ -654,15 +655,21 @@
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(1)"><i class="icon-user"></i>用户管理</a>
-                    </li>
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(2)"><i class="icon-user-md"></i>角色管理</a>
-                    </li>
-                    <li>
-                        <a href="javascript:0" onclick="openMenuItem(3)"><i class="icon-unlock"></i>权限管理</a>
-                    </li>
+                    <shiro:hasPermission name="userMgr">
+                        <li>
+                            <a href="javascript:0" onclick="openMenuItem(1)"><i class="icon-user"></i>用户管理</a>
+                        </li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="roleMgr">
+                        <li>
+                            <a href="javascript:0" onclick="openMenuItem(2)"><i class="icon-user-md"></i>角色管理</a>
+                        </li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="permissionMgr">
+                        <li>
+                            <a href="javascript:0" onclick="openMenuItem(3)"><i class="icon-unlock"></i>权限管理</a>
+                        </li>
+                    </shiro:hasPermission>
                     <%--
                     <li>
                         <a href="javascript:0" onclick="openMenuItem(4)"><i class="icon-tasks"></i>菜单管理</a>
@@ -670,6 +677,7 @@
                     --%>
                 </ul>
             </li>
+            </shiro:hasPermission>
 
         </ul>
         <!-- END SIDEBAR MENU -->

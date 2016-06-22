@@ -35,4 +35,7 @@ public class RolePermissionInfoServiceImpl extends BaseServiceImpl<RolePermissio
         return rolePermissionInfoDao.findAllByRoleId(roleId);
     }
 
+    public int deleteByRoleId(String roleId) throws Exception {
+        return rolePermissionInfoDao.deleteByRoleId(roleId);
+    }
 }

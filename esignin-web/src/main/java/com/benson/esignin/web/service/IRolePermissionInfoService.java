@@ -20,4 +20,13 @@ public interface IRolePermissionInfoService extends IBaseService<RolePermissionI
      * @return
      */
     List<RolePermissionInfo> findAllByRoleId(String roleId) throws Exception;
+
+    /**
+     * 删除角色下所有权限关系
+     * @param roleId
+     * @return
+     * @throws Exception
+     */
+    int deleteByRoleId(String roleId) throws Exception;
+
 }

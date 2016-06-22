@@ -176,7 +176,7 @@ public class AdminController {
             page = permissionInfoService.findByPage(query);
             result = JsonUtil.bean2Json(page);
         }catch (Exception e) {
-            logger.error("查询用户列表异常：{}", e);
+            logger.error("查询权限列表异常：{}", e);
         } finally {
             logger.info("leave to permListData Method.");
         }

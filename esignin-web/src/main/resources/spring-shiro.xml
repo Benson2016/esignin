@@ -47,8 +47,6 @@
                 /getSignInList.bs = anon
                 <!-- 页面允许访问 -->
                 /page/** = anon
-                <!-- 后台需要权限访问 -->
-                /admin/** = authc,roles[super]
                 <!-- 退出登录允许访问 -->
                 /user/logout.bs = anon
                 <!-- 其他资源需要认证 -->

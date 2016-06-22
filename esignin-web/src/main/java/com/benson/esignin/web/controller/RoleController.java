@@ -164,12 +164,13 @@ public class RoleController {
     @RequestMapping("/toRoleGrant")
     public String toRoleGrant(@RequestParam String id, Model model) {
         if (CommonUtil.isNull(id)) {
-            logger.error("uid为空,非法进入,无权进入用户编辑页面.");
+            logger.error("uid为空,非法进入,无权进入角色分配页面.");
             return "404";
         }
         try {
             // 读取角色对应的用户Ids
             List<UserRoleInfo> list = userRoleInfoService.findAllByRoleId(id);
+            if (CommonUtil.isNull(list)) list = new ArrayList<UserRoleInfo>();
             model.addAttribute("uris", JsonUtil.bean2Json(list));
             model.addAttribute("roleId", id);
         } catch (Exception e) {

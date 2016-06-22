@@ -50,7 +50,8 @@
             <div class="tableTopBtn">
                 <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
                 <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
-                <a class="grantBtn g-searchBtn" href="javascript:void(0)">角色分配</a>&nbsp;&nbsp;
+                <a class="grantRoleBtn g-searchBtn" href="javascript:void(0)">分配角色</a>&nbsp;&nbsp;
+                <a class="grantPermBtn g-searchBtn" href="javascript:void(0)">分配权限</a>&nbsp;&nbsp;
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />
@@ -155,8 +156,9 @@
         $('.tableTopBtn').delegate('.addBtn', 'click', function(){
             showFormDialog("${root}/page/toRoleAdd.bs", "addForm", "添加角色", 610, 560, {yes: "保 存", yes_before_close:checkAddForm, yes_after_close: null});
         });
-        // 显示授权Dialog
-        $('.tableTopBtn').delegate('.grantBtn', 'click', function(){
+
+        // 显示分配角色框
+        $('.tableTopBtn').delegate('.grantRoleBtn', 'click', function(){
             var arr = getCheckedValues();
             if(arr.toString()==null || arr.toString()=='') {
                 showMsg("您尚未选中记录！");
@@ -171,8 +173,25 @@
             showFormDialog("${root}/role/toRoleGrant.bs?id="+arr.toString(), "grantForm", roleName, 630, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
         });
 
+        // 显示授权框
+        $('.tableTopBtn').delegate('.grantPermBtn', 'click', function(){
+            var arr = getCheckedValues();
+            if(arr.toString()==null || arr.toString()=='') {
+                showMsg("您尚未选中记录！");
+                return;
+            }
+            if(arr.length>1) {
+                showMsg("每次只允许选一个角色进行分配！");
+                return;
+            }
+            var roleName = $(":checkbox:checked").parents("tr").find("td[name='rn']").text();
+            roleName +="-->权限分配";
+            showFormDialog("${root}/perm/toPermGrant.bs?id="+arr.toString(), "grantPermForm", roleName, 630, 560, {yes: "保 存", yes_before_close:checkGrantPermForm, yes_after_close: grantPermCallback});
+        });
+
     });
 
+    /*------------------------------------Grant Role Operation Start-----------------------------------------*/
     // 检查授予角色Form
     function checkGrantForm() {
         var ids = getGrantFormCheckedValues();
@@ -214,6 +233,52 @@
         });
         return arr;
     }
+    /*------------------------------------Grant Role Operation End-----------------------------------------*/
+
+    /*------------------------------------Grant Permission Operation Start-----------------------------------------*/
+    // 检查授予权限Form
+    function checkGrantPermForm() {
+        var ids = getGrantPermFormCheckedValues();
+        return ids;
+    }
+    // 获取权限分配框中选中的值
+    function getGrantPermFormCheckedValues() {
+        var arr = new Array();
+        $('#grantPermForm').contents().find("[name='checkbox']").each(function () {
+            if ($(this).is(':checked')) {
+                arr.push($(this).val());
+            }
+        });
+        return arr;
+    }
+    // 授予权限回调函数
+    function grantPermCallback(data) {
+        console.log("本次授予权限：" + data);
+        var arr = getCheckedValues(); //get the current role id
+        $.ajax({
+            url: "${root}/perm/distribution.bs",
+            dataType: "json",
+            type: "POST",
+            data: {
+                ids: data.toString(),
+                roleId: arr.toString()
+            },
+            cache: false,
+            success: function(data){
+                if(data.rspCode==100){ //success
+                    showMsg(data.rspMsg);
+                    $("[name='checkbox']").removeAttr("checked"); // 取消全选
+                } else{
+                    showMsg(data.rspMsg);
+                }
+            },
+            error: function(e) {
+                showMsg("系统错误！");
+            }
+        });
+    }
+    /*------------------------------------Grant Permission Operation End-----------------------------------------*/
+
 
     // 检查Form元素
     function checkAddForm() {
@@ -265,6 +330,7 @@
                 }
             });
         } //end of if
+
     } // end of checkAddForm
 
     function openEdit(id) {

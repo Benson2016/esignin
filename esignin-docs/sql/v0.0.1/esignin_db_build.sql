@@ -54,7 +54,7 @@ CREATE TABLE `t_sys_role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_sys_role_permission`;
 CREATE TABLE `t_sys_role_permission` (
-  `id` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `role_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色ID',
   `permission_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '权限ID',
   PRIMARY KEY (`id`),

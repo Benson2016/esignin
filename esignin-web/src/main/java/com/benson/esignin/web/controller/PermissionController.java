@@ -6,9 +6,11 @@ import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.common.utils.TimestampUtil;
 import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.PermissionInfo;
-import com.benson.esignin.web.domain.entity.RoleInfo;
+import com.benson.esignin.web.domain.entity.RolePermissionInfo;
+import com.benson.esignin.web.domain.vo.PermissionInfoQuery;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IPermissionInfoService;
+import com.benson.esignin.web.service.IRolePermissionInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 权限控制层
@@ -36,6 +40,9 @@ public class PermissionController {
 
     @Autowired
     private IPermissionInfoService permissionInfoService;
+    @Autowired
+    private IRolePermissionInfoService rolePermissionInfoService;
+
 
     @RequestMapping(value = "/delPermission",method = RequestMethod.POST)
     @SysControllerLog(content = "删除权限记录.")
@@ -156,6 +163,80 @@ public class PermissionController {
         }
 
         return JsonUtil.toJson(response);
+    }
+
+
+    /**
+     * 去授权页面
+     * @param id 角色ID
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toPermGrant")
+    public String toPermGrant(@RequestParam String id, Model model) {
+        if (CommonUtil.isNull(id)) {
+            logger.error("uid为空,非法进入,无权进入权限分配页面.");
+            return "404";
+        }
+        try {
+            // 读取角色对应的权限
+            List<RolePermissionInfo> list = rolePermissionInfoService.findAllByRoleId(id);
+            if (CommonUtil.isNull(list)) list = new ArrayList<RolePermissionInfo>();
+            model.addAttribute("rpis", JsonUtil.bean2Json(list));
+            model.addAttribute("roleId", id);
+        } catch (Exception e) {
+            logger.error("读取角色对应的权限时发生异常：", e);
+        }
+        return "admin/role_perm_list";
+    }
+
+    @RequestMapping(value = "/distribution",method = RequestMethod.POST)
+    @SysControllerLog(content = "给角色分配权限")
+    @ResponseBody
+    public Object distribution(String ids, String roleId) {
+        UserInfoResponse response = null;
+        if (CommonUtil.isNull(ids, roleId)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+        try {
+            String[] idArray = ids.split(",");
+            // 先移除原来的数据，后添加新数据
+            rolePermissionInfoService.deleteByRoleId(roleId);
+            for (int i = 0; i<idArray.length; i++) {
+                saveRolePermInfo(roleId, idArray[i]);
+            }
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response.setRspMsg("保存成功！");
+        } catch (Exception e) {
+            logger.error("给角色分配权限失败！异常：{}", e);
+            response = new UserInfoResponse(StateResponse.ERROR_SYS);
+        }
+        return JsonUtil.toJson(response);
+    }
+
+    private void saveRolePermInfo(String roleId, String permId) throws Exception {
+        RolePermissionInfo rpi = new RolePermissionInfo();
+        rpi.generateUUId();
+        rpi.setRoleId(roleId);
+        rpi.setPermissionId(permId);
+        rolePermissionInfoService.add(rpi);
+    }
+
+
+    // 查询权限列表
+    @RequestMapping(value = "/getData",method = RequestMethod.POST)
+    @ResponseBody
+    public Object getData(PermissionInfoQuery query) {
+        List<PermissionInfo> list = null;
+        String result = null;
+        try {
+            list = permissionInfoService.findAllByQuery(query);
+            result = JsonUtil.bean2Json(list);
+        }catch (Exception e) {
+            logger.error("查询权限列表异常：{}", e);
+        }
+        return result;
     }
 
 }
