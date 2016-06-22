@@ -29,7 +29,10 @@ public interface IUserRoleInfoDao extends IBaseDao<UserRoleInfo, String> {
     int add(UserRoleInfo entity);
 
     @Delete("DELETE FROM "+TABLE_NAME+" where id = #{id}")
-    int delete(String id);
+    int delete(@Param("id") String id);
+
+    @Delete("DELETE FROM "+TABLE_NAME+" where role_id = #{roleId}")
+    int deleteByRoleId(@Param("roleId") String roleId);
 
     @Update("UPDATE " + TABLE_NAME + " set user_id=#{userId},role_id=#{roleId} WHERE id = #{id}")
     int update(UserRoleInfo entity);
@@ -42,5 +45,8 @@ public interface IUserRoleInfoDao extends IBaseDao<UserRoleInfo, String> {
 
     @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" WHERE user_id = #{userId}")
     List<UserRoleInfo> findAllByUserId(@Param("userId") String userId);
+
+    @Select("SELECT "+BASE_COLUMN_LIST+" FROM "+TABLE_NAME+" WHERE role_id = #{roleId}")
+    List<UserRoleInfo> findAllByRoleId(@Param("roleId") String roleId);
 
 }

@@ -168,19 +168,51 @@
             }
             var roleName = $(":checkbox:checked").parents("tr").find("td[name='rn']").text();
             roleName +="-->角色分配";
-            showFormDialog("${root}/role/toRoleGrant.bs?ids=118", "grantForm", roleName, 630, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
+            showFormDialog("${root}/role/toRoleGrant.bs?id="+arr.toString(), "grantForm", roleName, 630, 560, {yes: "保 存", yes_before_close:checkGrantForm, yes_after_close: grantCallback});
         });
 
     });
 
-    // 检查授权Form
+    // 检查授予角色Form
     function checkGrantForm() {
-        console.log("enter to checkGrantForm.");
+        var ids = getGrantFormCheckedValues();
+        return ids;
     }
-    // 授权回调函数
+    // 授予角色回调函数
     function grantCallback(data) {
-        console.log("enter to grantCallback.");
-        alert(data);
+        console.log("本次分配：" + data);
+        var arr = getCheckedValues();
+        $.ajax({
+            url: "${root}/role/distribution.bs",
+            dataType: "json",
+            type: "POST",
+            data: {
+                ids: data.toString(),
+                roleId: arr.toString()
+            },
+            cache: false,
+            success: function(data){
+                if(data.rspCode==100){ //success
+                    showMsg(data.rspMsg);
+                    $("[name='checkbox']").removeAttr("checked"); // 取消全选
+                } else{
+                    showMsg(data.rspMsg);
+                }
+            },
+            error: function(e) {
+                showMsg("系统错误！");
+            }
+        });
+    }
+    // 获取grantForm复选框选中值
+    function getGrantFormCheckedValues() {
+        var arr = new Array();
+        $('#grantForm').contents().find("[name='checkbox']").each(function () {
+            if ($(this).is(':checked')) {
+                arr.push($(this).val());
+            }
+        });
+        return arr;
     }
 
     // 检查Form元素

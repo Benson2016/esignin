@@ -63,8 +63,7 @@
                     <div class="clear"></div>
                 </div>
             </form>
-            <input id="orderBy" type="hidden" name="orderBy" value=""/>
-            <input id="direction" type="hidden" name="direction" value="desc"/>
+            <input type="hidden" id="roleId" name="roleId" value="${roleId}"/>
             <!-- 列表开始-->
             <div class="listBox">
                 <table class="g-tableList">
@@ -114,9 +113,8 @@
 
     });
 
-
+    var uriArr = eval(${uris});
     var isCallBack = true;
-
     function getDataHtml(pageNo, pagesize) {
         if (isCallBack) {
             isCallBack = false;
@@ -128,6 +126,7 @@
                 data: {
                     userName: $("#sUserName").val(),
                     fullName: $("#sFullName").val(),
+                    isValid: 1,
                     page: pageNo,
                     size: pagesize || 10
                 },
@@ -140,11 +139,12 @@
                                 '<td>' + v.userName + '</td>' +
                                 '<td>' + v.fullName + '</td>' +
                                 '</tr>';
-                    })
+                    });
 
                     $("#data_body").html(html);
-                    document.getElementById('pagebar').innerHTML = PageBarNumList.getPageBar(pageNo, data.totalPages, 3, 'getDataHtml', pagesize || 10, true);
+                    document.getElementById('pagebar').innerHTML = PageBarNumList.getPageBar(pageNo, data.totalPages, 3, 'getDataHtml', pagesize || 1000, true);
                     isCallBack = true;
+                    initChecked();
                 },
                 error: function (e) {
                     isCallBack = true;
@@ -156,7 +156,7 @@
     }
     getDataHtml(1);
 
-    //获取多个checkbox选中项
+    // 获取多个checkbox选中项
     function getCheckedValues() {
         var arr = new Array();
         $("[name='checkbox']").each(function () {
@@ -166,7 +166,7 @@
         });
         return arr;
     }
-
+    // 全选按钮事件
     function checkAllEvent() {
         if ($("#checkAllOrNot").is(':checked')) {
             $("[name='checkbox']").prop("checked", 'true');//全选
@@ -174,8 +174,26 @@
             $("[name='checkbox']").removeAttr("checked");//取消全选
         }
     }
-
-
+    // 初始化复选框选中
+    function initChecked() {
+        $("[name='checkbox']").each(function(i,v) {
+            //console.log((i+1) +"-->"+ v.value);
+            v.checked = hasRole(v.value);
+        });
+    }
+    function hasRole(v) {
+        if(null==uriArr || ''==uriArr.toString()){
+            return false;
+        }
+        var b = false;
+        for(var i=0; i<uriArr.length; i++) {
+            if(v == uriArr[i].userId) {
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
 </script>
 </body>
 

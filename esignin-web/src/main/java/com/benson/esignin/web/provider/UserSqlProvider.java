@@ -93,13 +93,16 @@ public class UserSqlProvider {
      */
     private void addCondition(UserInfoQuery query, StringBuffer sql) {
         if (CommonUtil.isNotNull(query.getMobile())) {
-            sql.append("and mobile like '%"+ query.getMobile() +"%'");
+            sql.append(" and mobile like '%"+ query.getMobile() +"%'");
         }
         if (CommonUtil.isNotNull(query.getFullName())) {
-            sql.append("and full_name like '%"+ query.getFullName() +"%'");
+            sql.append(" and full_name like '%"+ query.getFullName() +"%'");
         }
         if (CommonUtil.isNotNull(query.getUserName())) {
-            sql.append("and user_name like '%"+ query.getUserName() +"%'");
+            sql.append(" and user_name like '%"+ query.getUserName() +"%'");
+        }
+        if (CommonUtil.isNotNull(query.getIsValid())) {
+            sql.append(" and is_valid = "+ query.getIsValid());
         }
     }
 

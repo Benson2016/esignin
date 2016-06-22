@@ -35,4 +35,13 @@ public class UserRoleInfoServiceImpl extends BaseServiceImpl<UserRoleInfo, Strin
         return userRoleInfoDao.findAllByUserId(userId);
     }
 
+    @Override
+    public List<UserRoleInfo> findAllByRoleId(String roleId) throws Exception {
+        return userRoleInfoDao.findAllByRoleId(roleId);
+    }
+
+    @Override
+    public int deleteByRoleId(String roleId) throws Exception {
+        return userRoleInfoDao.deleteByRoleId(roleId);
+    }
 }

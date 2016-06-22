@@ -16,9 +16,26 @@ import java.util.List;
 public interface IUserRoleInfoService extends IBaseService<UserRoleInfo, String> {
 
     /**
-     * 根据用户ID查询用户拥有的角色
+     * 通过用户ID查询用户拥有的角色
      * @param userId
      * @return
      */
     public List<UserRoleInfo> findAllByUserId(String userId) throws Exception;
+
+    /**
+     * 通过角色ID查找角色对应的用户
+     * @param roleId
+     * @return
+     * @throws Exception
+     */
+    public List<UserRoleInfo> findAllByRoleId(String roleId) throws Exception;
+
+    /**
+     * 删除角色下所有用户关系
+     * @param roleId
+     * @return
+     * @throws Exception
+     */
+    public int deleteByRoleId(String roleId) throws Exception;
+
 }

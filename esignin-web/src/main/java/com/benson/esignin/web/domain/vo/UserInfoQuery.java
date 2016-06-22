@@ -14,6 +14,8 @@ public class UserInfoQuery extends BasePageQuery {
 
     private String userName;
 
+    private Integer isValid;    //是否有效：0无效，1有效
+
 
     public String getMobile() {
         return mobile;
@@ -39,4 +41,11 @@ public class UserInfoQuery extends BasePageQuery {
         this.userName = userName;
     }
 
+    public Integer getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Integer isValid) {
+        this.isValid = isValid;
+    }
 }

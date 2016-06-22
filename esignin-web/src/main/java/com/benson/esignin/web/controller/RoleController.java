@@ -6,8 +6,10 @@ import com.benson.esignin.common.utils.JsonUtil;
 import com.benson.esignin.common.utils.TimestampUtil;
 import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.domain.entity.RoleInfo;
+import com.benson.esignin.web.domain.entity.UserRoleInfo;
 import com.benson.esignin.web.domain.vo.UserInfoResponse;
 import com.benson.esignin.web.service.IRoleInfoService;
+import com.benson.esignin.web.service.IUserRoleInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 角色控制层
@@ -35,6 +39,8 @@ public class RoleController {
 
     @Autowired
     private IRoleInfoService roleInfoService;
+    @Autowired
+    private IUserRoleInfoService userRoleInfoService;
 
     @RequestMapping(value = "/delRole",method = RequestMethod.POST)
     @SysControllerLog(content = "删除角色信息.")
@@ -156,14 +162,53 @@ public class RoleController {
 
     // 去角色授权页面
     @RequestMapping("/toRoleGrant")
-    public String toRoleGrant(@RequestParam String ids, Model model) {
-        if (CommonUtil.isNull(ids)) {
+    public String toRoleGrant(@RequestParam String id, Model model) {
+        if (CommonUtil.isNull(id)) {
             logger.error("uid为空,非法进入,无权进入用户编辑页面.");
             return "404";
         }
-        model.addAttribute("ids", ids);
-
+        try {
+            // 读取角色对应的用户Ids
+            List<UserRoleInfo> list = userRoleInfoService.findAllByRoleId(id);
+            model.addAttribute("uris", JsonUtil.bean2Json(list));
+            model.addAttribute("roleId", id);
+        } catch (Exception e) {
+            logger.error("读取角色对应的用户关系时发生异常：", e);
+        }
         return "admin/role_user_list";
+    }
+
+    @RequestMapping(value = "/distribution",method = RequestMethod.POST)
+    @SysControllerLog(content = "给用户分配角色")
+    @ResponseBody
+    public Object distribution(String ids, String roleId) {
+        UserInfoResponse response = null;
+        if (CommonUtil.isNull(ids, roleId)) {
+            response = new UserInfoResponse(StateResponse.ERROR_PARAM);
+            return JsonUtil.toJson(response);
+        }
+        try {
+            String[] idArray = ids.split(",");
+            // 先移除原来的数据，后添加新数据
+            userRoleInfoService.deleteByRoleId(roleId);
+            for (int i = 0; i<idArray.length; i++) {
+                saveUserRoleInfo(roleId, idArray[i]);
+            }
+            response = new UserInfoResponse(StateResponse.SUCCESS);
+            response.setRspMsg("保存成功！");
+        } catch (Exception e) {
+            logger.error("给用户分配角色失败！异常：{}", e);
+            response = new UserInfoResponse(StateResponse.ERROR_SYS);
+        }
+        return JsonUtil.toJson(response);
+    }
+
+    private void saveUserRoleInfo(String roleId, String userId) throws Exception {
+        UserRoleInfo uri = new UserRoleInfo();
+        uri.generateUUId();
+        uri.setRoleId(roleId);
+        uri.setUserId(userId);
+        userRoleInfoService.add(uri);
     }
 
 }
