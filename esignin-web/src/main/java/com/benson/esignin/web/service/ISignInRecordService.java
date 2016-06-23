@@ -49,5 +49,11 @@ public interface ISignInRecordService extends IBaseService<SignInRecord, String>
      */
     List<SignInRecordStatisticsVo> statisticsSignIn(String year) throws Exception;
 
+    /**
+     * 查询新签到记录数
+     * @return
+     * @throws Exception
+     */
+    int findNewCount() throws Exception;
 
 }

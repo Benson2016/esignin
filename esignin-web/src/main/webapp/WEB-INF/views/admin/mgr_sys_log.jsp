@@ -59,7 +59,9 @@
       </form>
 
       <div class="tableTopBtn">
-        <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+        <shiro:hasPermission name="deleteSysLog">
+          <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+        </shiro:hasPermission>
         <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
       </div>
       <input id="orderBy" type="hidden" name="orderBy" value="" />

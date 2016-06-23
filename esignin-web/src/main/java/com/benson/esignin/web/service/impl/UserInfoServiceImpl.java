@@ -3,7 +3,6 @@ package com.benson.esignin.web.service.impl;
 import com.benson.esignin.common.base.BaseServiceImpl;
 import com.benson.esignin.common.base.IBaseDao;
 import com.benson.esignin.common.utils.CommonUtil;
-import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.dao.IUserInfoDao;
 import com.benson.esignin.web.domain.entity.UserInfo;
@@ -75,9 +74,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
      */
     @SysServiceLog(content = "按条件查询用户信息列表")
     public List<UserInfo> findAllByQuery(UserInfoQuery query) throws Exception {
-        // 手动添加空指针异常--测试
+        /*// 手动添加空指针异常--测试
         UserInfo user = null;
-        String fullName = user.getFullName();
+        String fullName = user.getFullName();*/
 
         return userInfoDao.findAllByQuery(query);
     }
@@ -146,6 +145,17 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> imple
         map.put(year+"-11", 0);
         map.put(year+"-12", 0);
         return map;
+    }
+
+
+    /**
+     * 查询新用户数量
+     * @param days 1~30天内,默认3天
+     * @return
+     */
+    public int findNewCount(int days) throws Exception {
+        if (days>30) days = 30; // 最大30天
+        return userInfoDao.findNewCount(days);
     }
 
 }

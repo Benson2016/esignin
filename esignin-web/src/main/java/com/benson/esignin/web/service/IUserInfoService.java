@@ -5,7 +5,6 @@ import com.benson.esignin.web.domain.entity.UserInfo;
 import com.benson.esignin.web.domain.vo.BensonPage;
 import com.benson.esignin.web.domain.vo.StatisticsQuery;
 import com.benson.esignin.web.domain.vo.UserInfoQuery;
-import com.benson.esignin.web.domain.vo.UserStatisticsVo;
 
 import java.util.List;
 import java.util.Map;
@@ -67,5 +66,12 @@ public interface IUserInfoService extends IBaseService<UserInfo, String> {
      * @return
      */
     Map<String, Integer> statisticsRegister(StatisticsQuery query) throws Exception;
+
+    /**
+     * 查询新用户数量
+     * @param days 1~30天内,默认3天
+     * @return
+     */
+    int findNewCount(int days) throws Exception;
 
 }

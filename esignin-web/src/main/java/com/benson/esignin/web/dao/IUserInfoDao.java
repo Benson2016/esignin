@@ -88,4 +88,11 @@ public interface IUserInfoDao extends IBaseDao<UserInfo, String> {
     @SelectProvider(type = UserSqlProvider.class, method = "statisticsRegister")
     List<UserStatisticsVo> statisticsRegister(StatisticsQuery query);
 
+    /**
+     * 查询新用户数量
+     * @param days 1~30天内,默认3天
+     * @return
+     */
+    @Select("select count(id) as counts from "+ TABLE_NAME +" where DATE_SUB(CURDATE(), INTERVAL #{days} DAY) <= date(create_time)")
+    int findNewCount(@Param("days") int days);
 }

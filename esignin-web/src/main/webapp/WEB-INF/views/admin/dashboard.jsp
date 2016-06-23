@@ -14,7 +14,7 @@
                 </div>
                 <div class="details">
                     <div class="number">
-                        5
+                        ${newRecordCount}
                     </div>
                     <div class="desc">
                         New Notifications
@@ -32,7 +32,7 @@
                     <i class="icon-user"></i>
                 </div>
                 <div class="details">
-                    <div class="number">1</div>
+                    <div class="number">${newUserCount}</div>
                     <div class="desc">New Users</div>
                 </div>
                 <a class="more" href="#">

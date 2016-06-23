@@ -90,4 +90,13 @@ public class SignInRecordServiceImpl extends BaseServiceImpl<SignInRecord, Strin
     public List<SignInRecordStatisticsVo> statisticsSignIn(String year) throws Exception {
         return signInRecordDao.statisticsSignIn(year);
     }
+
+    /**
+     * 查询新签到记录数
+     * @return
+     * @throws Exception
+     */
+    public int findNewCount() throws Exception {
+        return signInRecordDao.findNewCount();
+    }
 }

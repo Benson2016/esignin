@@ -62,8 +62,12 @@
             </form>
 
             <div class="tableTopBtn">
-                <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
-                <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+                <shiro:hasPermission name="addQrCode">
+                    <a class="addBtn g-searchBtn" href="javascript:void(0)">添 加</a>&nbsp;&nbsp;
+                </shiro:hasPermission>
+                <shiro:hasPermission name="deleteQrCode">
+                    <a class="delSelectBtn g-searchBtn" href="javascript:void(0)">删除选中</a>&nbsp;&nbsp;
+                </shiro:hasPermission>
                 <a class="exportDataBtn" href="javascript:void(0)" title="当无查询条件时，则导出所有数据">导出数据</a>
             </div>
             <input id="orderBy" type="hidden" name="orderBy" value="" />

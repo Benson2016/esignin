@@ -1,6 +1,7 @@
 package com.benson.esignin.web.controller;
 
 import com.benson.esignin.common.cons.CommonCons;
+import com.benson.esignin.common.enums.StateResponse;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.ExportExcelUtil;
 import com.benson.esignin.common.utils.JsonUtil;
@@ -49,17 +50,41 @@ public class AdminController {
     private IQrCodeService qrCodeService;
     @Autowired
     private ISignInTypeService signInTypeService;
+    @Autowired
+    private ISignInRecordService signInRecordService;
 
     // 后台管理页
     @RequestMapping(value = "/toAdmin")
     public String toAdmin(Model model, HttpServletRequest request, HttpServletResponse response) {
         Subject subject = SecurityUtils.getSubject();
         // 已登录则跳转到后台首页，否则跳转至登录页
-        if (subject.isAuthenticated())
+        if (subject.isAuthenticated()) {
             return "admin/index";
-        else
+        } else {
             return "login";
+        }
     }
+
+    // 获取相关业务最新的数量
+    @RequestMapping(value = "/getNumbers",method = RequestMethod.POST)
+    @ResponseBody
+    public Object getNumbers(HttpServletRequest request, HttpServletResponse response) {
+        NumberResponse numberResponse = null;
+        try {
+            // 查询3天内新增的用户数量
+            numberResponse = new NumberResponse(StateResponse.SUCCESS);
+            // 查询当天签到的新纪录数
+            numberResponse.setNewUserCount(userInfoService.findNewCount(3));
+            numberResponse.setNewRecordCount(signInRecordService.findNewCount());
+        } catch (Exception e) {
+            numberResponse = new NumberResponse(StateResponse.ERROR_SYS);
+            logger.error("查询新用户数量时发生异常:", e);
+        }
+
+        return JsonUtil.bean2Json(numberResponse);
+    }
+
+
     // 用户管理页
     @RequestMapping(value = "/mgrUser")
     public String mgrUser(Model model, HttpServletRequest request, HttpServletResponse response) {

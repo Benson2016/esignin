@@ -92,4 +92,11 @@ public interface ISignInRecordDao extends IBaseDao<SignInRecord, String> {
     @SelectProvider(type = SignInRecordSqlProvider.class, method = "statisticsSignIn")
     List<SignInRecordStatisticsVo> statisticsSignIn(String year);
 
+    /**
+     * 查询新签到记录数
+     * @return
+     */
+    @Select("select count(id) as counts from "+TABLE_NAME+" where CURDATE() = date(create_time)")
+    int findNewCount();
+
 }

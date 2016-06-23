@@ -564,81 +564,92 @@
 
 
             <!-- QR Manager -->
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-barcode"></i>
-                    <span class="title">QRCode管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <%--
-                    <li >
-                        <a href="javascript:;">业务类型</a>
-                    </li>
-                    --%>
-                    <li >
-                        <a href="javascript:void(0);" onclick="openMenuItem(5)">
-                            <i class="icon-barcode"></i>QRCode列表</a>
-                    </li>
-                </ul>
-            </li>
+            <shiro:hasPermission name="qrCodeMgr">
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-barcode"></i>
+                        <span class="title">QRCode管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li >
+                            <a href="javascript:void(0);" onclick="openMenuItem(5)">
+                                <i class="icon-barcode"></i>QRCode列表</a>
+                        </li>
+                    </ul>
+                </li>
+            </shiro:hasPermission>
 
             <!-- Sign in Manager -->
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-ok"></i>
-                    <span class="title">签到管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li >
-                        <a href="javascript:void(0);" onclick="openMenuItem(6)">
-                            <i class="icon-time"></i>签到类型</a>
-                    </li>
-                    <li >
-                        <a href="javascript:void(0);" onclick="openMenuItem(7)">
-                            <i class="icon-time"></i>签到记录</a>
-                    </li>
-                </ul>
-            </li>
+            <shiro:hasPermission name="signInMgr">
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-ok"></i>
+                        <span class="title">签到管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <shiro:hasPermission name="signInType">
+                            <li >
+                                <a href="javascript:void(0);" onclick="openMenuItem(6)">
+                                    <i class="icon-time"></i>签到类型</a>
+                            </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="signInRecord">
+                            <li >
+                                <a href="javascript:void(0);" onclick="openMenuItem(7)">
+                                    <i class="icon-time"></i>签到记录</a>
+                            </li>
+                        </shiro:hasPermission>
+                    </ul>
+                </li>
+            </shiro:hasPermission>
 
             <!-- Log Manager -->
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-bookmark-empty"></i>
-                    <span class="title">日志管理</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(8)"><i class="icon-file-alt"></i>操作日志</a>
-                    </li>
-                    <%--
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(9)"><i class="icon-file-alt"></i>异常日志</a>
-                    </li>
-                    --%>
-                </ul>
-            </li>
+            <shiro:authenticated>
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-bookmark-empty"></i>
+                        <span class="title">日志管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li >
+                            <a href="javascript:0" onclick="openMenuItem(8)"><i class="icon-file-alt"></i>操作日志</a>
+                        </li>
+                            <%--
+                            <li >
+                                <a href="javascript:0" onclick="openMenuItem(9)"><i class="icon-file-alt"></i>异常日志</a>
+                            </li>
+                            --%>
+                    </ul>
+                </li>
+            </shiro:authenticated>
 
             <!-- Statistics Manager -->
-            <li class="">
-                <a href="javascript:;">
-                    <i class="icon-bar-chart"></i>
-                    <span class="title">统计分析</span>
-                    <span class="arrow "></span>
-                </a>
-                <ul class="sub-menu">
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(10)">
-                            <i class="icon-bar-chart"></i>用户统计</a>
-                    </li>
-                    <li >
-                        <a href="javascript:0" onclick="openMenuItem(11)">
-                            <i class="icon-bar-chart"></i>签到统计</a>
-                    </li>
-                </ul>
-            </li>
+            <shiro:hasPermission name="statisticsMgr">
+                <li class="">
+                    <a href="javascript:;">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">统计管理</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                    <shiro:hasPermission name="userStatistics">
+                        <li >
+                            <a href="javascript:0" onclick="openMenuItem(10)">
+                                <i class="icon-bar-chart"></i>用户统计</a>
+                        </li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="signInStatistics">
+                        <li >
+                            <a href="javascript:0" onclick="openMenuItem(11)">
+                                <i class="icon-bar-chart"></i>签到统计</a>
+                        </li>
+                    </shiro:hasPermission>
+                    </ul>
+                </li>
+            </shiro:hasPermission>
 
             <!-- Sys Manager -->
             <shiro:hasPermission name="sysMgr">
@@ -779,7 +790,76 @@
 
             <!-- BEGIN DASHBOARD -->
             <div id="dashboard">
-                <div id="dashboardPanel"><c:import url="dashboard.jsp"></c:import></div>
+                <div id="dashboardPanel">
+                    <%-- <c:import url="dashboard.jsp"></c:import> --%>
+                    <div class="row-fluid">
+                        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+                            <div class="dashboard-stat blue">
+                                <div class="visual">
+                                    <i class="icon-comments"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number" id="newRecordCount">
+                                        0
+                                    </div>
+                                    <div class="desc">
+                                        New Notifications
+                                    </div>
+                                </div>
+                                <a class="more" href="#">
+                                    View more <i class="m-icon-swapright m-icon-white"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+                            <div class="dashboard-stat green">
+                                <div class="visual">
+                                    <i class="icon-user"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number" id="newUserCount">0</div>
+                                    <div class="desc">New Users</div>
+                                </div>
+                                <a class="more" href="#">
+                                    View more <i class="m-icon-swapright m-icon-white"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="span3 responsive" data-tablet="span6  fix-offset" data-desktop="span3">
+                            <div class="dashboard-stat purple">
+                                <div class="visual">
+                                    <i class="icon-globe"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">+30%</div>
+                                    <div class="desc">ESignIn Popularity</div>
+                                </div>
+                                <a class="more" href="#">
+                                    View more <i class="m-icon-swapright m-icon-white"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+                            <div class="dashboard-stat yellow">
+                                <div class="visual">
+                                    <i class="icon-bell"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">0</div>
+                                    <div class="desc">System Exception</div>
+                                </div>
+                                <a class="more" href="#">
+                                    View more <i class="m-icon-swapright m-icon-white"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
             <!-- END DASHBOARD -->
 
@@ -868,6 +948,8 @@
 
         Index.initMiniCharts();*/
 
+        showNumbers();
+
         Index.initDashboardDaterange();
 
         //Index.initIntro();
@@ -930,6 +1012,7 @@
                 $("#mainPanel").show();
                 break;
             default:
+                showNumbers();
                 $("#container123").show();
                 $("#mainPanel").hide();
                 console.log("enter openMenuItem default.");
@@ -937,6 +1020,30 @@
         }
     }
 
+    var isCallback = true;
+    function showNumbers() {
+        if (isCallback) {
+            isCallback = false;
+            $.ajax({
+                url: "${root}/admin/getNumbers.bs",
+                dataType: "json",
+                type: "POST",
+                data: {},
+                cache: false,
+                success: function(data){
+                    isCallback = true;
+                    if(data.rspCode==100){ //success
+                        $("#newUserCount").html(data.newUserCount);
+                        $("#newRecordCount").html(data.newRecordCount);
+                    }
+                },
+                error: function(e) {
+                    isCallback = true;
+                    alert("系统错误！");
+                }
+            });
+        }
+    }
 </script>
 
 <!-- END JAVASCRIPTS -->
