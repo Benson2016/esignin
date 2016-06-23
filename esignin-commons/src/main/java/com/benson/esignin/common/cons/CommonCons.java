@@ -35,6 +35,10 @@ public class CommonCons {
     /**
      * 邮件服务器名称-163邮箱
      */
+    public final static String EMAIL_HOST_NAME_OF_126 = "smtp.126.com";
+    /**
+     * 邮件服务器名称-163邮箱
+     */
     public final static String EMAIL_HOST_NAME_OF_163 = "smtp.163.com";
 
     /**
@@ -57,6 +61,10 @@ public class CommonCons {
      * 时间格式--日期时间毫秒连写格式
      */
     public final static String D_FMT_DATE_TIME_SEQ = "yyyyMMddHHmmss";
+    /**
+     * 时间格式--带有中文单位的日期时间
+     */
+    public final static String D_FMT_DATE_TIME_CN = "yyyy年MM月dd日HH时mm分ss秒SSS";
     /**
      * 时间格式--日期时间毫秒
      */

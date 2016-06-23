@@ -4,6 +4,7 @@ import com.benson.esignin.common.cons.CommonCons;
 import com.benson.esignin.common.utils.CommonUtil;
 import com.benson.esignin.common.utils.DateUtil;
 import com.benson.esignin.common.utils.JsonUtil;
+import com.benson.esignin.common.utils.NoticeAdminUtil;
 import com.benson.esignin.web.annotation.SysControllerLog;
 import com.benson.esignin.web.annotation.SysServiceLog;
 import com.benson.esignin.web.domain.entity.SysExceptionLog;
@@ -151,21 +152,21 @@ public class AccessLogAop {
             // 读取异常信息
             String exceptionMsg = SysLogUtil.getExceptionMsg(e);
             // 读取部分日志
-            exceptionMsg = SysLogUtil.getPartForException(exceptionMsg, 10);
+            //exceptionMsg = SysLogUtil.getPartForException(exceptionMsg, 10);
             // 创建异常信息
             SysExceptionLog sysExceptionLog = new SysExceptionLog(ip,userName,callMethod,operContent,exceptionMsg,DateUtil.getCurrentDateTime(),"0");
             // 保存异常日志
             SysLogUtil.addSysExceptionLog(sysExceptionLog);
 
-            // 异常通知 ...
-
+            // 异常通知
+            exceptionMsg = "请求接口："+callMethod+" <br/>请求参数：" + params + "<br/> 异常内容：<br/>" + exceptionMsg;
+            NoticeAdminUtil.sendNotice(operContent+"[异常通知]", exceptionMsg);
         } catch (Exception ex) {
             logger.error(String.format("Service层异常--执行目标[%s]方法:{}", callMethod), ex);
         } finally {
             logger.info("Exit doServiceLog Method.");
         }
     }
-
 
 
     /**

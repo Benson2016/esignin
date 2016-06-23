@@ -103,9 +103,8 @@
             <!-- BEGIN TOP NAVIGATION MENU -->
 
             <ul class="nav pull-right">
-
+            <%--
                 <!-- BEGIN NOTIFICATION DROPDOWN -->
-
                 <li class="dropdown" id="header_notification_bar">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -217,11 +216,9 @@
                     </ul>
 
                 </li>
-
                 <!-- END NOTIFICATION DROPDOWN -->
 
                 <!-- BEGIN INBOX DROPDOWN -->
-
                 <li class="dropdown" id="header_inbox_bar">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -327,11 +324,9 @@
                     </ul>
 
                 </li>
-
                 <!-- END INBOX DROPDOWN -->
 
                 <!-- BEGIN TODO DROPDOWN -->
-
                 <li class="dropdown" id="header_task_bar">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -491,11 +486,10 @@
                     </ul>
 
                 </li>
-
                 <!-- END TODO DROPDOWN -->
+            --%>
 
                 <!-- BEGIN USER LOGIN DROPDOWN -->
-
                 <li class="dropdown user">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -527,7 +521,6 @@
                     </ul>
 
                 </li>
-
                 <!-- END USER LOGIN DROPDOWN -->
 
             </ul>
@@ -620,10 +613,11 @@
                     <li >
                         <a href="javascript:0" onclick="openMenuItem(8)"><i class="icon-file-alt"></i>操作日志</a>
                     </li>
+                    <%--
                     <li >
                         <a href="javascript:0" onclick="openMenuItem(9)"><i class="icon-file-alt"></i>异常日志</a>
                     </li>
-
+                    --%>
                 </ul>
             </li>
 
@@ -876,7 +870,7 @@
 
         Index.initDashboardDaterange();
 
-        Index.initIntro();
+        //Index.initIntro();
 
         yearShow();
 

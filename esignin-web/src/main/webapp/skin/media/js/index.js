@@ -704,7 +704,7 @@ var Index = function () {
             $('#dashboard-report-range span').html(Date.today().add({
                 days: -29
             }).toString('MMMM d, yyyy') + ' - ' + Date.today().toString('MMMM d, yyyy'));
-        },
+        }/*,
 
         initIntro: function () {
             if ($.cookie('intro_show')) {
@@ -889,7 +889,7 @@ var Index = function () {
                 });
 
             }, 60000);
-        }
+        }*/
 
     };
 

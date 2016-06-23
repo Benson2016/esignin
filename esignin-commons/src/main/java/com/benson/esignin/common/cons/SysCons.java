@@ -20,4 +20,10 @@ public class SysCons {
     // API秘钥
     public final static String API_KEY = "d084fdce96759a5bcb3f80dbebf829ef";
 
+    // 邮箱账号
+    public final static String EMIAL_USER = "benson_2016@126.com";
+
+    // 邮箱密码
+    public final static String EMIAL_PASS = "bensonwangyi123";
+
 }

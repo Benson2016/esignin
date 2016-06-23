@@ -6,7 +6,7 @@
 
     <groupId>com.benson</groupId>
     <artifactId>esignin-commons</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <!--
     <parent>
@@ -93,9 +93,12 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1.3</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.3.3</version>
+        </dependency>
     </dependencies>
-
 
     <repositories>
         <repository>
