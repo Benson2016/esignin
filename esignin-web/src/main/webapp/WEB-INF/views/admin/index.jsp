@@ -26,7 +26,7 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>E签到管理后台</title>
+    <title>签到系统管理后台</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -83,13 +83,13 @@
     <div class="navbar-inner">
 
         <div class="container-fluid">
-            <%--
+
             <!-- BEGIN LOGO -->
             <a class="brand" href="${root}/admin/toAdmin.bs">
                 <img src="${root}/skin/media/image/logo.png" alt="logo"/>
             </a>
             <!-- END LOGO -->
-            --%>
+
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
 
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -493,9 +493,12 @@
                 <li class="dropdown user">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                        <img alt="" src="${root}/skin/media/image/avatar1_small.jpg" />
-
+                        <shiro:hasRole name="super">
+                            <img alt="" src="${root}/skin/media/image/benson_small.jpg" />
+                        </shiro:hasRole>
+                        <shiro:lacksRole name="super">
+                            <img alt="" src="${root}/skin/media/image/avatar1_small.jpg" />
+                        </shiro:lacksRole>
                         <span class="username"><%=userName%><shiro:hasRole name="super">超级管理员</shiro:hasRole></span>
 
                         <i class="icon-angle-down"></i>
@@ -875,7 +878,7 @@
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        <span id="curr_year"></span> &copy; ESignIn by BensonXu.
+        <span id="curr_year"></span> &copy; Sign In System Create By Benson Xu.
     </div>
 
     <div class="footer-tools">

@@ -21,7 +21,7 @@ public interface ISignInRecordDao extends IBaseDao<SignInRecord, String> {
 
     final String TABLE_NAME = "t_sign_in_record";
 
-    final String BASE_COLUMN_LIST = "id, qrid, user_id as userId, mobile, create_time as createTime, is_valid as isValid ";
+    final String BASE_COLUMN_LIST = "id, (select title from esignin.t_qr_code where id=qrid) as qrid, user_id as userId, mobile, create_time as createTime, is_valid as isValid ";
 
     final String INSERT_SQL = "INSERT into "+TABLE_NAME+"(id, qrid, user_id, mobile, create_time, is_valid) VALUES(#{id},#{qrid},#{userId},#{mobile},#{createTime},#{isValid})";
 

@@ -100,7 +100,7 @@ public class SignInRecordController {
     public void exportRecordData(SignInRecordQuery query, HttpServletRequest request, HttpServletResponse response) {
 
         List<? extends Serializable> records = null;
-        String[] headers = new String[]{"二维码ID", "签到用户ID", "签到用户手机", "签到时间", "有效标识"};
+        String[] headers = new String[]{"二维码主题", "签到用户ID", "签到用户手机", "签到时间", "有效标识"};
         String fileName = "records.xls";
         try {
             records = signInRecordService.findAllByQuery(query);
